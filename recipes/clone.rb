@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 # 6. GitLab
 ## Clone the Source
 git gitlab['path'] do

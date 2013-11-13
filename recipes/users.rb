@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 # 3. System Users
 ## Create user for Gitlab.
 user gitlab['user'] do

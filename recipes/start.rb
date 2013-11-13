@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 ## Start Your GitLab Instance
 service "gitlab" do
   supports :start => true, :stop => true, :restart => true, :status => true

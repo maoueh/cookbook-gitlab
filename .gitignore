@@ -24,3 +24,4 @@ bin/*
 .gitconfig
 .ssh/*
 .gitlab*
+.bash*

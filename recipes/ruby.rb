@@ -4,9 +4,6 @@
 #
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 # 2. Ruby
 # Do not rely on system installed ruby packages
 include_recipe "ruby_build"

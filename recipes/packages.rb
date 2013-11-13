@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 # 0. Initial Change
 directory "/tmp" do
   mode 0777

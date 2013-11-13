@@ -6,9 +6,6 @@
 postgresql = node['postgresql']
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 # 5.Database
 include_recipe "postgresql::server"
 include_recipe "database::postgresql"

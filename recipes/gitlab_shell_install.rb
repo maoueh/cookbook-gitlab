@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 ## Edit config and replace gitlab_url
 template File.join(gitlab['shell_path'], "config.yml") do
   source "gitlab_shell.yml.erb"

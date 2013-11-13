@@ -69,7 +69,7 @@ default['gitlab']['home'] = "/home/git"
 default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
-if default['gitlab']['env'] == "production"
+if node['gitlab']['env'] == "production"
   default['gitlab']['revision'] = "6-2-stable"
 else
   default['gitlab']['revision'] = "master"
@@ -83,7 +83,7 @@ default['gitlab']['repos_path'] = "/home/git/repositories"
 default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
 
 # Setup environments
-if default['gitlab']['env'] == "production"
+if node['gitlab']['env'] == "production"
   default['gitlab']['environments'] = %w{production}
 else
   default['gitlab']['environments'] = %w{development test}
