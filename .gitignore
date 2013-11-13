@@ -20,3 +20,7 @@ bin/*
 /gitlab-shell
 /gitlab-satellites
 /repositories
+.gemrc
+.gitconfig
+.ssh/*
+.gitlab*

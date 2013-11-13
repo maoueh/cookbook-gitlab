@@ -129,7 +129,7 @@ describe "gitlab::install" do
 
         it 'runs db setup' do
           resource = chef_run.find_resource(:execute, 'rake db:setup')
-          expect(resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:setup RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -148,7 +148,7 @@ describe "gitlab::install" do
 
         it 'runs db migrate' do
           resource = chef_run.find_resource(:execute, 'rake db:migrate')
-          expect(resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:migrate RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -167,7 +167,7 @@ describe "gitlab::install" do
 
         it 'runs db seed' do
           resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
-          expect(resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:seed_fu RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -195,24 +195,11 @@ describe "gitlab::install" do
         it 'runs db setup for all environments' do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:setup"}
           dev_resource = resources.first
-          test_resource = resources.last
 
-          expect(dev_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:setup RAILS_ENV=development\n")
-          expect(dev_resource.user).to eq("vagrant")
-          expect(dev_resource.group).to eq("vagrant")
-          expect(dev_resource.cwd).to eq("/vagrant/gitlab")
-
-          expect(test_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:setup RAILS_ENV=test\n")
-          expect(test_resource.user).to eq("vagrant")
-          expect(test_resource.group).to eq("vagrant")
-          expect(test_resource.cwd).to eq("/vagrant/gitlab")
-        end
-
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_setup_test').with(
-            user:   'vagrant',
-            group:  'vagrant'
-          )
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=development\n")
+          expect(dev_resource.user).to eq("git")
+          expect(dev_resource.group).to eq("git")
+          expect(dev_resource.cwd).to eq("/home/git/gitlab")
         end
 
         it 'runs an execute to rake db:migrate' do
@@ -222,24 +209,11 @@ describe "gitlab::install" do
         it 'runs db migrate for all environments' do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:migrate"}
           dev_resource = resources.first
-          test_resource = resources.last
 
-          expect(dev_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:migrate RAILS_ENV=development\n")
-          expect(dev_resource.user).to eq("vagrant")
-          expect(dev_resource.group).to eq("vagrant")
-          expect(dev_resource.cwd).to eq("/vagrant/gitlab")
-
-          expect(test_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:migrate RAILS_ENV=test\n")
-          expect(test_resource.user).to eq("vagrant")
-          expect(test_resource.group).to eq("vagrant")
-          expect(test_resource.cwd).to eq("/vagrant/gitlab")
-        end
-
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_migrate_test').with(
-            user:   'vagrant',
-            group:  'vagrant'
-          )
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=development\n")
+          expect(dev_resource.user).to eq("git")
+          expect(dev_resource.group).to eq("git")
+          expect(dev_resource.cwd).to eq("/home/git/gitlab")
         end
 
         it 'runs an execute to rake db:seed' do
@@ -249,27 +223,17 @@ describe "gitlab::install" do
         it 'runs db seed' do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:seed_fu"}
           dev_resource = resources.first
-          test_resource = resources.last
 
-          expect(dev_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:seed_fu RAILS_ENV=development\n")
-          expect(dev_resource.user).to eq("vagrant")
-          expect(dev_resource.group).to eq("vagrant")
-          expect(dev_resource.cwd).to eq("/vagrant/gitlab")
-
-          expect(test_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:seed_fu RAILS_ENV=test\n")
-          expect(test_resource.user).to eq("vagrant")
-          expect(test_resource.group).to eq("vagrant")
-          expect(test_resource.cwd).to eq("/vagrant/gitlab")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=development\n")
+          expect(dev_resource.user).to eq("git")
+          expect(dev_resource.group).to eq("git")
+          expect(dev_resource.cwd).to eq("/home/git/gitlab")
         end
 
         it 'creates a gitlab_seed file with attributes' do
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_seed_development').with(
-            user:   'vagrant',
-            group:  'vagrant'
-          )
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_seed_test').with(
-            user:   'vagrant',
-            group:  'vagrant'
+          expect(chef_run).to create_file('/home/git/.gitlab_seed_development').with(
+            user:   'git',
+            group:  'git'
           )
         end
       end
@@ -431,7 +395,7 @@ describe "gitlab::install" do
 
         it 'runs db setup' do
           resource = chef_run.find_resource(:execute, 'rake db:setup')
-          expect(resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:setup RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -450,7 +414,7 @@ describe "gitlab::install" do
 
         it 'runs db migrate' do
           resource = chef_run.find_resource(:execute, 'rake db:migrate')
-          expect(resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:migrate RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -469,7 +433,7 @@ describe "gitlab::install" do
 
         it 'runs db seed' do
           resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
-          expect(resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:seed_fu RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -497,24 +461,11 @@ describe "gitlab::install" do
         it 'runs db setup for all environments' do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:setup"}
           dev_resource = resources.first
-          test_resource = resources.last
 
-          expect(dev_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:setup RAILS_ENV=development\n")
-          expect(dev_resource.user).to eq("vagrant")
-          expect(dev_resource.group).to eq("vagrant")
-          expect(dev_resource.cwd).to eq("/vagrant/gitlab")
-
-          expect(test_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:setup RAILS_ENV=test\n")
-          expect(test_resource.user).to eq("vagrant")
-          expect(test_resource.group).to eq("vagrant")
-          expect(test_resource.cwd).to eq("/vagrant/gitlab")
-        end
-
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_setup_test').with(
-            user:   'vagrant',
-            group:  'vagrant'
-          )
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=development\n")
+          expect(dev_resource.user).to eq("git")
+          expect(dev_resource.group).to eq("git")
+          expect(dev_resource.cwd).to eq("/home/git/gitlab")
         end
 
         it 'runs an execute to rake db:migrate' do
@@ -524,24 +475,11 @@ describe "gitlab::install" do
         it 'runs db migrate for all environments' do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:migrate"}
           dev_resource = resources.first
-          test_resource = resources.last
 
-          expect(dev_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:migrate RAILS_ENV=development\n")
-          expect(dev_resource.user).to eq("vagrant")
-          expect(dev_resource.group).to eq("vagrant")
-          expect(dev_resource.cwd).to eq("/vagrant/gitlab")
-
-          expect(test_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:migrate RAILS_ENV=test\n")
-          expect(test_resource.user).to eq("vagrant")
-          expect(test_resource.group).to eq("vagrant")
-          expect(test_resource.cwd).to eq("/vagrant/gitlab")
-        end
-
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_migrate_test').with(
-            user:   'vagrant',
-            group:  'vagrant'
-          )
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=development\n")
+          expect(dev_resource.user).to eq("git")
+          expect(dev_resource.group).to eq("git")
+          expect(dev_resource.cwd).to eq("/home/git/gitlab")
         end
 
         it 'runs an execute to rake db:seed' do
@@ -551,27 +489,17 @@ describe "gitlab::install" do
         it 'runs db seed' do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:seed_fu"}
           dev_resource = resources.first
-          test_resource = resources.last
 
-          expect(dev_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:seed_fu RAILS_ENV=development\n")
-          expect(dev_resource.user).to eq("vagrant")
-          expect(dev_resource.group).to eq("vagrant")
-          expect(dev_resource.cwd).to eq("/vagrant/gitlab")
-
-          expect(test_resource.command).to eq("      PATH=\"/usr/local/bin:$PATH\"\n      bundle exec rake db:seed_fu RAILS_ENV=test\n")
-          expect(test_resource.user).to eq("vagrant")
-          expect(test_resource.group).to eq("vagrant")
-          expect(test_resource.cwd).to eq("/vagrant/gitlab")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=development\n")
+          expect(dev_resource.user).to eq("git")
+          expect(dev_resource.group).to eq("git")
+          expect(dev_resource.cwd).to eq("/home/git/gitlab")
         end
 
         it 'creates a gitlab_seed file with attributes' do
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_seed_development').with(
-            user:   'vagrant',
-            group:  'vagrant'
-          )
-          expect(chef_run).to create_file('/home/vagrant/.gitlab_seed_test').with(
-            user:   'vagrant',
-            group:  'vagrant'
+          expect(chef_run).to create_file('/home/git/.gitlab_seed_development').with(
+            user:   'git',
+            group:  'git'
           )
         end
       end

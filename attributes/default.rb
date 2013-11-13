@@ -59,3 +59,32 @@ default['postfix']['myhostname'] = "mail.localhost"
 default['postfix']['mydomain'] = "localhost"
 default['postfix']['myorigin'] = "mail.localhost"
 default['postfix']['smtp_use_tls'] = "no"
+
+# User
+default['gitlab']['user'] = "git" # Do not change this attribute in production since some code from the GitLab repo such as init.d script assume it is git.
+default['gitlab']['group'] = "git"
+default['gitlab']['home'] = "/home/git"
+
+# GitLab shell
+default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
+
+# GitLab hq
+if default['gitlab']['env'] == "production"
+  default['gitlab']['revision'] = "6-2-stable"
+else
+  default['gitlab']['revision'] = "master"
+end
+default['gitlab']['path'] = "/home/git/gitlab" # Do not change this attribute in production since some code from the GitLab repo such as init.d assume this path.
+
+# GitLab shell config
+default['gitlab']['repos_path'] = "/home/git/repositories"
+
+# GitLab hq config
+default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
+
+# Setup environments
+if default['gitlab']['env'] == "production"
+  default['gitlab']['environments'] = %w{production}
+else
+  default['gitlab']['environments'] = %w{development test}
+end

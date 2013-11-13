@@ -49,9 +49,9 @@ describe "gitlab::gems" do
           it 'executes bundle without production' do
             resource = chef_run.find_resource(:execute, 'bundle install')
             expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle install --path=.bundle --deployment --without postgres aws production\n")
-            expect(resource.user).to eq("vagrant")
-            expect(resource.group).to eq("vagrant")
-            expect(resource.cwd).to eq("/vagrant/gitlab")
+            expect(resource.user).to eq("git")
+            expect(resource.group).to eq("git")
+            expect(resource.cwd).to eq("/home/git/gitlab")
           end
         end
 
@@ -143,9 +143,9 @@ describe "gitlab::gems" do
           it 'executes bundle without production' do
             resource = chef_run.find_resource(:execute, 'bundle install')
             expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle install --path=.bundle --deployment --without postgres aws production\n")
-            expect(resource.user).to eq("vagrant")
-            expect(resource.group).to eq("vagrant")
-            expect(resource.cwd).to eq("/vagrant/gitlab")
+            expect(resource.user).to eq("git")
+            expect(resource.group).to eq("git")
+            expect(resource.cwd).to eq("/home/git/gitlab")
           end
         end
 
