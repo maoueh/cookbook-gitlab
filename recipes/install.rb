@@ -134,108 +134,105 @@ template File.join(gitlab['path'], "config", "database.yml") do
 end
 
 ### db:setup
-gitlab['environments'].each do |environment|
-  ### db:setup
-  file_setup = File.join(gitlab['home'], ".gitlab_setup_#{environment}")
-  file_setup_old = File.join(gitlab['home'], ".gitlab_setup")
-  execute "rake db:setup" do
-    command <<-EOS
-      PATH="/usr/local/bin:$PATH"
-      bundle exec rake db:setup RAILS_ENV=#{environment}
-    EOS
-    cwd gitlab['path']
-    user gitlab['user']
-    group gitlab['group']
-    not_if {File.exists?(file_setup) || File.exists?(file_setup_old)}
-  end
+file_setup = File.join(gitlab['home'], ".gitlab_setup_#{gitlab['env']}")
+file_setup_old = File.join(gitlab['home'], ".gitlab_setup")
+execute "rake db:setup" do
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}
+  EOS
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  not_if {File.exists?(file_setup) || File.exists?(file_setup_old)}
+end
 
-  file file_setup do
-    owner gitlab['user']
-    group gitlab['group']
-    action :create
-  end
+file file_setup do
+  owner gitlab['user']
+  group gitlab['group']
+  action :create
+end
 
-  ### db:migrate
-  file_migrate = File.join(gitlab['home'], ".gitlab_migrate_#{environment}")
-  file_migrate_old = File.join(gitlab['home'], ".gitlab_migrate")
-  execute "rake db:migrate" do
-    command <<-EOS
-      PATH="/usr/local/bin:$PATH"
-      bundle exec rake db:migrate RAILS_ENV=#{environment}
-    EOS
-    cwd gitlab['path']
-    user gitlab['user']
-    group gitlab['group']
-    not_if {File.exists?(file_migrate) || File.exists?(file_migrate_old)}
-  end
+### db:migrate
+file_migrate = File.join(gitlab['home'], ".gitlab_migrate_#{gitlab['env']}")
+file_migrate_old = File.join(gitlab['home'], ".gitlab_migrate")
+execute "rake db:migrate" do
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}
+  EOS
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  not_if {File.exists?(file_migrate) || File.exists?(file_migrate_old)}
+end
 
-  file file_migrate do
-    owner gitlab['user']
-    group gitlab['group']
-    action :create
-  end
+file file_migrate do
+  owner gitlab['user']
+  group gitlab['group']
+  action :create
+end
 
-  ### db:seed_fu
-  file_seed = File.join(gitlab['home'], ".gitlab_seed_#{environment}")
-  file_seed_old = File.join(gitlab['home'], ".gitlab_seed")
-  execute "rake db:seed_fu" do
-    command <<-EOS
-      PATH="/usr/local/bin:$PATH"
-      bundle exec rake db:seed_fu RAILS_ENV=#{environment}
-    EOS
-    cwd gitlab['path']
-    user gitlab['user']
-    group gitlab['group']
-    not_if {File.exists?(file_seed) || File.exists?(file_seed_old)}
-  end
+### db:seed_fu
+file_seed = File.join(gitlab['home'], ".gitlab_seed_#{gitlab['env']}")
+file_seed_old = File.join(gitlab['home'], ".gitlab_seed")
+execute "rake db:seed_fu" do
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}
+  EOS
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  not_if {File.exists?(file_seed) || File.exists?(file_seed_old)}
+end
 
-  file file_seed do
-    owner gitlab['user']
-    group gitlab['group']
-    action :create
+file file_seed do
+  owner gitlab['user']
+  group gitlab['group']
+  action :create
+end
+
+## Setup Init Script
+# Creating the file this way for the following reasons
+# 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks
+# 2. Using file resource is not an option because it is ran at compilation time
+# and at that point the file doesn't exist
+# 3. Using cookbook_file resource is not an option because we do not want to include the file
+# in the cookbook for maintenance reasons. Same for template resource.
+# 4. Using remote_file resource is not an option because Chef 11.4.0 connects to remote URI
+# see https://github.com/opscode/chef/blob/11.4.4/lib/chef/resource/remote_file.rb#L63
+# 5 Using bash and execute resource is not an option because they would run at every chef run
+# and supplying a restriction in the form of "not_if" would prevent an update of a file
+# if there is any
+# Ruby block is compiled at compilation time but only executed during execution time
+# allowing us to create a resource.
+
+ruby_block "Copy from example gitlab init config" do
+  block do
+    resource = Chef::Resource::File.new("gitlab_init", run_context)
+    resource.path "/etc/init.d/gitlab"
+    resource.content IO.read(File.join(gitlab['path'], "lib", "support", "init.d", "gitlab"))
+    resource.mode 0755
+    resource.run_action :create
+    if resource.updated?
+      self.notifies :run, resources(:execute => "set gitlab to start on boot"), :immediately
+    end
   end
+end
+
+# Updates defaults so gitlab can boot on start. As per man pages of update-rc.d runs only if links do not exist
+execute "set gitlab to start on boot" do
+  if platform_family?("debian")
+    command "update-rc.d gitlab defaults 21"
+  else
+    command "chkconfig --level 21 gitlab on"
+  end
+  action :nothing
 end
 
 case gitlab['env']
 when 'production'
-  ## Setup Init Script
-  # Creating the file this way for the following reasons
-  # 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks
-  # 2. Using file resource is not an option because it is ran at compilation time
-  # and at that point the file doesn't exist
-  # 3. Using cookbook_file resource is not an option because we do not want to include the file
-  # in the cookbook for maintenance reasons. Same for template resource.
-  # 4. Using remote_file resource is not an option because Chef 11.4.0 connects to remote URI
-  # see https://github.com/opscode/chef/blob/11.4.4/lib/chef/resource/remote_file.rb#L63
-  # 5 Using bash and execute resource is not an option because they would run at every chef run
-  # and supplying a restriction in the form of "not_if" would prevent an update of a file
-  # if there is any
-  # Ruby block is compiled at compilation time but only executed during execution time
-  # allowing us to create a resource.
-
-  ruby_block "Copy from example gitlab init config" do
-    block do
-      resource = Chef::Resource::File.new("gitlab_init", run_context)
-      resource.path "/etc/init.d/gitlab"
-      resource.content IO.read(File.join(gitlab['path'], "lib", "support", "init.d", "gitlab"))
-      resource.mode 0755
-      resource.run_action :create
-      if resource.updated?
-        self.notifies :run, resources(:execute => "set gitlab to start on boot"), :immediately
-      end
-    end
-  end
-
-  # Updates defaults so gitlab can boot on start. As per man pages of update-rc.d runs only if links do not exist
-  execute "set gitlab to start on boot" do
-    if platform_family?("debian")
-      command "update-rc.d gitlab defaults 21"
-    else
-      command "chkconfig --level 21 gitlab on"
-    end
-    action :nothing
-  end
-
   ## Setup logrotate
   # Creating the file this way for the following reasons
   # 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks
