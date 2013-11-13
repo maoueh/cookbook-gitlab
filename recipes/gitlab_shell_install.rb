@@ -33,12 +33,4 @@ execute "gitlab-shell install" do
   user gitlab['user']
   group gitlab['group']
   action :nothing
-  notifies :create, "link[create symlink for gitlab-shell path for development]", :immediately
-end
-
-# Symlink gitlab-shell to vagrant home, so that sidekiq can use gitlab shell commands
-link "create symlink for gitlab-shell path for development" do
-  target_file "#{gitlab['home']}/gitlab-shell"
-  to gitlab['shell_path']
-  not_if { gitlab['env'] == "production" }
 end
