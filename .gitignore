@@ -12,6 +12,7 @@ Berksfile.lock
 Gemfile.lock
 bin/*
 .bundle/*
+.bundler/*
 
 .kitchen/
 .kitchen.local.yml
@@ -25,3 +26,4 @@ bin/*
 .ssh/*
 .gitlab*
 .bash*
+install.sh

@@ -7,22 +7,21 @@ MEMORY = ENV['GITLAB_VAGRANT_MEMORY'] || '1536'
 CORES = ENV['GITLAB_VAGRANT_CORES'] || '2'
 
 Vagrant.configure("2") do |config|
-  config.vm.hostname = "gitlab"
+  config.vm.hostname = "gitlab-dev"
 
-  config.vm.box = "opscode-ubuntu-12.04"
-
-  config.vm.box_url = "https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box"
+  config.vm.box = "precise32"
+  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
-  config.vm.network :private_network, ip: "33.33.33.10"
+  config.vm.network :private_network, ip: "192.168.3.4"
 
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :forwarded_port, guest: 80, host: 8080
 
-  config.vm.synced_folder ".", "/home/git/"
+  config.vm.synced_folder ".", "/home/git", :nfs => true
 
   config.vm.provider :virtualbox do |v|
     # Use VBoxManage to customize the VM. For example to change memory:
