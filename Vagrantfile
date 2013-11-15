@@ -9,8 +9,8 @@ CORES = ENV['GITLAB_VAGRANT_CORES'] || '2'
 Vagrant.configure("2") do |config|
   config.vm.hostname = "gitlab-dev"
 
-  config.vm.box = "precise32"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
@@ -48,6 +48,9 @@ Vagrant.configure("2") do |config|
     chef.json = {
       "gitlab" => {
         "env" => "development"
+      },
+      "phantomjs" => {
+        "version" => "1.8.1"
       }
     }
     chef.run_list = [
