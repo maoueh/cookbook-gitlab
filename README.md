@@ -40,7 +40,7 @@ Chef cookbook with recipes to install GitLab.
 $ gem install berkshelf
 $ vagrant plugin install vagrant-berkshelf
 $ vagrant plugin install vagrant-omnibus
-$ git clone git://github.com/gitlabhq/cookbook-gitlab ./gitlab
+$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git ./gitlab
 $ cd ./gitlab/
 $ vagrant up
 ```
@@ -55,7 +55,7 @@ $ vagrant plugin install vagrant-berkshelf
 $ vagrant plugin install vagrant-omnibus
 $ vagrant plugin install vagrant-aws
 $ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
-$ git clone git://github.com/gitlabhq/cookbook-gitlab ./gitlab
+$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git ./gitlab
 $ cd ./gitlab/
 $ cp ./example/Vagrantfile_aws ./Vagrantfile
 ```
@@ -95,7 +95,7 @@ To get GitLab installed do:
 $ gem install berkshelf
 $ cd /tmp
 $ curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
-$ git clone https://github.com/gitlabhq/cookbook-gitlab.git /tmp/gitlab
+$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/gitlab
 $ cd /tmp/gitlab
 $ berks install --path /tmp/cookbooks
 $ cat > /tmp/solo.rb << EOF
