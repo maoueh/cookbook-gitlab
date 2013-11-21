@@ -24,7 +24,7 @@ describe "gitlab::database_mysql" do
       end
 
       before do
-        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
+        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do
@@ -48,7 +48,7 @@ describe "gitlab::database_mysql" do
       end
 
       before do
-        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
+        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do
