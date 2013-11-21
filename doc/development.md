@@ -32,7 +32,7 @@ Next steps are:
 $ gem install berkshelf
 $ vagrant plugin install vagrant-berkshelf
 $ vagrant plugin install vagrant-omnibus
-$ git clone git://github.com/gitlabhq/cookbook-gitlab
+$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git
 $ cd ./cookbook-gitlab
 $ vagrant up
 ```

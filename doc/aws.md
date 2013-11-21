@@ -8,7 +8,7 @@ $ vagrant plugin install vagrant-berkshelf
 $ vagrant plugin install vagrant-omnibus
 $ vagrant plugin install vagrant-aws
 $ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
-$ git clone git://github.com/gitlabhq/cookbook-gitlab ./gitlab
+$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git ./gitlab
 $ cd ./gitlab/
 $ cp ./example/Vagrantfile_aws ./Vagrantfile
 ```

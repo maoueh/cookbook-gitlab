@@ -9,7 +9,7 @@ To get GitLab installed do:
 $ gem install berkshelf
 $ cd /tmp
 $ curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
-$ git clone https://github.com/gitlabhq/cookbook-gitlab.git /tmp/gitlab
+$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/gitlab
 $ cd /tmp/gitlab
 $ berks install --path /tmp/cookbooks
 $ cat > /tmp/solo.rb << EOF
