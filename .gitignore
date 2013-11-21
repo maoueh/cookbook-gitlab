@@ -26,4 +26,5 @@ bin/*
 .ssh/*
 .gitlab*
 .bash*
+.qws*
 install.sh
