@@ -8,7 +8,7 @@ version          '0.6.2'
 
 recipe "gitlab::default", "Installation"
 
-%w{ redisio ruby_build postgresql mysql database postfix yum phantomjs magic_shell }.each do |dep|
+%w{ redisio ruby_build postgresql mysql database postfix yum phantomjs magic_shell apt}.each do |dep|
   depends dep
 end
 
