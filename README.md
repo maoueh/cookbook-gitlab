@@ -27,231 +27,26 @@ which will probably cause errors. Instead, go to [Vagrant download page](http://
 * [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
 
 
-### Platform:
+### Platforms:
+
+Cookbook has been tested and it is known to work on:
 
 * Ubuntu (12.04, 12.10)
 * CentOS (6.4)
-
 
 ## Installation
 
 ### Development
 
-* [VirtualBox](https://www.virtualbox.org)
-* the NFS packages. Already there if you are using Mac OS, and
-  not necessary if you are using Windows. On Linux:
+For development environment checkout the [development doc](doc/development.md)
 
-    ```bash
-    $ sudo apt-get install nfs-kernel-server nfs-common portmap
-    ```
-    On OS X you can also choose to use [the (commercial) Vagrant VMware Fusion plugin](http://www.vagrantup.com/vmware) instead of VirtualBox.
+### AWS
 
-* some patience :)
+Use the cookbook with [AWS](doc/aws.md)
 
-#### Vagrant
-`Vagrantfile` already contains the correct attributes so in order use this cookbook in a development environment following steps are needed:
+### Production
 
-1. Check if you have a gem version of Vagrant installed:
-
-```bash
-gem list vagrant
-```
-
-If it lists a version of vagrant, remove it with:
-
-```bash
-gem uninstall vagrant
-```
-
-Next steps are:
-
-```bash
-$ gem install berkshelf
-$ vagrant plugin install vagrant-berkshelf
-$ vagrant plugin install vagrant-omnibus
-$ git clone git://github.com/gitlabhq/cookbook-gitlab
-$ cd ./cookbook-gitlab
-$ vagrant up
-```
-
-By default the VM uses 1.5GB of memory and 2 CPU cores. If you want to use more memory or cores you can use the GITLAB_VAGRANT_MEMORY and GITLAB_VAGRANT_CORES environment variables:
-
-```bash
-GITLAB_VAGRANT_MEMORY=2048 GITLAB_VAGRANT_CORES=4 vagrant up
-```
-
-**Note:**
-You can't use a vagrant project on an encrypted partition (ie. it won't work if your home directory is encrypted).
-
-You'll be asked for your password to set up NFS shares.
-
-Once everything is done you can log into the virtual machine to run tests:
-
-```bash
-$ vagrant ssh
-$ sudo su git
-$ cd /home/git/gitlab/
-$ bundle exec rake gitlab:test
-```
-
-Start the Gitlab app:
-```bash
-$ cd /home/git/gitlab/
-$ bundle exec foreman start
-```
-
-You should also configure your own remote since by default it's going to grab
-gitlab's master branch.
-
-```bash
-$ git remote add mine git://github.com/me/gitlabhq.git
-$ # or if you prefer set up your origin as your own repository
-$ git remote set-url origin git://github.com/me/gitlabhq.git
-```
-
-##### Virtual Machine Management
-
-When done just log out with `^D` and suspend the virtual machine
-
-```bash
-$ vagrant suspend
-```
-
-then, resume to hack again
-
-```bash
-$ vagrant resume
-```
-
-Run
-
-```bash
-$ vagrant halt
-```
-
-to shutdown the virtual machine, and
-
-```bash
-$ vagrant up
-```
-
-to boot it again.
-
-You can find out the state of a virtual machine anytime by invoking
-
-```bash
-$ vagrant status
-```
-
-Finally, to completely wipe the virtual machine from the disk **destroying all its contents**:
-
-```bash
-$ vagrant destroy # DANGER: all is gone
-```
-
-#### Amazon Web Services
-
-Creates an AWS instance.
-
-```bash
-$ gem install berkshelf
-$ vagrant plugin install vagrant-berkshelf
-$ vagrant plugin install vagrant-omnibus
-$ vagrant plugin install vagrant-aws
-$ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
-$ git clone git://github.com/gitlabhq/cookbook-gitlab ./gitlab
-$ cd ./gitlab/
-$ cp ./example/Vagrantfile_aws ./Vagrantfile
-```
-Fill in the AWS credentials under the aws section in Vagrantfile and then run:
-
-```bash
-$ vagrant up --provider=aws
-```
-
-HostName setting.
-
-```bash
-$ vagrant ssh-config | awk '/HostName/ {print $2}'
-$ editor ./Vagrantfile
-$ vagrant provision
-```
-
-#### AWS OpsWorks
-
-* Create a custom layer or use a predefined `Rails app server` layer.
-* Edit the layer
-* Under `Custom Chef Recipes` supply the url to the cookbook repository
-* Under `Setup` write `gitlab::setup` and press the + sign to add
-* Under `Deploy` write `gitlab::deploy` and press the + sign to add
-* Save changes made to the layer (Scroll to the bottom of the page for the Save button)
-* Go to Instances
-* Create a new instance(or use an existing one) and add the previously edited layer
-
-### chef-solo
-
-You can easily install your server even if you don't have chef-server by using chef-solo.
-This is useful if you have only one server that you have to maintain so having chef-server would be an overkill.
-**Note** Following steps assume that you have git, ruby(> 1.8.7) and rubygems installed.
-To get GitLab installed do:
-
-```bash
-$ gem install berkshelf
-$ cd /tmp
-$ curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
-$ git clone https://github.com/gitlabhq/cookbook-gitlab.git /tmp/gitlab
-$ cd /tmp/gitlab
-$ berks install --path /tmp/cookbooks
-$ cat > /tmp/solo.rb << EOF
-cookbook_path    ["/tmp/cookbooks/", "/tmp/gitlab/"]
-log_level        :debug
-EOF
-$ cat > /tmp/solo.json << EOF
-{"gitlab": {"host": "HOSTNAME", "url": "http://FQDN:80/"}, "recipes":["gitlab::default"]}
-EOF
-$ chef-solo -c /tmp/solo.rb -j /tmp/solo.json
-```
-Chef-solo command should start running and setting up GitLab and it's dependencies.
-No errors should be reported and at the end of the run you should be able to navigate to the
-`HOSTNAME` you specified using your browser and connect to the GitLab instance.
-
-## Usage
-
-To override default settings of this cookbook you have to supply a json to the node.
-
-```json
-{
-  "postfix": {
-    "mail_type": "client",
-    "myhostname": "mail.example.com",
-    "mydomain": "example.com",
-    "myorigin": "mail.example.com",
-    "smtp_use_tls": "no"
-  },
-  "postgresql": {
-    "password": {
-      "postgres": "psqlpass"
-    }
-  },
-  "mysql": {
-    "server_root_password": "rootpass",
-    "server_repl_password": "replpass",
-    "server_debian_password": "debianpass"
-  },
-  "gitlab": {
-    "host": "example.com",
-    "url": "http://example.com/",
-    "email_from": "gitlab@example.com",
-    "support_email": "support@example.com",
-    "database_adapter": "postgresql",
-    "database_password": "datapass"
-  },
-  "run_list":[
-    "postfix",
-    "gitlab::default"
-  ]
-}
-```
+For production environment checkout the [production doc](doc/production.md)
 
 ## Database
 
@@ -369,16 +164,6 @@ Enables gitlab service and starts GitLab.
 
 Creates a GitLab user called `git`.
 
-
-## Done!
-
-`http://localhost:8080/` or your server for your first GitLab login.
-
-```
-admin@local.host
-5iveL!fe
-```
-
 ## Testing the cookbook
 
 First install the necessary gems
@@ -413,11 +198,9 @@ Proper Merge request must:
 1. Explain which platforms it is run on and which platforms are untested
 1. Contain passing `chefspec` tests
 
-
 ## Links
 
 * [GitLab Installation](https://github.com/gitlabhq/gitlabhq/blob/master/doc/install/installation.md)
-
 
 ## License
 
