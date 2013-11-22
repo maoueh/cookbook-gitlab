@@ -3,27 +3,27 @@
 Creates an AWS instance.
 
 ```bash
-$ gem install berkshelf
-$ vagrant plugin install vagrant-berkshelf
-$ vagrant plugin install vagrant-omnibus
-$ vagrant plugin install vagrant-aws
-$ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
-$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git ./gitlab
-$ cd ./gitlab/
-$ cp ./example/Vagrantfile_aws ./Vagrantfile
+gem install berkshelf
+vagrant plugin install vagrant-berkshelf
+vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-aws
+vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git ./gitlab
+cd ./gitlab/
+cp ./example/Vagrantfile_aws ./Vagrantfile
 ```
 Fill in the AWS credentials under the aws section in Vagrantfile and then run:
 
 ```bash
-$ vagrant up --provider=aws
+vagrant up --provider=aws
 ```
 
 HostName setting.
 
 ```bash
-$ vagrant ssh-config | awk '/HostName/ {print $2}'
-$ editor ./Vagrantfile
-$ vagrant provision
+vagrant ssh-config | awk '/HostName/ {print $2}'
+editor ./Vagrantfile
+vagrant provision
 ```
 
 #### AWS OpsWorks

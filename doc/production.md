@@ -6,20 +6,20 @@ This is useful if you have only one server that you have to maintain so having c
 To get GitLab installed do:
 
 ```bash
-$ gem install berkshelf
-$ cd /tmp
-$ curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
-$ git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/gitlab
-$ cd /tmp/gitlab
-$ berks install --path /tmp/cookbooks
-$ cat > /tmp/solo.rb << EOF
+gem install berkshelf
+cd /tmp
+curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
+git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/gitlab
+cd /tmp/gitlab
+berks install --path /tmp/cookbooks
+cat > /tmp/solo.rb << EOF
 cookbook_path    ["/tmp/cookbooks/", "/tmp/gitlab/"]
 log_level        :debug
 EOF
-$ cat > /tmp/solo.json << EOF
+cat > /tmp/solo.json << EOF
 {"gitlab": {"host": "HOSTNAME", "url": "http://FQDN:80/"}, "recipes":["gitlab::default"]}
 EOF
-$ chef-solo -c /tmp/solo.rb -j /tmp/solo.json
+chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 Chef-solo command should start running and setting up GitLab and it's dependencies.
 No errors should be reported and at the end of the run you should be able to navigate to the
