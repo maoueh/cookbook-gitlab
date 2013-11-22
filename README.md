@@ -15,17 +15,6 @@ Chef cookbook with recipes to install GitLab.
 ## Requirements
 
 * [Berkshelf](http://berkshelf.com/)
-* [Vagrant 1.3.x](http://vagrantup.com)
-
-**Note:** Make sure to use Vagrant v1.3.x. Do not install via rubygems.org as there exists an old gem
-which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
-
-### Vagrant Plugin
-
-* [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf)
-* [vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus)
-* [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
-
 
 ### Platforms:
 
@@ -42,7 +31,7 @@ For development environment checkout the [development doc](doc/development.md)
 
 * AWS
 
-Use the cookbook with [AWS](doc/aws.md)
+Use the cookbook with [AWS](doc/aws_vagrant.md)
 
 * Production
 

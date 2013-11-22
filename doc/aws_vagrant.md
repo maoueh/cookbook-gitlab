@@ -1,4 +1,17 @@
-#### Amazon Web Services
+### Amazon Web Services
+
+#### Requirements
+* [VirtualBox](https://www.virtualbox.org)
+* [Vagrant 1.3.x](http://vagrantup.com)
+
+**Note:** Make sure to use Vagrant v1.3.x. Do not install via rubygems.org as there exists an old gem
+which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
+
+### Vagrant Plugin
+
+* [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf)
+* [vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus)
+* [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
 
 Creates an AWS instance.
 
@@ -25,14 +38,3 @@ vagrant ssh-config | awk '/HostName/ {print $2}'
 editor ./Vagrantfile
 vagrant provision
 ```
-
-#### AWS OpsWorks
-
-* Create a custom layer or use a predefined `Rails app server` layer.
-* Edit the layer
-* Under `Custom Chef Recipes` supply the url to the cookbook repository
-* Under `Setup` write `gitlab::setup` and press the + sign to add
-* Under `Deploy` write `gitlab::deploy` and press the + sign to add
-* Save changes made to the layer (Scroll to the bottom of the page for the Save button)
-* Go to Instances
-* Create a new instance(or use an existing one) and add the previously edited layer
