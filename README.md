@@ -36,15 +36,15 @@ Cookbook has been tested and it is known to work on:
 
 ## Installation
 
-### Development
+* Development
 
 For development environment checkout the [development doc](doc/development.md)
 
-### AWS
+* AWS
 
 Use the cookbook with [AWS](doc/aws.md)
 
-### Production
+* Production
 
 For production environment checkout the [production doc](doc/production.md)
 
@@ -201,6 +201,11 @@ Proper Merge request must:
 ## Links
 
 * [GitLab Installation](https://github.com/gitlabhq/gitlabhq/blob/master/doc/install/installation.md)
+
+## Authors
+
+* [ogom](https://github.com/ogom)
+* [Marin Jankovski](https://github.com/maxlazio)
 
 ## License
 
