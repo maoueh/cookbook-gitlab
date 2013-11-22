@@ -6,14 +6,12 @@ This is useful if you have only one server that you have to maintain so having c
 To get GitLab installed do:
 
 ```bash
-gem install berkshelf
 cd /tmp
 curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
-git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/gitlab
+git clone https://gitlab.com/gitlab-com/cookbook-gitlab-opsworks.git /tmp/cookbooks
 cd /tmp/gitlab
-berks install --path /tmp/cookbooks
 cat > /tmp/solo.rb << EOF
-cookbook_path    ["/tmp/cookbooks/", "/tmp/gitlab/"]
+cookbook_path    ["/tmp/cookbooks/"]
 log_level        :debug
 EOF
 cat > /tmp/solo.json << EOF
