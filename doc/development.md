@@ -13,6 +13,7 @@ which will probably cause errors. Instead, go to [Vagrant download page](http://
 * [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf)
 * [vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus)
 * [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
+* [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs)
 
 * the NFS packages. Already there if you are using Mac OS, and
   not necessary if you are using Windows. On Linux:
@@ -45,6 +46,7 @@ Next steps are:
 gem install berkshelf
 vagrant plugin install vagrant-berkshelf
 vagrant plugin install vagrant-omnibus
+vagrant plugin install vagrant-bindfs
 git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git
 cd ./cookbook-gitlab
 vagrant up
