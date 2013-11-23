@@ -21,7 +21,11 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :forwarded_port, guest: 80, host: 8080
 
-  config.vm.synced_folder ".", "/home/git", :nfs => true
+  # We don't need to mount /vagrant directory since we use git user
+  # Using bindfs to remount synced folder in order to have the correct ownership
+  config.vm.synced_folder ".", "/vagrant", :disabled => true
+  config.vm.synced_folder ".", "/tmp/git", :nfs => true
+  config.bindfs.bind_folder "/tmp/git", "/home/git", :owner => "1002", :group => "1004", :perms => "u=rwx:g=rx:o=rx"
 
   config.vm.provider :virtualbox do |v|
     # Use VBoxManage to customize the VM. For example to change memory:
