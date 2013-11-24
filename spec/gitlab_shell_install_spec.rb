@@ -47,22 +47,6 @@ describe "gitlab::gitlab_shell_install" do
       it 'does not run a execute to install gitlab shell on its own' do
         expect(chef_run).to_not run_execute('gitlab-shell install')
       end
-
-      it 'symlinks gitlab-shell directory' do
-        expect(chef_run).to_not create_link('/home/git/gitlab-shell').with(to: '/home/git/gitlab-shell')
-      end
-
-      describe "for development" do
-        let(:chef_run) do 
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
-          runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::gitlab_shell_install")
-        end
-
-        it 'symlinks gitlab-shell directory' do
-          expect(chef_run).to create_link('/home/vagrant/gitlab-shell').with(to: '/vagrant/gitlab-shell')
-        end
-      end
     end
   end
 
@@ -108,18 +92,6 @@ describe "gitlab::gitlab_shell_install" do
 
       it 'does not run a execute to install gitlab shell on its own' do
         expect(chef_run).to_not run_execute('gitlab-shell install')
-      end
-
-      describe "for development" do
-        let(:chef_run) do 
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
-          runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::gitlab_shell_install")
-        end
-
-        it 'symlinks gitlab-shell directory' do
-          expect(chef_run).to create_link('/home/vagrant/gitlab-shell').with(to: '/vagrant/gitlab-shell')
-        end
       end
     end
   end

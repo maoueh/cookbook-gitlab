@@ -15,7 +15,7 @@ describe "gitlab::gitlab_shell_clone" do
       it "clones the gitlab-shell repository" do
         expect(chef_run).to sync_git('/home/git/gitlab-shell').with(
           repository: 'https://github.com/gitlabhq/gitlab-shell.git',
-          revision: "v1.7.4",
+          revision: "v1.7.9",
           user: 'git',
           group: 'git'
         )
@@ -29,11 +29,11 @@ describe "gitlab::gitlab_shell_clone" do
         end
 
         it "clones the gitlab-shell repository" do
-          expect(chef_run).to sync_git('/vagrant/gitlab-shell').with(
+          expect(chef_run).to sync_git('/home/git/gitlab-shell').with(
             repository: 'https://github.com/gitlabhq/gitlab-shell.git',
-            revision: "v1.7.4",
-            user: 'vagrant',
-            group: 'vagrant'
+            revision: "v1.7.9",
+            user: 'git',
+            group: 'git'
           )
         end
       end
@@ -51,7 +51,7 @@ describe "gitlab::gitlab_shell_clone" do
       it "clones the gitlab-shell repository" do
         expect(chef_run).to sync_git('/home/git/gitlab-shell').with(
           repository: 'https://github.com/gitlabhq/gitlab-shell.git',
-          revision: "v1.7.4",
+          revision: "v1.7.9",
           user: 'git',
           group: 'git'
         )
@@ -65,11 +65,11 @@ describe "gitlab::gitlab_shell_clone" do
         end
 
         it "clones the gitlab-shell repository" do
-          expect(chef_run).to sync_git('/vagrant/gitlab-shell').with(
+          expect(chef_run).to sync_git('/home/git/gitlab-shell').with(
             repository: 'https://github.com/gitlabhq/gitlab-shell.git',
-            revision: "v1.7.4",
-            user: 'vagrant',
-            group: 'vagrant'
+            revision: "v1.7.9",
+            user: 'git',
+            group: 'git'
           )
         end
       end

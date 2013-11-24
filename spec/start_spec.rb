@@ -30,25 +30,6 @@ describe "gitlab::start" do
           expect(gitlab_start).to notify('service[gitlab]').to(:start).delayed
         end
       end
-
-      describe "in development" do
-        let(:chef_run) do 
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
-          runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::start")
-        end
-
-        it 'doesnt enable gitlab service' do
-          expect(chef_run).to_not enable_service('gitlab')
-        end
-
-        it 'doesnt create an empty file that will trigger gitlab start' do
-          expect(chef_run).to_not create_file_if_missing('/home/git/.gitlab_start').with(
-            user:   'git',
-            group:  'git'
-          )
-        end
-      end
     end
   end
 
@@ -76,25 +57,6 @@ describe "gitlab::start" do
 
         it "sends start notification to gitlab service" do
           expect(gitlab_start).to notify('service[gitlab]').to(:start).delayed
-        end
-      end
-
-      describe "in development" do
-        let(:chef_run) do 
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
-          runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::start")
-        end
-
-        it 'doesnt enable gitlab service' do
-          expect(chef_run).to_not enable_service('gitlab')
-        end
-
-        it 'doesnt create an empty file that will trigger gitlab start' do
-          expect(chef_run).to_not create_file_if_missing('/home/git/.gitlab_start').with(
-            user:   'git',
-            group:  'git'
-          )
         end
       end
     end

@@ -29,11 +29,11 @@ describe "gitlab::clone" do
         end
 
         it "clones the gitlab repository" do
-          expect(chef_run).to sync_git('/vagrant/gitlab').with(
+          expect(chef_run).to sync_git('/home/git/gitlab').with(
             repository: 'https://github.com/gitlabhq/gitlabhq.git',
             revision: 'master',
-            user: 'vagrant',
-            group: 'vagrant'
+            user: 'git',
+            group: 'git'
           )
         end
       end
@@ -65,11 +65,11 @@ describe "gitlab::clone" do
         end
 
         it "clones the gitlab repository" do
-          expect(chef_run).to sync_git('/vagrant/gitlab').with(
+          expect(chef_run).to sync_git('/home/git/gitlab').with(
             repository: 'https://github.com/gitlabhq/gitlabhq.git',
             revision: 'master',
-            user: 'vagrant',
-            group: 'vagrant'
+            user: 'git',
+            group: 'git'
           )
         end
       end

@@ -6,9 +6,6 @@
 mysql = node['mysql']
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 # 5.Database
 include_recipe "mysql::server"
 include_recipe "database::mysql"

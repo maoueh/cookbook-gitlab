@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 ## Edit config and replace gitlab_url
 template File.join(gitlab['shell_path'], "config.yml") do
   source "gitlab_shell.yml.erb"
@@ -36,12 +33,4 @@ execute "gitlab-shell install" do
   user gitlab['user']
   group gitlab['group']
   action :nothing
-  notifies :create, "link[create symlink for gitlab-shell path for development]", :immediately
-end
-
-# Symlink gitlab-shell to vagrant home, so that sidekiq can use gitlab shell commands
-link "create symlink for gitlab-shell path for development" do
-  target_file "#{gitlab['home']}/gitlab-shell"
-  to gitlab['shell_path']
-  not_if { gitlab['env'] == "production" }
 end

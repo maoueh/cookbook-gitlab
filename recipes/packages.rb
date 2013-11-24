@@ -5,14 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
-# 0. Initial Change
-directory "/tmp" do
-  mode 0777
-end
-
 # Make sure we have all common paths included in our environment
 magic_shell_environment 'PATH' do
   value '/usr/local/bin:/usr/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin'
@@ -28,4 +20,9 @@ include_recipe "redisio::enable"
 ## Install the required packages.
 gitlab['packages'].each do |pkg|
   package pkg
+end
+
+# Upgrade the openssl package to the latest version in the repository to prevent bundle install failures due to invalid certs
+package "openssl" do
+  action :upgrade
 end

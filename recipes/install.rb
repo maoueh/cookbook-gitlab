@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 ### Copy the example GitLab config
 template File.join(gitlab['path'], 'config', 'gitlab.yml') do
   source "gitlab.yml.erb"
@@ -134,66 +131,63 @@ template File.join(gitlab['path'], "config", "database.yml") do
 end
 
 ### db:setup
-gitlab['environments'].each do |environment|
-  ### db:setup
-  file_setup = File.join(gitlab['home'], ".gitlab_setup_#{environment}")
-  file_setup_old = File.join(gitlab['home'], ".gitlab_setup")
-  execute "rake db:setup" do
-    command <<-EOS
-      PATH="/usr/local/bin:$PATH"
-      bundle exec rake db:setup RAILS_ENV=#{environment}
-    EOS
-    cwd gitlab['path']
-    user gitlab['user']
-    group gitlab['group']
-    not_if {File.exists?(file_setup) || File.exists?(file_setup_old)}
-  end
+file_setup = File.join(gitlab['home'], ".gitlab_setup_#{gitlab['env']}")
+file_setup_old = File.join(gitlab['home'], ".gitlab_setup")
+execute "rake db:setup" do
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}
+  EOS
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  not_if {File.exists?(file_setup) || File.exists?(file_setup_old)}
+end
 
-  file file_setup do
-    owner gitlab['user']
-    group gitlab['group']
-    action :create
-  end
+file file_setup do
+  owner gitlab['user']
+  group gitlab['group']
+  action :create
+end
 
-  ### db:migrate
-  file_migrate = File.join(gitlab['home'], ".gitlab_migrate_#{environment}")
-  file_migrate_old = File.join(gitlab['home'], ".gitlab_migrate")
-  execute "rake db:migrate" do
-    command <<-EOS
-      PATH="/usr/local/bin:$PATH"
-      bundle exec rake db:migrate RAILS_ENV=#{environment}
-    EOS
-    cwd gitlab['path']
-    user gitlab['user']
-    group gitlab['group']
-    not_if {File.exists?(file_migrate) || File.exists?(file_migrate_old)}
-  end
+### db:migrate
+file_migrate = File.join(gitlab['home'], ".gitlab_migrate_#{gitlab['env']}")
+file_migrate_old = File.join(gitlab['home'], ".gitlab_migrate")
+execute "rake db:migrate" do
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}
+  EOS
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  not_if {File.exists?(file_migrate) || File.exists?(file_migrate_old)}
+end
 
-  file file_migrate do
-    owner gitlab['user']
-    group gitlab['group']
-    action :create
-  end
+file file_migrate do
+  owner gitlab['user']
+  group gitlab['group']
+  action :create
+end
 
-  ### db:seed_fu
-  file_seed = File.join(gitlab['home'], ".gitlab_seed_#{environment}")
-  file_seed_old = File.join(gitlab['home'], ".gitlab_seed")
-  execute "rake db:seed_fu" do
-    command <<-EOS
-      PATH="/usr/local/bin:$PATH"
-      bundle exec rake db:seed_fu RAILS_ENV=#{environment}
-    EOS
-    cwd gitlab['path']
-    user gitlab['user']
-    group gitlab['group']
-    not_if {File.exists?(file_seed) || File.exists?(file_seed_old)}
-  end
+### db:seed_fu
+file_seed = File.join(gitlab['home'], ".gitlab_seed_#{gitlab['env']}")
+file_seed_old = File.join(gitlab['home'], ".gitlab_seed")
+execute "rake db:seed_fu" do
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}
+  EOS
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  not_if {File.exists?(file_seed) || File.exists?(file_seed_old)}
+end
 
-  file file_seed do
-    owner gitlab['user']
-    group gitlab['group']
-    action :create
-  end
+file file_seed do
+  owner gitlab['user']
+  group gitlab['group']
+  action :create
 end
 
 case gitlab['env']

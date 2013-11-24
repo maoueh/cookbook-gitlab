@@ -7,9 +7,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 # Install GitLab required packages
 include_recipe "gitlab::packages"
 

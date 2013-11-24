@@ -5,9 +5,6 @@
 
 gitlab = node['gitlab']
 
-# Merge environmental variables
-gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
-
 ## Install Gems
 template File.join(gitlab['home'], ".gemrc") do
   source "gemrc.erb"
