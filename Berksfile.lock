@@ -8,9 +8,6 @@
       "git": "git://github.com/customink-webops/magic_shell.git",
       "ref": "447b4b67420d3a7a749d2dd3b13a7f9aceb54c36"
     },
-    "mysql": {
-      "locked_version": "2.1.2"
-    },
     "redisio": {
       "locked_version": "1.1.0"
     },
@@ -22,6 +19,12 @@
     },
     "openssl": {
       "locked_version": "1.0.0"
+    },
+    "mysql": {
+      "locked_version": "2.1.2"
+    },
+    "build-essential": {
+      "locked_version": "1.4.0"
     },
     "database": {
       "locked_version": "1.3.4"
@@ -41,12 +44,6 @@
     "phantomjs": {
       "locked_version": "1.0.3"
     },
-    "apt": {
-      "locked_version": "2.0.0"
-    },
-    "build-essential": {
-      "locked_version": "1.4.0"
-    },
     "chocolatey": {
       "locked_version": "0.0.5"
     },
@@ -58,6 +55,9 @@
     },
     "chef_handler": {
       "locked_version": "1.1.4"
+    },
+    "apt": {
+      "locked_version": "2.0.0"
     }
   }
 }
