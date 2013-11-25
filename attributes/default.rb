@@ -14,7 +14,7 @@ else
 end
 
 default['gitlab']['packages'] = packages
-default['gitlab']['ruby'] = "2.0.0-p247"
+default['gitlab']['ruby'] = "2.0.0-p353"
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
