@@ -90,21 +90,8 @@ ruby_block "Copy from example rack attack config" do
     resource.group gitlab['group']
     resource.mode 0644
     resource.run_action :create
-    if resource.updated?
-      self.notifies :run, resources(:bash => "Enable rack attack in application.rb"), :immediately
-    end
   end
 end
-
-bash "Enable rack attack in application.rb" do
-  code <<-EOS
-    sed -i "/# config.middleware.use Rack::Attack/ s/# *//" "#{File.join(gitlab['path'], "config", "application.rb")}"
-  EOS
-  user gitlab['user']
-  group gitlab['group']
-  action :nothing
-end
-
 
 ### Configure Git global settings for git user, useful when editing via web
 bash "git config" do
