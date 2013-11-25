@@ -78,7 +78,7 @@ default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
 if node['gitlab']['env'] == "production"
-  default['gitlab']['revision'] = "6-2-stable"
+  default['gitlab']['revision'] = "6-3-stable"
 else
   default['gitlab']['revision'] = "master"
 end
