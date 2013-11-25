@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   # We don't need to mount /vagrant directory since we use git user
   # Using bindfs to remount synced folder in order to have the correct ownership
   config.vm.synced_folder ".", "/vagrant", :disabled => true
-  config.vm.synced_folder ".", "/git-nfs", :nfs => true
+  config.vm.synced_folder "./home_git", "/git-nfs", :nfs => true
   config.bindfs.bind_folder "/git-nfs", "/home/git", :owner => "1002", :group => "1004", :perms => "u=rwx:g=rx:o=rx"
 
   config.vm.provider :virtualbox do |v|
