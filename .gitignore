@@ -15,15 +15,4 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
-
-/gitlab
-/gitlab-shell
-/gitlab-satellites
-/repositories
-.gemrc
-.gitconfig
-.ssh/*
-.gitlab*
-.bash*
-.qws*
-install.sh
+home_git/*
