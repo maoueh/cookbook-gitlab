@@ -46,7 +46,7 @@ default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
 
 # Gems
-default['gitlab']['bundle_install'] = "bundle install --path=.bundle --deployment"
+default['gitlab']['bundle_install'] = "SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment"
 
 # Assumed defaults
 # database: mysql (option: postgresql)

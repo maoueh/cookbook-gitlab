@@ -5,7 +5,13 @@
 
 gitlab = node['gitlab']
 
-## Install Gems
+# To prevent random failures during bundle install, get the latest ca-bundle
+execute "Fetch the latest ca-bundle" do
+  command "curl http://curl.haxx.se/ca/cacert.pem --create-dirs -o /opt/local/etc/certs/cacert.pem"
+  not_if { File.exists?("/opt/local/etc/certs/cacert.pem") }
+end
+
+## Install Gems without ri and rdoc
 template File.join(gitlab['home'], ".gemrc") do
   source "gemrc.erb"
   user gitlab['user']

@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   # Using bindfs to remount synced folder in order to have the correct ownership
   config.vm.synced_folder ".", "/vagrant", :disabled => true
   config.vm.synced_folder "./home_git", "/git-nfs", :nfs => true
-  config.bindfs.bind_folder "/git-nfs", "/home/git", :owner => "1001", :group => "1003", :'create-as-user' => true, :perms => "u=rwx:g=rwx:o=rwx", :'create-with-perms' => "u=rwx:g=rwx:o=rwx", :'chown-ignore' => true, :'chgrp-ignore' => true, :'chmod-ignore' => true
+  config.bindfs.bind_folder "/git-nfs", "/home/git", :owner => "1002", :group => "1004", :'create-as-user' => true, :perms => "u=rwx:g=rwx:o=rwx", :'create-with-perms' => "u=rwx:g=rwx:o=rwx", :'chown-ignore' => true, :'chgrp-ignore' => true, :'chmod-ignore' => true
 
   config.vm.provider :virtualbox do |v|
     # Use VBoxManage to customize the VM. For example to change memory:
