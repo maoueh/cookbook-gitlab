@@ -9,6 +9,7 @@ upstream gitlab {
 server {
   listen 0.0.0.0:<%= @port %>;
   server_name <%= @host %>;
+  server_tokens off;     # don't show the version number, a security best practice
   root <%= @path %>/public;
 
   # individual nginx logs for this gitlab vhost
