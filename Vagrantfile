@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
   end
 end
 
+# The script will login "git" user right away when doing "vagrant ssh"
 Vagrant.configure("2") do |config|
-  config.vm.provision :shell, :inline => "cat /home/vagrant/.bashrc | grep 'sudo su git' || echo 'sudo su git' >> /home/vagrant/.bashrc"
+  config.vm.provision :shell, :path => "./git_login.sh"
 end
