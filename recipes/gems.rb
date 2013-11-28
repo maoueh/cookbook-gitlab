@@ -63,7 +63,7 @@ execute "bundle install" do
   user gitlab['user']
   group gitlab['group']
   action :run
-  not_if File.exists?(File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}"))
+  not_if { File.exists?(File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}")) }
 end
 
 file File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}") do
