@@ -5,10 +5,7 @@
 * [VirtualBox](https://www.virtualbox.org)
 * [Vagrant 1.3.x](http://vagrantup.com)
 
-**Note:**
-Make sure to use Vagrant v1.3.x.
-Do not install via rubygems.org as there exists an old gem which will probably cause errors.
-Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
+Make sure to use Vagrant v1.3.x. Do not install Vagrant via rubygems.org as there exists an old gem which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version ~> `1.3.0`.
 
 ### Installation
 

@@ -1,7 +1,6 @@
 ### Production installation with Chef Solo
 
-You can easily install your server even if you don't have chef-server by using chef-solo.
-This is useful if you have only one server that you have to maintain so having chef-server would be an overkill.
+This guide details installing a GitLab server with Chef Solo. By using Chef Solo you do not need a decicated Chef Server.
 
 ### Requirements
 

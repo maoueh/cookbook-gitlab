@@ -10,10 +10,7 @@
 sudo apt-get install nfs-kernel-server nfs-common portmap
 ```
 
-**Note:**
-Make sure to use Vagrant v1.3.x.
-Do not install via rubygems.org as there exists an old gem which will probably cause errors.
-Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
+Make sure to use Vagrant v1.3.x. Do not install Vagrant via rubygems.org as there exists an old gem which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version ~> `1.3.0`.
 
 On OS X you can also choose to use [the (commercial) Vagrant VMware Fusion plugin](http://www.vagrantup.com/vmware) instead of VirtualBox.
 
