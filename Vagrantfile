@@ -69,3 +69,8 @@ Vagrant.configure("2") do |config|
     # chef.arguments = '-l debug'
   end
 end
+
+# The script will login "git" user right away when doing "vagrant ssh"
+Vagrant.configure("2") do |config|
+  config.vm.provision :shell, :path => "./git_login.sh"
+end
