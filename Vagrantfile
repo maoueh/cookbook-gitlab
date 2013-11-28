@@ -37,6 +37,12 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.provider :vmware_fusion do |v, override|
+    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
+    v.vmx["memsize"] = MEMORY
+    v.vmx["numvcpus"] = CORES
+  end
+
   # Install the version of Chef by the Vagrant Omnibus
   # version is :latest or "11.4.0"
   # Note:
