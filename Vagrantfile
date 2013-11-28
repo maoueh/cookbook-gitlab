@@ -69,3 +69,7 @@ Vagrant.configure("2") do |config|
     # chef.arguments = '-l debug'
   end
 end
+
+Vagrant.configure("2") do |config|
+  config.vm.provision :shell, :inline => "cat /home/vagrant/.bashrc | grep 'sudo su git' || echo 'sudo su git' >> /home/vagrant/.bashrc"
+end
