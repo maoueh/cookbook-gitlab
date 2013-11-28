@@ -5,7 +5,7 @@
 
 gitlab = node['gitlab']
 
-# To prevent random failures during bundle install, get the latest ca-bundle
+# To prevent random failures during bundle install, get the latest ca-bundle and update rubygems
 
 directory "/opt/local/etc/certs/" do
   owner gitlab['user']
@@ -23,12 +23,16 @@ remote_file "Fetch the latest ca-bundle" do
   action :create_if_missing
 end
 
+execute "Update rubygems" do
+  command "gem update --system"
+end
+
 ## Install Gems without ri and rdoc
 template File.join(gitlab['home'], ".gemrc") do
   source "gemrc.erb"
   user gitlab['user']
   group gitlab['group']
-  notifies :run, "execute[bundle install]", :immediately
+  action :create_if_missing
 end
 
 ### without
@@ -58,5 +62,10 @@ execute "bundle install" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  action :nothing
+  action :run
+  not_if File.exists?(File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}"))
+end
+
+file File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}") do
+  action :touch
 end
