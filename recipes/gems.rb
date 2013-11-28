@@ -6,9 +6,21 @@
 gitlab = node['gitlab']
 
 # To prevent random failures during bundle install, get the latest ca-bundle
-execute "Fetch the latest ca-bundle" do
-  command "curl http://curl.haxx.se/ca/cacert.pem --create-dirs -o /opt/local/etc/certs/cacert.pem"
-  not_if { File.exists?("/opt/local/etc/certs/cacert.pem") }
+
+directory "/opt/local/etc/certs/" do
+  owner gitlab['user']
+  group gitlab['group']
+  recursive true
+  mode 0755
+end
+
+remote_file "Fetch the latest ca-bundle" do
+  source "http://curl.haxx.se/ca/cacert.pem"
+  path "/opt/local/etc/certs/cacert.pem"
+  owner gitlab['user']
+  group gitlab['group']
+  mode 0755
+  action :create_if_missing
 end
 
 ## Install Gems without ri and rdoc
