@@ -1,19 +1,18 @@
-### Amazon Web Services
+### Development installation on Amazon Web Services (AWS)
 
-#### Requirements
+### Requirements
+
 * [VirtualBox](https://www.virtualbox.org)
 * [Vagrant 1.3.x](http://vagrantup.com)
 
-**Note:** Make sure to use Vagrant v1.3.x. Do not install via rubygems.org as there exists an old gem
-which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
+**Note:**
+Make sure to use Vagrant v1.3.x.
+Do not install via rubygems.org as there exists an old gem which will probably cause errors.
+Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
 
-### Vagrant Plugin
+### Installation
 
-* [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf)
-* [vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus)
-* [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
-
-Creates an AWS instance.
+Create an AWS instance:
 
 ```bash
 gem install berkshelf
@@ -28,13 +27,15 @@ cp ./example/Vagrantfile_aws ./Vagrantfile
 Fill in the AWS credentials under the aws section in Vagrantfile and then run:
 
 ```bash
-vagrant up --provider=aws
+vagrant up --provider=aws --provision
 ```
 
-HostName setting.
+HostName setting:
 
 ```bash
 vagrant ssh-config | awk '/HostName/ {print $2}'
 editor ./Vagrantfile
 vagrant provision
 ```
+
+For more information on how to run the application, the tests and more please see the [Development installation on a virtual machine](doc/development.md).

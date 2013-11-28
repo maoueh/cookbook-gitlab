@@ -1,41 +1,31 @@
 GitLab Cookbook
 ===============
 
-Chef cookbook with recipes to install GitLab.
+Chef cookbook with recipes to install GitLab and its dependencies:
 
 * GitLab: 6.2
 * GitLab Shell: 1.7.9
-* Ruby: 2.0.0p247
+* Ruby: 2.0.0p353
 * Redis: 2.6.13
 * Git: 1.7.12
 * Nginx: 1.1.19
 * PostgreSQL: 9.1.9
 * MySQL: 5.5.34
 
-## Requirements
-
-* [Berkshelf](http://berkshelf.com/)
-
-### Platforms:
+### Compatible operating systems
 
 Cookbook has been tested and it is known to work on:
 
 * Ubuntu (12.04, 12.10)
-* CentOS (6.4)
+* RHEL/CentOS (6.4)
 
 ## Installation
 
-* Development
+* [Development installation on a virtual machine](doc/development.md)
 
-For development environment checkout the [development doc](doc/development.md)
+* [Development installation on Amazon Web Services (AWS)](doc/aws_vagrant.md)
 
-* AWS
-
-Use the cookbook with [AWS](doc/aws_vagrant.md)
-
-* Production
-
-For production environment checkout the [production doc](doc/production.md)
+* [Production installation with Chef Solo](doc/production.md)
 
 ## Database
 
@@ -198,4 +188,4 @@ Proper Merge request must:
 
 ## License
 
-* MIT
+* [MIT](LICENSE)

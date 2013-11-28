@@ -1,8 +1,16 @@
-### chef-solo
+### Production installation with Chef Solo
 
 You can easily install your server even if you don't have chef-server by using chef-solo.
 This is useful if you have only one server that you have to maintain so having chef-server would be an overkill.
-**Note** Following steps assume that you have git, ruby (>= 1.9.3) and rubygems installed.
+
+### Requirements
+
+* git
+* ruby (>= 1.9.3)
+* rubygems installed.
+
+### Installation
+
 To get GitLab installed do:
 
 ```bash
@@ -25,7 +33,7 @@ Chef-solo command should start running and setting up GitLab and it's dependenci
 No errors should be reported and at the end of the run you should be able to navigate to the
 `HOSTNAME` you specified using your browser and connect to the GitLab instance.
 
-## Usage
+### Usage
 
 Add `gitlab::default` to the run list of chef-client.
 

@@ -1,31 +1,24 @@
-### Development
+### Development installation on a virtual machine
 
-#### Requirements
+### Requirements
 
 * [VirtualBox](https://www.virtualbox.org)
 * [Vagrant 1.3.x](http://vagrantup.com)
-
-**Note:** Make sure to use Vagrant v1.3.x. Do not install via rubygems.org as there exists an old gem
-which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
-
-### Vagrant Plugin
-
-* [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf)
-* [vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus)
-* [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
-* [vagrant-bindfs](https://github.com/gael-ian/vagrant-bindfs)
-
-* the NFS packages. Already there if you are using Mac OS, and
-  not necessary if you are using Windows. On Linux:
+* The NFS packages for the synced folder of Vagrant. These are already installed if you are using Mac OSX and not necessary if you are using Windows. On Linux install them by running:
 
 ```bash
 sudo apt-get install nfs-kernel-server nfs-common portmap
 ```
-    On OS X you can also choose to use [the (commercial) Vagrant VMware Fusion plugin](http://www.vagrantup.com/vmware) instead of VirtualBox.
 
-* some patience :)
+**Note:**
+Make sure to use Vagrant v1.3.x.
+Do not install via rubygems.org as there exists an old gem which will probably cause errors.
+Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version >= `1.3.x`.
 
-#### Vagrant
+On OS X you can also choose to use [the (commercial) Vagrant VMware Fusion plugin](http://www.vagrantup.com/vmware) instead of VirtualBox.
+
+### Installation
+
 `Vagrantfile` already contains the correct attributes so in order use this cookbook in a development environment following steps are needed:
 
 1. Check if you have a gem version of Vagrant installed:
@@ -49,7 +42,7 @@ vagrant plugin install vagrant-omnibus
 vagrant plugin install vagrant-bindfs
 git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git
 cd ./cookbook-gitlab
-vagrant up
+vagrant up --provision
 ```
 
 By default the VM uses 1.5GB of memory and 2 CPU cores. If you want to use more memory or cores you can use the GITLAB_VAGRANT_MEMORY and GITLAB_VAGRANT_CORES environment variables:
@@ -63,6 +56,8 @@ You can't use a vagrant project on an encrypted partition (ie. it won't work if 
 
 You'll be asked for your password to set up NFS shares.
 
+### Running the tests
+
 Once everything is done you can log into the virtual machine to run tests:
 
 ```bash
@@ -72,7 +67,7 @@ cd /home/git/gitlab/
 bundle exec rake gitlab:test
 ```
 
-Start the Gitlab app:
+### Start the Gitlab application
 
 ```bash
 cd /home/git/gitlab/
@@ -137,11 +132,11 @@ admin@local.host
 5iveL!fe
 ```
 
-#### OpenLdap
+### OpenLDAP
 
 If you need to setup OpenLDAP in order to test the functionality you can use the [basic OpenLDAP setup guide](doc/open_LDAP.md)
 
-#### Updating
+### Updating
 
 The gitlabhq version is _not_ updated when you rebuild your virtual machine with the following command:
 
@@ -155,4 +150,4 @@ You must update it yourself by going to the gitlabhq subdirectory in the gitlab-
 cd gitlabhq && git pull --ff origin master
 ```
 
-A bit of background on why this is needed. When you run 'vagrant up' there is a checkout action in the recipe that points to [gitlabhq repo](https://github.com/gitlabhq/gitlabhq). You won't see any difference when running 'git status' in the cookbook-gitlab repo because gitlabhq/ is in the [.gitignore](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/.gitignore). You can update the gitlabhq repo yourself or remove the gitlabhq directory so the repo is checked out again.
+A bit of background on why this is needed. When you run 'vagrant up' there is a checkout action in the recipe that points to [gitlabhq repo](https://github.com/gitlabhq/gitlabhq). You won't see any difference when running 'git status' in the cookbook-gitlab repo because the cloned directory is in the [.gitignore](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/.gitignore). You can update the gitlabhq repo yourself or remove the home_git so the repo is checked out again.
