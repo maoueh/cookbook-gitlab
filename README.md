@@ -1,41 +1,33 @@
 GitLab Cookbook
 ===============
 
-Chef cookbook with recipes to install GitLab.
+Chef cookbook with recipes to install GitLab and its dependencies:
 
 * GitLab: 6.2
 * GitLab Shell: 1.7.9
-* Ruby: 2.0.0p247
+* Ruby: 2.0.0p353
 * Redis: 2.6.13
 * Git: 1.7.12
 * Nginx: 1.1.19
 * PostgreSQL: 9.1.9
 * MySQL: 5.5.34
 
-## Requirements
-
-* [Berkshelf](http://berkshelf.com/)
-
-### Platforms:
+### Compatible operating systems
 
 Cookbook has been tested and it is known to work on:
 
 * Ubuntu (12.04, 12.10)
-* CentOS (6.4)
+* RHEL/CentOS (6.4)
 
 ## Installation
 
-* Development
+* [Development installation on a virtual machine with Vagrant](doc/development.md)
 
-For development environment checkout the [development doc](doc/development.md)
+* [Production installation on Amazon Web Services (AWS) with Vagrant](doc/aws_vagrant.md)
 
-* AWS
+* [Production installation with Chef Solo](doc/production.md)
 
-Use the cookbook with [AWS](doc/aws_vagrant.md)
-
-* Production
-
-For production environment checkout the [production doc](doc/production.md)
+If you want to do a production installation using AWS Opsworks please see the [cookbook for GitLab on AWS Opsworks repository](https://gitlab.com/gitlab-com/cookbook-gitlab-opsworks/blob/master/README.md).
 
 ## Database
 
@@ -173,9 +165,11 @@ Run tests with:
 bundle exec rspec
 ```
 
-## Acknowledgement
+## Acknowledgements
 
-This cookbook was based on work by [ogom](https://github.com/ogom/cookbook-gitlab). Thank you ogom!
+This cookbook was based on a [cookbbook by ogom](https://github.com/ogom/cookbook-gitlab). Thank you ogom!
+
+We would also like to thank Eric G. Wolfe for making the [first cookbook for CentOS](https://github.com/atomic-penguin/cookbook-gitlab). Thank Eric!
 
 ## Contributing
 
@@ -198,4 +192,4 @@ Proper Merge request must:
 
 ## License
 
-* MIT
+* [MIT](LICENSE)
