@@ -165,9 +165,11 @@ Run tests with:
 bundle exec rspec
 ```
 
-## Acknowledgement
+## Acknowledgements
 
-This cookbook was based on work by [ogom](https://github.com/ogom/cookbook-gitlab). Thank you ogom!
+This cookbook was based on a [cookbbook by ogom](https://github.com/ogom/cookbook-gitlab). Thank you ogom!
+
+We would also like to thank Eric G. Wolfe for making the [first cookbook for CentOS](https://github.com/atomic-penguin/cookbook-gitlab). Thank Eric!
 
 ## Contributing
 
