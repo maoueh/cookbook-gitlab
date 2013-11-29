@@ -26,6 +26,8 @@ end
 ## Create the GitLab database & grant all privileges on database
 gitlab['environments'].each do |environment|
   mysql_database "gitlabhq_#{environment}" do
+    encoding "utf8"
+    collation "utf8_unicode_ci"
     connection mysql_connection
     action :create
   end
