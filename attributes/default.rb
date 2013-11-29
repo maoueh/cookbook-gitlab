@@ -24,11 +24,6 @@ default['gitlab']['shell_revision'] = "v1.7.9"
 default['gitlab']['repository'] = "https://github.com/gitlabhq/gitlabhq.git"
 
 # GitLab shell config
-if node['gitlab']['env'] == "production"
-  default['gitlab']['url'] = "http://localhost:8080/"
-else
-  default['gitlab']['url'] = "http://localhost:3000/"
-end
 default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
 default['gitlab']['redis_host'] = "127.0.0.1"
 default['gitlab']['redis_port'] = "6379"
@@ -37,11 +32,7 @@ default['gitlab']['namespace']  = "resque:gitlab"
 # GitLab hq config
 default['gitlab']['git_path'] = "/usr/local/bin/git"
 default['gitlab']['host'] = "localhost"
-if node['gitlab']['env'] == "production"
-  default['gitlab']['port'] = "80"
-else
-  default['gitlab']['port'] = "3000"
-end
+
 default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
 
@@ -77,11 +68,6 @@ default['gitlab']['home'] = "/home/git"
 default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
-if node['gitlab']['env'] == "production"
-  default['gitlab']['revision'] = "6-3-stable"
-else
-  default['gitlab']['revision'] = "master"
-end
 default['gitlab']['path'] = "/home/git/gitlab" # Do not change this attribute in production since some code from the GitLab repo such as init.d assume this path.
 
 # GitLab shell config
@@ -91,8 +77,13 @@ default['gitlab']['repos_path'] = "/home/git/repositories"
 default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
 
 # Setup environments
-if node['gitlab']['env'] == "production"
-  default['gitlab']['environments'] = %w{production}
-else
+if node['gitlab']['env'] == "development"
+  default['gitlab']['port'] = "3000"
+  default['gitlab']['url'] = "http://localhost:3000/"
   default['gitlab']['environments'] = %w{development test}
+else
+  default['gitlab']['environments'] = %w{production}
+  default['gitlab']['url'] = "http://localhost:80/"
+  default['gitlab']['revision'] = "6-3-stable"
+  default['gitlab']['port'] = "80"
 end
