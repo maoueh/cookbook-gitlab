@@ -18,7 +18,9 @@ user gitlab['user'] do
   home gitlab['home']
   shell "/bin/bash"
   uid gitlab['user_uid']
-  gid gitlab['user_gid']
+  # We already created a user with specific gid so now we can supply the name
+  # This line will make sure that we always have the correct group associated to the user
+  gid gitlab['group']
   supports :manage_home => true
 end
 
