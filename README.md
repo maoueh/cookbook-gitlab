@@ -167,19 +167,11 @@ bundle exec rspec
 
 ## Acknowledgements
 
-This cookbook was based on a [cookbbook by ogom](https://github.com/ogom/cookbook-gitlab). Thank you ogom!
-
-We would also like to thank Eric G. Wolfe for making the [first cookbook for CentOS](https://github.com/atomic-penguin/cookbook-gitlab). Thank Eric!
+This cookbook was based on a [cookbbook by ogom](https://github.com/ogom/cookbook-gitlab), thank you ogom! We would also like to thank Eric G. Wolfe for making the [first cookbook for CentOS](https://github.com/atomic-penguin/cookbook-gitlab), thanks Eric!
 
 ## Contributing
 
-We welcome all contributions.
-
-Proper Merge request must:
-
-1. Explain in description what it does
-1. Explain which platforms it is run on and which platforms are untested
-1. Contain passing `chefspec` tests
+Please see the [Contributing doc](CONTRIBUTING.md).
 
 ## Links
 
