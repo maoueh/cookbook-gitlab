@@ -12,4 +12,4 @@ if [ ! -f /etc/profile.d/message.sh ]; then
   echo 'cat /etc/motd_$USER' >> /etc/profile.d/message.sh
 fi
 
-cat /home/vagrant/.bashrc | grep 'sudo su git' || echo 'sudo su git' >> /home/vagrant/.bashrc
+cat /home/vagrant/.bashrc | grep 'sudo su - git' || echo 'sudo su - git' >> /home/vagrant/.bashrc
