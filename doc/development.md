@@ -1,4 +1,4 @@
-### Development installation on a virtual machine
+### Development installation on a virtual machine with Vagrant
 
 ### Requirements
 

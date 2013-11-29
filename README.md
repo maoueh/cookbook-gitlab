@@ -21,11 +21,13 @@ Cookbook has been tested and it is known to work on:
 
 ## Installation
 
-* [Development installation on a virtual machine](doc/development.md)
+* [Development installation on a virtual machine with Vagrant](doc/development.md)
 
-* [Development installation on Amazon Web Services (AWS)](doc/aws_vagrant.md)
+* [Production installation on Amazon Web Services (AWS) with Vagrant](doc/aws_vagrant.md)
 
 * [Production installation with Chef Solo](doc/production.md)
+
+If you want to do a production installation using AWS Opsworks please see the [cookbook for GitLab on AWS Opsworks repository](https://gitlab.com/gitlab-com/cookbook-gitlab-opsworks/blob/master/README.md).
 
 ## Database
 

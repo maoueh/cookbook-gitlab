@@ -1,4 +1,4 @@
-### Development installation on Amazon Web Services (AWS)
+### Production installation on Amazon Web Services (AWS) with Vagrant
 
 ### Requirements
 
