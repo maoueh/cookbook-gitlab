@@ -18,7 +18,7 @@ describe "gitlab::gitlab_shell_install" do
           variables: {
             user: "git",
             home: "/home/git",
-            url: "http://localhost:8080/",
+            url: "http://localhost:80/",
             repos_path: "/home/git/repositories",
             redis_path: "/usr/local/bin/redis-cli",
             redis_host: "127.0.0.1",
@@ -64,7 +64,7 @@ describe "gitlab::gitlab_shell_install" do
           variables: {
             user: "git",
             home: "/home/git",
-            url: "http://localhost:8080/",
+            url: "http://localhost:80/",
             repos_path: "/home/git/repositories",
             redis_path: "/usr/local/bin/redis-cli",
             redis_host: "127.0.0.1",

@@ -80,6 +80,7 @@ default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
 if node['gitlab']['env'] == "development"
   default['gitlab']['port'] = "3000"
   default['gitlab']['url'] = "http://localhost:3000/"
+  default['gitlab']['revision'] = "master"
   default['gitlab']['environments'] = %w{development test}
 else
   default['gitlab']['environments'] = %w{production}
