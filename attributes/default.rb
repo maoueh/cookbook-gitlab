@@ -45,6 +45,7 @@ default['gitlab']['bundle_install'] = "SSL_CERT_FILE=/opt/local/etc/certs/cacert
 
 default['gitlab']['database_adapter'] = "mysql"
 default['gitlab']['database_password'] = "datapass"
+default['gitlab']['database_user'] = "git"
 default['gitlab']['env'] = "production"
 
 default['mysql']['server_root_password'] = "rootpass"

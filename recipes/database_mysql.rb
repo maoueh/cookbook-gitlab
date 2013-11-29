@@ -17,7 +17,7 @@ mysql_connection = {
 }
 
 ## Create a user for GitLab.
-mysql_database_user gitlab['user'] do
+mysql_database_user gitlab['database_user'] do
   connection mysql_connection
   password gitlab['database_password']
   action :create
@@ -32,7 +32,7 @@ gitlab['environments'].each do |environment|
     action :create
   end
 
-  mysql_database_user gitlab['user'] do
+  mysql_database_user gitlab['database_user'] do
     connection mysql_connection
     password gitlab['database_password']
     database_name "gitlabhq_#{environment}"
