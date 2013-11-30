@@ -55,11 +55,10 @@ You'll be asked for your password to set up NFS shares.
 
 ### Running the tests
 
-Once everything is done you can log into the virtual machine to run tests:
+Once everything is done you can log into the virtual machine and run the tests as the git user:
 
 ```bash
 vagrant ssh
-sudo su git
 cd /home/git/gitlab/
 bundle exec rake gitlab:test
 ```
@@ -80,7 +79,16 @@ git remote add mine git://github.com/me/gitlabhq.git
 git remote set-url origin git://github.com/me/gitlabhq.git
 ```
 
-##### Virtual Machine Management
+#### Accessing the application
+
+`http://0.0.0.0:3000/` or your server for your first GitLab login.
+
+```
+admin@local.host
+5iveL!fe
+```
+
+#### Virtual Machine Management
 
 When done just log out with `^D` and suspend the virtual machine
 
@@ -118,15 +126,6 @@ Finally, to completely wipe the virtual machine from the disk **destroying all i
 
 ```bash
 vagrant destroy # DANGER: all is gone
-```
-
-#### Done!
-
-`http://0.0.0.0:3000/` or your server for your first GitLab login.
-
-```
-admin@local.host
-5iveL!fe
 ```
 
 ### OpenLDAP
