@@ -91,3 +91,15 @@ else
   default['gitlab']['revision'] = "6-3-stable"
   default['gitlab']['port'] = "80"
 end
+
+# AWS is disabled by default. If enabled is set to true, bundler will install gems from aws group and use the credentials to populate config/aws.yml
+default['gitlab']['aws'] = {
+  :enabled => true,
+  :provider => 'AWS', # required
+  :aws_access_key_id     => 'yyy', # required
+  :aws_secret_access_key => 'xxx', # required
+  :bucket => 'zzz', # optional
+  :region => 'eu-west-1', # optional, defaults to 'us-east-1'
+  :host     => 's3.example.com', # optional, defaults to nil
+  :endpoint  => 'https://s3.example.com:8080' # optional, defaults to nil
+}

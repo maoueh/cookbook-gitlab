@@ -241,6 +241,24 @@ when 'production'
       resource.run_action :create
     end
   end
+
+  if gitlab['aws']['enabled']
+    template "aws.yml" do
+      owner gitlab['user']
+      group gitlab['group']
+      path "#{gitlab['path']}/config/aws.yml"
+      mode 0755
+      action :create_if_missing
+      variables({
+        :aws_access_key_id => gitlab['aws']['aws_access_key_id'],
+        :aws_secret_access_key => gitlab['aws']['aws_secret_access_key'],
+        :bucket => gitlab['aws']['bucket'],
+        :region => gitlab['aws']['region'],
+        :host => gitlab['aws']['host'],
+        :endpoint => gitlab['aws']['endpoint']
+      })
+    end
+  end
 else
   ## For execute javascript test
   include_recipe "phantomjs"
