@@ -112,7 +112,7 @@ template File.join(gitlab['path'], "config", "database.yml") do
   user gitlab['user']
   group gitlab['group']
   variables({
-    :user => gitlab['user'],
+    :user => gitlab['database_user'],
     :password => gitlab['database_password']
   })
 end
