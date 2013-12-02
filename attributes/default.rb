@@ -91,3 +91,7 @@ else
   default['gitlab']['revision'] = "6-3-stable"
   default['gitlab']['port'] = "80"
 end
+
+default['gitlab']['monitrc']['unicorn_pid_path'] = "#{default['gitlab']['path']}/tmp/pids/unicorn.pid"
+default['gitlab']['monitrc']['sidekiq_pid_path'] = "#{default['gitlab']['path']}/tmp/pids/sidekiq.pid"
+default['gitlab']['monitrc']['notify_email'] = "monitrc@localhost"

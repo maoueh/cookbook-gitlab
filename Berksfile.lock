@@ -8,6 +8,11 @@
       "git": "git://github.com/customink-webops/magic_shell.git",
       "ref": "447b4b67420d3a7a749d2dd3b13a7f9aceb54c36"
     },
+    "monit": {
+      "locked_version": "1.4.0",
+      "git": "git://github.com/phlipper/chef-monit.git",
+      "ref": "276c99ba08869ebd5117267d91a2ff6aa0d9fc6b"
+    },
     "redisio": {
       "locked_version": "1.7.0"
     },
@@ -30,7 +35,7 @@
       "locked_version": "1.1.0"
     },
     "mysql": {
-      "locked_version": "2.1.2"
+      "locked_version": "4.0.6"
     },
     "database": {
       "locked_version": "1.5.2"
