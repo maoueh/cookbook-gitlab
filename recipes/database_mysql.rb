@@ -11,7 +11,7 @@ include_recipe "mysql::server"
 include_recipe "database::mysql"
 
 mysql_connection = {
-  :host => 'localhost',
+  :host => mysql['server_host'],
   :username => 'root',
   :password => mysql['server_root_password']
 }

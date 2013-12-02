@@ -48,11 +48,13 @@ default['gitlab']['database_password'] = "datapass"
 default['gitlab']['database_user'] = "git"
 default['gitlab']['env'] = "production"
 
+default['mysql']['server_host'] = "localhost"
 default['mysql']['server_root_password'] = "rootpass"
 default['mysql']['server_repl_password'] = "replpass"
 default['mysql']['server_debian_password'] = "debianpass"
 
 default['postgresql']['password']['postgres'] = "psqlpass"
+default['postgresql']['server_host'] = "localhost"
 
 default['postfix']['mail_type'] = "client"
 default['postfix']['myhostname'] = "mail.localhost"
