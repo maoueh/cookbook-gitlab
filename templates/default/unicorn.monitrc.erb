@@ -1,6 +1,6 @@
 check process unicorn with pidfile <%= @unicorn_pid_path %>
   alert <%= @notify_email %> but not on { ppid }
   start program = "/bin/cat /dev/null"
-  stop program = "/bin/su - git -c 'RAILS_ENV=production /home/git/gitlab/script/web reload'"
+  stop program = "/bin/su - <%= @gitlab_user %> -c 'RAILS_ENV=production <%= @gitlab_path %>/script/web reload'"
   if totalmem is greater than 1000.0 MB for 25 cycles then restart
   if cpu is greater than 80% for 50 cycles then restart
