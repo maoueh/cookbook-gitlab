@@ -24,3 +24,15 @@ monit_monitrc "unicorn" do
     notify_email: monitrc['notify_email']
   })
 end
+
+directory "#{gitlab['path']}/bin" do
+  user gitlab['user']
+  group gitlab['group']
+  mode 0755
+  action :create
+end
+
+file "#{gitlab['path']}/bin/test_sidekiq_max_workers.sh" do
+  mode 0755
+  action :create_if_missing
+end
