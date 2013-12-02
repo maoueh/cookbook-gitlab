@@ -40,11 +40,10 @@ bundle_without = []
 case gitlab['database_adapter']
 when 'mysql'
   bundle_without << 'postgres'
-  bundle_without << 'aws' if gitlab['aws']['enabled']
 when 'postgresql'
   bundle_without << 'mysql'
-  bundle_without << 'aws' if gitlab['aws']['enabled']
 end
+bundle_without << 'aws' unless gitlab['aws']['enabled']
 
 case gitlab['env']
 when 'production'
