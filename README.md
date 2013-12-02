@@ -63,6 +63,10 @@ To use `postgresql` override default credentials by supplying the following json
 }
 ```
 
+## Monitoring
+
+Basic monitoring can be [setup with monit](doc/monit.md)
+
 ## Recipes
 
 ### clone
