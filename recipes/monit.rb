@@ -25,11 +25,16 @@ monit_monitrc "sidekiq" do
   })
 end
 
+unicorn = monitrc['unicorn']
 monit_monitrc "unicorn" do
   variables ({
     gitlab_user: gitlab['user'],
     gitlab_path: gitlab['path'],
-    unicorn_pid_path: monitrc['unicorn_pid_path'],
+    unicorn_pid_path: unicorn['pid_path'],
+    mem_threshold: unicorn['mem_threshold'],
+    mem_cycles_number: unicorn['mem_cycles_number'],
+    cpu_threshold: unicorn['cpu_threshold'],
+    cpu_cycles_number: unicorn['cpu_cycles_number'],
     notify_email: monitrc['notify_email']
   })
 end
