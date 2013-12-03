@@ -1,6 +1,6 @@
 # Git
 default['gitlab']['git']['prefix'] = "/usr/local"
-default['gitlab']['git']['version'] = "1.7.12.4"
+default['gitlab']['git']['version'] = "1.8.4.1"
 default['gitlab']['git']['url'] = "https://github.com/git/git/archive/v#{node['gitlab']['git']['version']}.zip"
 
 if platform_family?("rhel")
