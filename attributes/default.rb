@@ -104,6 +104,17 @@ default['gitlab']['aws'] = {
   :endpoint  => 'https://s3.example.com:8080' # optional, defaults to nil
 }
 
-default['gitlab']['monitrc']['unicorn_pid_path'] = "#{default['gitlab']['path']}/tmp/pids/unicorn.pid"
+default['gitlab']['monitrc']['unicorn'] = {
+  :pid_path => "#{default['gitlab']['path']}/tmp/pids/unicorn.pid",
+  :start_timeout => "80", # in seconds
+  :stop_timeout => "40", # in seconds
+  :cpu_threshold => "40", # in %
+  :cpu_cycles_number => "10",
+  :mem_threshold => "225", # in MB
+  :mem_cycles_number => "10",
+  :restart_number => "5", # Number of consecutive restarts before alerting.
+  :restart_cycles_number => "5" # Number of cycles to monitor for consecutive restarts.
+}
+
 default['gitlab']['monitrc']['sidekiq_pid_path'] = "#{default['gitlab']['path']}/tmp/pids/sidekiq.pid"
 default['gitlab']['monitrc']['notify_email'] = "monitrc@localhost"
