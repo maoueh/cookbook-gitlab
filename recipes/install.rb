@@ -151,12 +151,6 @@ execute "rake db:migrate" do
   not_if {File.exists?(file_migrate) || File.exists?(file_migrate_old)}
 end
 
-file file_migrate do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create
-end
-
 ### db:seed_fu
 file_seed = File.join(gitlab['home'], ".gitlab_seed_#{gitlab['env']}")
 file_seed_old = File.join(gitlab['home'], ".gitlab_seed")
@@ -259,7 +253,46 @@ when 'production'
       })
     end
   end
+
+  execute "rake assets:clean" do
+    command <<-EOS
+      PATH="/usr/local/bin:$PATH"
+      bundle exec rake assets:clean RAILS_ENV=#{gitlab['env']}
+    EOS
+    cwd gitlab['path']
+    user gitlab['user']
+    group gitlab['group']
+    not_if { File.exists?(file_migrate) }
+  end
+
+  execute "rake assets:precompile" do
+    command <<-EOS
+      PATH="/usr/local/bin:$PATH"
+      bundle exec rake assets:precompile RAILS_ENV=#{gitlab['env']}
+    EOS
+    cwd gitlab['path']
+    user gitlab['user']
+    group gitlab['group']
+    not_if { File.exists?(file_migrate) }
+  end
+
+  execute "rake cache:clear" do
+    command <<-EOS
+      PATH="/usr/local/bin:$PATH"
+      bundle exec rake cache:clear RAILS_ENV=#{gitlab['env']}
+    EOS
+    cwd gitlab['path']
+    user gitlab['user']
+    group gitlab['group']
+    not_if { File.exists?(file_migrate) }
+  end
 else
   ## For execute javascript test
   include_recipe "phantomjs"
+end
+
+file file_migrate do
+  owner gitlab['user']
+  group gitlab['group']
+  action :create
 end
