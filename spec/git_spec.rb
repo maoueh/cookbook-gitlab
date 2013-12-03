@@ -13,8 +13,8 @@ describe "gitlab::git" do
       end
 
       before do
-        stub_command("test -f /var/chef/cache/git-1.7.12.4.zip").and_return(false)
-        stub_command("git --version | grep 1.7.12.4").and_return(false)
+        stub_command("test -f /var/chef/cache/git-1.8.4.1.zip").and_return(false)
+        stub_command("git --version | grep 1.8.4.1").and_return(false)
       end
 
       it "installs all git required packages" do
@@ -25,12 +25,12 @@ describe "gitlab::git" do
       end
 
       it 'gets the source code for git' do
-        expect(chef_run).to create_remote_file('/var/chef/cache/git-1.7.12.4.zip').with(mode: 0644, source: "https://github.com/git/git/archive/v1.7.12.4.zip")
+        expect(chef_run).to create_remote_file('/var/chef/cache/git-1.8.4.1.zip').with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
       end
 
       it 'executes compiling git from source' do
-        resource = chef_run.find_resource(:execute, 'Extracting and Building Git 1.7.12.4 from Source')
-        expect(resource.command).to eq("    unzip -q git-1.7.12.4.zip\n    cd git-1.7.12.4 && make prefix=/usr/local install\n")
+        resource = chef_run.find_resource(:execute, 'Extracting and Building Git 1.8.4.1 from Source')
+        expect(resource.command).to eq("    unzip -q git-1.8.4.1.zip\n    cd git-1.8.4.1 && make prefix=/usr/local install\n")
         expect(resource.cwd).to eq("/var/chef/cache")
       end
     end
@@ -45,8 +45,8 @@ describe "gitlab::git" do
       end
 
       before do
-        stub_command("test -f /var/chef/cache/git-1.7.12.4.zip").and_return(false)
-        stub_command("git --version | grep 1.7.12.4").and_return(false)
+        stub_command("test -f /var/chef/cache/git-1.8.4.1.zip").and_return(false)
+        stub_command("git --version | grep 1.8.4.1").and_return(false)
       end
 
       it "installs all git required packages" do
@@ -57,12 +57,12 @@ describe "gitlab::git" do
       end
 
       it 'gets the source code for git' do
-        expect(chef_run).to create_remote_file('/var/chef/cache/git-1.7.12.4.zip').with(mode: 0644, source: "https://github.com/git/git/archive/v1.7.12.4.zip")
+        expect(chef_run).to create_remote_file('/var/chef/cache/git-1.8.4.1.zip').with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
       end
 
       it 'executes compiling git from source' do
-        resource = chef_run.find_resource(:execute, 'Extracting and Building Git 1.7.12.4 from Source')
-        expect(resource.command).to eq("    unzip -q git-1.7.12.4.zip\n    cd git-1.7.12.4 && make prefix=/usr/local install\n")
+        resource = chef_run.find_resource(:execute, 'Extracting and Building Git 1.8.4.1 from Source')
+        expect(resource.command).to eq("    unzip -q git-1.8.4.1.zip\n    cd git-1.8.4.1 && make prefix=/usr/local install\n")
         expect(resource.cwd).to eq("/var/chef/cache")
       end
     end

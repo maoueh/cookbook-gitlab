@@ -94,7 +94,7 @@ end
 
 # AWS is disabled by default. If enabled is set to true, bundler will install gems from aws group and use the credentials to populate config/aws.yml
 default['gitlab']['aws'] = {
-  :enabled => true,
+  :enabled => false,
   :provider => 'AWS', # required
   :aws_access_key_id     => 'yyy', # required
   :aws_secret_access_key => 'xxx', # required
