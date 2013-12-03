@@ -16,6 +16,7 @@ git gitlab['path'] do
   notifies :stop, "service[gitlab]", :immediately if File.exists?("/etc/init.d/gitlab")
   notifies :delete, "file[gems]", :immediately
   notifies :delete, "file[migrate]", :immediately
+  notifies :start, "service[gitlab]"
 end
 
 file "gems" do
