@@ -33,8 +33,6 @@ monit_monitrc "unicorn" do
     unicorn_pid_path: unicorn['pid_path'],
     mem_threshold: unicorn['mem_threshold'],
     mem_cycles_number: unicorn['mem_cycles_number'],
-    cpu_threshold: unicorn['cpu_threshold'],
-    cpu_cycles_number: unicorn['cpu_cycles_number'],
     notify_email: monitrc['notify_email']
   })
 end

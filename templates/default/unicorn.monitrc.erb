@@ -3,4 +3,3 @@ check process unicorn with pidfile <%= @unicorn_pid_path %>
   start program = "/bin/cat /dev/null"
   stop program = "/bin/su - <%= @gitlab_user %> -c 'RAILS_ENV=production <%= @gitlab_path %>/script/web reload'"
   if totalmem is greater than <%= @mem_threshold %> MB for <%= @mem_cycles_number %> cycles then restart
-  if totalcpu is greater than <%= @cpu_threshold %>% for <%= @cpu_cycles_number %> cycles then restart
