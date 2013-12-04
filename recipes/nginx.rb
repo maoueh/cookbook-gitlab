@@ -47,17 +47,22 @@ else
 end
 
 if gitlab['ssl_certificate_path'] && gitlab['ssl_certificate_key_path']
-  directory "/etc/nginx/ssl/" do
+  directory "#{gitlab['ssl_certificate_path']}" do
     recursive true
     mode 0755
   end
 
-  file "/etc/nginx/ssl/#{gitlab['host']}.crt" do
+  directory "#{gitlab['ssl_certificate_key_path']}" do
+    recursive true
+    mode 0755
+  end
+
+  file "#{gitlab['ssl_certificate_path']}/#{gitlab['host']}.crt" do
     content gitlab['ssl_certificate']
     mode 0600
   end
 
-  file "/etc/nginx/ssl/#{gitlab['host']}.key" do
+  file "#{gitlab['ssl_certificate_key_path']}/#{gitlab['host']}.key" do
     content gitlab['ssl_certificate_key']
     mode 0600
   end

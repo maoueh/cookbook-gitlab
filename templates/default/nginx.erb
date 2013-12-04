@@ -24,8 +24,8 @@ server {
 
   <% if @port == '443' %>
   ssl on;
-  ssl_certificate <%= @ssl_certificate_path %>;
-  ssl_certificate_key <%= @ssl_certificate_key_path %>;
+  ssl_certificate <%= @ssl_certificate_path %>/<%= @host %>.crt;
+  ssl_certificate_key <%= @ssl_certificate_key_path %>/<%= @host %>.key;
   ssl_ciphers RC4:HIGH:!aNULL:!MD5;
   ssl_prefer_server_ciphers on;
   <% end %>

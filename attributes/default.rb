@@ -94,10 +94,10 @@ end
 
 # Nginx ssl certificates
 
-default['gitlab']['ssl_certificate_path'] = nil
-default['gitlab']['ssl_certificate_key_path'] = nil
-default['gitlab']['ssl_certificate'] = ""
-default['gitlab']['ssl_certificate_key'] = ""
+default['gitlab']['ssl_certificate_path'] = nil # Path to .crt file, eg. /etc/nginx/ssl/. If it doesn't exist it will be created
+default['gitlab']['ssl_certificate_key_path'] = nil # Path to .key file, eg. /etc/nginx/ssl/. If it doesn't exist it will be created
+default['gitlab']['ssl_certificate'] = "" # SSL certificate
+default['gitlab']['ssl_certificate_key'] = "" # SSL certificate key
 
 # AWS is disabled by default. If enabled is set to true, bundler will install gems from aws group and use the credentials to populate config/aws.yml
 default['gitlab']['aws'] = {
