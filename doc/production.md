@@ -71,3 +71,24 @@ To override default settings of this cookbook you have to supply a json to the n
   ]
 }
 ```
+### Enabling HTTPS
+
+In order to enable HTTPS you will need to provide the following custom attributes:
+
+```json
+{
+  "gitlab": {
+    "port": 443,
+    "url": "https://example.com/",
+    "ssl_certificate_path": "/etc/ssl/cert",
+    "ssl_certificate_key_path": "/etc/ssl/key",
+    "ssl_certificate": "-----BEGIN CERTIFICATE-----
+Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
+-----END CERTIFICATE-----",
+    "ssl_certificate_key": "-----BEGIN PRIVATE KEY-----
+Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
+-----END PRIVATE KEY-----"
+  }
+}
+```
+*Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start!
