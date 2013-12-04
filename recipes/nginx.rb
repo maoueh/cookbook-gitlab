@@ -46,7 +46,7 @@ else
   end
 end
 
-if gitlab['ssl_certificate_path'] && gitlab['ssl_certificate_key_path']
+if gitlab['port'] == "443"
   directory "#{gitlab['ssl_certificate_path']}" do
     recursive true
     mode 0755
