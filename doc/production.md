@@ -4,15 +4,26 @@ This guide details installing a GitLab server with Chef Solo. By using Chef Solo
 
 ### Requirements
 
-Ubuntu 12.04.
+Ubuntu 12.04 or CentOS 6.4
 
 ### Installation
 
-To get GitLab installed do:
+To get GitLab installed first install the basic system packages:
 
 ```bash
+## Ubuntu
 sudo apt-get update
 sudo apt-get install -y build-essential git # We need git to clone the cookbook, newer version will be compiled using the cookbook
+```
+
+```bash
+## Centos
+yum groupinstall -y "Development Tools"
+```
+
+Following steps are the same for both OS:
+
+```bash
 cd /tmp
 curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
 sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc

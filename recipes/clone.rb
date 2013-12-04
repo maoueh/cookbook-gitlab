@@ -18,12 +18,18 @@ git gitlab['path'] do
   notifies :delete, "file[gitlab start]", :immediately
 end
 
+## Section below won't be triggered on the first run
+## This will update gitlab instance when the revision attribute changes
+
 bundle_run = file "gems" do
   path File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}")
   notifies :run, "execute[bundle on update]", :immediately
   action :nothing
 end
 
+# Since correct bundle install ran at the first run
+# this will install the gems after we checkout new branch
+# Needed before we stop GitLab instance because sidekiq won't get shut down properly otherwise
 execute "bundle on update" do
   command "bundle"
   cwd gitlab['path']
