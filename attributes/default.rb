@@ -92,6 +92,13 @@ else
   default['gitlab']['port'] = "80"
 end
 
+# Nginx ssl certificates
+
+default['gitlab']['ssl_certificate_path'] = nil
+default['gitlab']['ssl_certificate_key_path'] = nil
+default['gitlab']['ssl_certificate'] = ""
+default['gitlab']['ssl_certificate_key'] = ""
+
 # AWS is disabled by default. If enabled is set to true, bundler will install gems from aws group and use the credentials to populate config/aws.yml
 default['gitlab']['aws'] = {
   :enabled => true,
