@@ -4,29 +4,40 @@ This guide details installing a GitLab server with Chef Solo. By using Chef Solo
 
 ### Requirements
 
-* git
-* ruby (>= 1.9.3)
-* rubygems installed.
+Ubuntu 12.04 or CentOS 6.4
 
 ### Installation
 
-To get GitLab installed do:
+To get GitLab installed first install the basic system packages:
 
 ```bash
-gem install berkshelf
+## Ubuntu
+sudo apt-get update
+sudo apt-get install -y build-essential git # We need git to clone the cookbook, newer version will be compiled using the cookbook
+```
+
+```bash
+## Centos
+yum groupinstall -y "Development Tools"
+```
+
+Following steps are the same for both OS:
+
+```bash
 cd /tmp
 curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
-git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/gitlab
-cd /tmp/gitlab
-berks install --path /tmp/cookbooks
+sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
+git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/cookbook-gitlab
+cd /tmp/cookbook-gitlab
+/opt/chef/embedded/bin/berks install --path /tmp/cookbooks
 cat > /tmp/solo.rb << EOF
-cookbook_path    ["/tmp/cookbooks/", "/tmp/gitlab/"]
+cookbook_path    ["/tmp/cookbooks/"]
 log_level        :debug
 EOF
 cat > /tmp/solo.json << EOF
 {"gitlab": {"host": "HOSTNAME", "url": "http://FQDN:80/"}, "recipes":["gitlab::default"]}
 EOF
-chef-solo -c /tmp/solo.rb -j /tmp/solo.json
+sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 Chef-solo command should start running and setting up GitLab and it's dependencies.
 No errors should be reported and at the end of the run you should be able to navigate to the

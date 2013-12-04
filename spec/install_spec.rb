@@ -72,9 +72,7 @@ describe "gitlab::install" do
       describe "creating rack_attack.rb" do
 
         it 'triggers uncommenting the line in application.rb' do
-          # TODO Write the test that will check if notification is triggered within the ruby_block
           expect(chef_run).to run_ruby_block('Copy from example rack attack config')
-          # expect(copied_file).to notify('bash[Enable rack attack in application.rb]').to(:run).immediately
         end
       end
 

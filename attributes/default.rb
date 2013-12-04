@@ -88,13 +88,13 @@ if node['gitlab']['env'] == "development"
 else
   default['gitlab']['environments'] = %w{production}
   default['gitlab']['url'] = "http://localhost:80/"
-  default['gitlab']['revision'] = "6-3-stable"
+  default['gitlab']['revision'] = "6-3-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['port'] = "80"
 end
 
 # AWS is disabled by default. If enabled is set to true, bundler will install gems from aws group and use the credentials to populate config/aws.yml
 default['gitlab']['aws'] = {
-  :enabled => true,
+  :enabled => false,
   :provider => 'AWS', # required
   :aws_access_key_id     => 'yyy', # required
   :aws_secret_access_key => 'xxx', # required
