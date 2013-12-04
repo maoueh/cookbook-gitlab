@@ -18,9 +18,19 @@ git gitlab['path'] do
   notifies :delete, "file[gitlab start]", :immediately
 end
 
-file "gems" do
+bundle_run = file "gems" do
   path File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}")
+  notifies :run, "execute[bundle on update]", :immediately
   action :nothing
+end
+
+execute "bundle on update" do
+  command "bundle"
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  action :nothing
+  only_if { bundle_run.updated_by_last_action? }
 end
 
 file "migrate" do
@@ -36,6 +46,5 @@ end
 
 service "gitlab" do
   action :nothing
-  # command "service gitlab stop"
   only_if { gitlab_run.updated_by_last_action? }
 end
