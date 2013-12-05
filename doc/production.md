@@ -13,7 +13,7 @@ To get GitLab installed first install the basic system packages:
 ```bash
 ## Ubuntu
 sudo apt-get update
-sudo apt-get install -y build-essential git # We need git to clone the cookbook, newer version will be compiled using the cookbook
+sudo apt-get install -y build-essential git curl # We need git to clone the cookbook, newer version will be compiled using the cookbook
 ```
 
 ```bash
@@ -24,6 +24,8 @@ yum groupinstall -y "Development Tools"
 Following steps are the same for both OS:
 
 ```bash
+HOSTNAME=
+FQDN=
 cd /tmp
 curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
 sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
@@ -35,7 +37,7 @@ cookbook_path    ["/tmp/cookbooks/"]
 log_level        :debug
 EOF
 cat > /tmp/solo.json << EOF
-{"gitlab": {"host": "HOSTNAME", "url": "http://FQDN:80/"}, "recipes":["gitlab::default"]}
+{"gitlab": {"host": "$HOSTNAME", "url": "http://$FQDN:80/"}, "recipes":["gitlab::default"]}
 EOF
 sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
@@ -47,7 +49,8 @@ No errors should be reported and at the end of the run you should be able to nav
 
 Add `gitlab::default` to the run list of chef-client.
 
-To override default settings of this cookbook you have to supply a json to the node.
+To override default settings of this cookbook you have to supply a json to the node
+by editing the `/tmp/solo.json` file as:
 
 ```json
 {
