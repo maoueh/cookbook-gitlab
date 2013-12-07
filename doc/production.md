@@ -1,6 +1,7 @@
 ### Production installation with Chef Solo
 
-This guide details installing a GitLab server with Chef Solo. By using Chef Solo you do not need a decicated Chef Server.
+This guide details installing a GitLab server with Chef Solo.
+By using Chef Solo you do not need a decicated Chef Server.
 
 ### Requirements
 
@@ -8,58 +9,19 @@ Ubuntu 12.04 or CentOS 6.4
 
 ### Installation
 
-To get GitLab installed first install the basic system packages:
+Configure your installation parameters by editing the `/tmp/solo.json` file.
+Parameters which you will likely want to customize include:
 
 ```bash
-## Ubuntu
-sudo apt-get update
-sudo apt-get install -y build-essential git curl # We need git to clone the cookbook, newer version will be compiled using the cookbook
-```
-
-```bash
-## Centos
-yum groupinstall -y "Development Tools"
-```
-
-Following steps are the same for both OS:
-
-```bash
-HOSTNAME=
-FQDN=
-cd /tmp
-curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
-sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
-git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/cookbook-gitlab
-cd /tmp/cookbook-gitlab
-/opt/chef/embedded/bin/berks install --path /tmp/cookbooks
-cat > /tmp/solo.rb << EOF
-cookbook_path    ["/tmp/cookbooks/"]
-log_level        :debug
-EOF
 cat > /tmp/solo.json << EOF
-{"gitlab": {"host": "$HOSTNAME", "url": "http://$FQDN:80/"}, "recipes":["gitlab::default"]}
-EOF
-sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
-```
-Chef-solo command should start running and setting up GitLab and it's dependencies.
-No errors should be reported and at the end of the run you should be able to navigate to the
-`HOSTNAME` you specified using your browser and connect to the GitLab instance.
-
-### Usage
-
-Add `gitlab::default` to the run list of chef-client.
-
-To override default settings of this cookbook you have to supply a json to the node
-by editing the `/tmp/solo.json` file as:
-
-```json
 {
-  "postfix": {
-    "mail_type": "client",
-    "myhostname": "mail.example.com",
-    "mydomain": "example.com",
-    "myorigin": "mail.example.com",
-    "smtp_use_tls": "no"
+  "gitlab": {
+    "host": "example.com",
+    "url": "http://example.com/",
+    "email_from": "gitlab@example.com",
+    "support_email": "support@example.com",
+    "database_adapter": "postgresql",
+    "database_password": "datapass"
   },
   "postgresql": {
     "password": {
@@ -71,17 +33,58 @@ by editing the `/tmp/solo.json` file as:
     "server_repl_password": "replpass",
     "server_debian_password": "debianpass"
   },
-  "gitlab": {
-    "host": "example.com",
-    "url": "http://example.com/",
-    "email_from": "gitlab@example.com",
-    "support_email": "support@example.com",
-    "database_adapter": "postgresql",
-    "database_password": "datapass"
+  "postfix": {
+    "mail_type": "client",
+    "myhostname": "mail.example.com",
+    "mydomain": "example.com",
+    "myorigin": "mail.example.com",
+    "smtp_use_tls": "no"
   },
-  "run_list":[
+  "run_list": [
     "postfix",
     "gitlab::default"
   ]
 }
+EOF
+```
+
+You only need to keep parameters which need to differ from their default values.
+For example, if you are using `mysql`, there is no need to keep the `postgresql` configuration.
+
+Run:
+
+```bash
+distro="$(lsb_release -i | sed -r 's/.*:\t(.*)/\1/')"
+case "$distro" in
+  Ubuntu)
+    sudo apt-get update
+    sudo apt-get install -y build-essential git curl # We need git to clone the cookbook, newer version will be compiled using the cookbook
+  ;;
+  *)
+    # CentOS
+    yum groupinstall -y "Development Tools"
+  ;;
+esac
+cd /tmp
+curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
+sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
+git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/cookbook-gitlab
+cd /tmp/cookbook-gitlab
+/opt/chef/embedded/bin/berks install --path /tmp/cookbooks
+cat > /tmp/solo.rb << EOF
+cookbook_path    ["/tmp/cookbooks/"]
+log_level        :debug
+EOF
+sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
+```
+
+Chef-solo command should start running and setting up GitLab and it's dependencies.
+No errors should be reported and at the end of the run you should be able to navigate to the
+`gitlab['host']` you specified using your browser and connect to the GitLab instance.
+
+You should consider removing the `.json` file once you are done with it since
+it contains sensitive information:
+
+```bash
+rm /tmp/solo.json
 ```
