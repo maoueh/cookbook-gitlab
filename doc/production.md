@@ -60,9 +60,12 @@ case "$distro" in
     sudo apt-get update
     sudo apt-get install -y build-essential git curl # We need git to clone the cookbook, newer version will be compiled using the cookbook
   ;;
-  *)
-    # CentOS
+  CentOS)
     yum groupinstall -y "Development Tools"
+  ;;
+  *)
+    echo "Your distro is not supported." 1>&2
+    exit 1
   ;;
 esac
 cd /tmp
