@@ -22,6 +22,7 @@ default['gitlab']['shell_revision'] = "v1.7.9"
 
 # GitLab hq
 default['gitlab']['repository'] = "https://github.com/gitlabhq/gitlabhq.git"
+default['gitlab']['deploy_key'] = "" # Private key
 
 # GitLab shell config
 default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
