@@ -80,8 +80,6 @@ In order to enable HTTPS you will need to provide the following custom attribute
   "gitlab": {
     "port": 443,
     "url": "https://example.com/",
-    "ssl_certificate_path": "/etc/ssl/cert",
-    "ssl_certificate_key_path": "/etc/ssl/key",
     "ssl_certificate": "-----BEGIN CERTIFICATE-----
 Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
 -----END CERTIFICATE-----",
@@ -91,4 +89,4 @@ Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
   }
 }
 ```
-*Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start!
+*Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start! By default, both the certificate and key will be located in `/etc/ssl/` and will have the name of HOSTNAME, eg. `/etc/ssl/example.com.crt` and `/etc/ssl/example.com.key`.
