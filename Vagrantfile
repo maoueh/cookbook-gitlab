@@ -43,6 +43,10 @@ Vagrant.configure("2") do |config|
     v.vmx["numvcpus"] = CORES
   end
 
+  config.vm.provider :parallels do |v, override|
+    v.customize ["set", :id, "--memsize", MEMORY, "--cpus", CORES]
+  end
+  
   # Install the version of Chef by the Vagrant Omnibus
   # version is :latest or "11.4.0"
   # Note:
