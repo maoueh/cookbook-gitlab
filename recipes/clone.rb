@@ -12,6 +12,7 @@ unless gitlab['deploy_key'].empty?
     source "deploy-ssh-wrapper.erb"
     user gitlab['user']
     group gitlab['group']
+    mode 0755
     variables({
       :path => File.join(gitlab['home'], ".ssh")
     })

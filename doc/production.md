@@ -82,3 +82,20 @@ To override default settings of this cookbook you have to supply a json to the n
   ]
 }
 ```
+
+### Cloning GitLab from private repository
+
+By default GitLab is cloned from the public repository.
+If you need to clone GitLab from a private repository (eg. you are maintaining a fork or need to install GitLab Enterprise) you need to specify a deploy key:
+
+```json
+{
+  "gitlab": {
+    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----
+                   MIIEpAIBAAK
+                   -----END RSA PRIVATE KEY-----"
+  }
+}
+```
+
+*Note*: Deploy key is a *private key*.
