@@ -51,7 +51,7 @@ EOF
 You only need to keep parameters which need to differ from their default values.
 For example, if you are using `mysql`, there is no need to keep the `postgresql` configuration.
 
-Run:
+First we install dependencies based on the OS used:
 
 ```bash
 distro="$(lsb_release -i | sed -r 's/.*:\t(.*)/\1/')"
@@ -68,6 +68,11 @@ case "$distro" in
     exit 1
   ;;
 esac
+```
+
+Next run:
+
+```bash
 cd /tmp
 curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11.4.4
 sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
