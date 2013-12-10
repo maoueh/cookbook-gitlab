@@ -61,8 +61,14 @@ describe "gitlab::install" do
         )
       end
 
-      it 'copies unicorn.rb example file' do
-        expect(chef_run).to run_ruby_block('Copy unicorn config file from example')
+      it 'creates a unicorn config' do
+        expect(chef_run).to create_template('/home/git/gitlab/config/unicorn.rb').with(
+          source: 'unicorn.rb.erb',
+          variables: {
+            unicorn_workers_number: 2,
+            unicorn_timeout: 30
+          }
+        )
       end
 
       it 'copies rack_attack.rb example file' do
@@ -325,8 +331,14 @@ describe "gitlab::install" do
         )
       end
 
-      it 'copies unicorn.rb example file' do
-        expect(chef_run).to run_ruby_block('Copy unicorn config file from example')
+      it 'creates a unicorn config' do
+        expect(chef_run).to create_template('/home/git/gitlab/config/unicorn.rb').with(
+          source: 'unicorn.rb.erb',
+          variables: {
+            unicorn_workers_number: 2,
+            unicorn_timeout: 30
+          }
+        )
       end
 
       it 'copies rack_attack.rb example file' do
