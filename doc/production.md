@@ -96,3 +96,22 @@ it contains sensitive information:
 ```bash
 rm /tmp/solo.json
 ```
+### Enabling HTTPS
+
+In order to enable HTTPS you will need to provide the following custom attributes:
+
+```json
+{
+  "gitlab": {
+    "port": 443,
+    "url": "https://example.com/",
+    "ssl_certificate": "-----BEGIN CERTIFICATE-----
+Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
+-----END CERTIFICATE-----",
+    "ssl_certificate_key": "-----BEGIN PRIVATE KEY-----
+Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
+-----END PRIVATE KEY-----"
+  }
+}
+```
+*Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start! By default, both the certificate and key will be located in `/etc/ssl/` and will have the name of HOSTNAME, eg. `/etc/ssl/example.com.crt` and `/etc/ssl/example.com.key`.

@@ -6,11 +6,32 @@ upstream gitlab {
   server unix:/<%= @path %>/tmp/sockets/gitlab.socket;
 }
 
+<% if @port == '443' %>
 server {
-  listen 0.0.0.0:<%= @port %>;
+  listen *:80;
+  server_name <%= @host %>;
+  server_tokens off;
+  return 301 http://<%= @host %>$request_uri;
+}
+<% end %>
+
+server {
+  listen *:<%= @port %>;
   server_name <%= @host %>;
   server_tokens off;     # don't show the version number, a security best practice
   root <%= @path %>/public;
+  add_header X-Frame-Options DENY;
+
+  <% if @port == '443' %>
+  ssl on;
+  ssl_certificate <%= @ssl_certificate_path %>/<%= @host %>.crt;
+  ssl_certificate_key <%= @ssl_certificate_key_path %>/<%= @host %>.key;
+  ssl_ciphers RC4:HIGH:!aNULL:!MD5;
+  ssl_prefer_server_ciphers on;
+  <% end %>
+
+  # Set value of client_max_body_size to at least the value of git.max_size in gitlab.yml
+  client_max_body_size 5m;
 
   # individual nginx logs for this gitlab vhost
   access_log  /var/log/nginx/gitlab_access.log;
