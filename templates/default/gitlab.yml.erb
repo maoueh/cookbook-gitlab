@@ -17,7 +17,7 @@ production: &base
     ## Web server settings
     host: <%= @host %>
     port: <%= @port %>
-    https: false
+    https: <%= @port == "443" ? true : false %>
 
     # Uncomment and customize the last line to run in a non-root path
     # WARNING: This feature is known to work, but unsupported

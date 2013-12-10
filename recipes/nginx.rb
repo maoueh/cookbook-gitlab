@@ -19,7 +19,10 @@ template path do
   variables({
     :path => gitlab['path'],
     :host => gitlab['host'],
-    :port => gitlab['port']
+    :port => gitlab['port'],
+    :url => gitlab['url'],
+    :ssl_certificate_path => gitlab['ssl_certificate_path'],
+    :ssl_certificate_key_path => gitlab['ssl_certificate_key_path']
   })
 end
 
@@ -43,6 +46,27 @@ else
   end
 end
 
+if gitlab['port'] == "443"
+  directory "#{gitlab['ssl_certificate_path']}" do
+    recursive true
+    mode 0755
+  end
+
+  directory "#{gitlab['ssl_certificate_key_path']}" do
+    recursive true
+    mode 0755
+  end
+
+  file "#{gitlab['ssl_certificate_path']}/#{gitlab['host']}.crt" do
+    content gitlab['ssl_certificate']
+    mode 0600
+  end
+
+  file "#{gitlab['ssl_certificate_key_path']}/#{gitlab['host']}.key" do
+    content gitlab['ssl_certificate_key']
+    mode 0600
+  end
+end
 ## Restart
 service "nginx" do
   action :restart
