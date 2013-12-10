@@ -79,6 +79,10 @@ default['gitlab']['repos_path'] = "/home/git/repositories"
 # GitLab hq config
 default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
 
+# Unicorn specific configuration
+default['gitlab']['unicorn_workers_number'] = 2
+default['gitlab']['unicorn_timeout'] = 30
+
 # Setup environments
 if node['gitlab']['env'] == "development"
   default['gitlab']['port'] = "3000"
@@ -111,6 +115,7 @@ default['gitlab']['aws'] = {
   :endpoint  => 'https://s3.example.com:8080' # optional, defaults to nil
 }
 
+# Monit specific configuration
 default['gitlab']['monitrc']['sidekiq'] = {
   :pid_path => "#{default['gitlab']['path']}/tmp/pids/sidekiq.pid",
   :start_timeout => "80", # in seconds
