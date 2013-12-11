@@ -24,7 +24,8 @@ describe "gitlab::install" do
             satellites_path: '/home/git/gitlab-satellites',
             repos_path: '/home/git/repositories',
             shell_path: '/home/git/gitlab-shell',
-            signup_enabled: false
+            signup_enabled: false,
+            projects_limit: 10
           }
         )
       end
@@ -295,7 +296,8 @@ describe "gitlab::install" do
             satellites_path: '/home/git/gitlab-satellites',
             repos_path: '/home/git/repositories',
             shell_path: '/home/git/gitlab-shell',
-            signup_enabled: false
+            signup_enabled: false,
+            projects_limit: 10
           }
         )
       end

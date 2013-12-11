@@ -19,7 +19,9 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :satellites_path => gitlab['satellites_path'],
     :repos_path => gitlab['repos_path'],
     :shell_path => gitlab['shell_path'],
-    :signup_enabled => gitlab['signup_enabled']
+    :signup_enabled => gitlab['signup_enabled'],
+    :projects_limit => gitlab['projects_limit']
+
   })
   notifies :run, "bash[git config]", :immediately
 end

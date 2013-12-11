@@ -39,7 +39,7 @@ production: &base
     support_email: <%= @support_email %>
 
     ## User settings
-    default_projects_limit: 10
+    default_projects_limit: <%= @projects_limit %>
     # default_can_create_group: false  # default: true
     # username_changing_enabled: false # default: true - User can change her username/namespace
     ## Default theme
