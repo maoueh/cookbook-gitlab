@@ -114,4 +114,22 @@ Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
   }
 }
 ```
+
+### Cloning GitLab from private repository
+
+By default GitLab is cloned from the public repository.
+If you need to clone GitLab from a private repository (eg. you are maintaining a fork or need to install GitLab Enterprise) you need to specify a deploy key:
+
+```json
+{
+  "gitlab": {
+    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----
+                   MIIEpAIBAAK
+                   -----END RSA PRIVATE KEY-----"
+  }
+}
+```
+
+*Note*: Deploy key is a *private key*.
+=======
 *Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start! By default, both the certificate and key will be located in `/etc/ssl/` and will have the name of HOSTNAME, eg. `/etc/ssl/example.com.crt` and `/etc/ssl/example.com.key`.
