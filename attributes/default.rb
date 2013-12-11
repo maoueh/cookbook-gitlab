@@ -66,6 +66,8 @@ default['postfix']['smtp_use_tls'] = "no"
 # User
 default['gitlab']['user'] = "git" # Do not change this attribute in production since some code from the GitLab repo such as init.d script assume it is git.
 default['gitlab']['group'] = "git"
+default['gitlab']['user_uid'] = nil # Use to specify user id.
+default['gitlab']['user_gid'] = nil # Use to specify group id.
 default['gitlab']['home'] = "/home/git"
 
 # GitLab shell
