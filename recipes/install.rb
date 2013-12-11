@@ -38,6 +38,7 @@ end
     owner gitlab['user']
     group gitlab['group']
     mode 0755
+    not_if { File.exist?(File.join(gitlab['path'], path)) }
   end
 end
 
@@ -45,6 +46,7 @@ end
 directory gitlab['satellites_path'] do
   owner gitlab['user']
   group gitlab['group']
+  not_if { File.exist?(gitlab['satellites_path']) }
 end
 
 ### Unicorn config
