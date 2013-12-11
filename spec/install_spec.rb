@@ -25,7 +25,10 @@ describe "gitlab::install" do
             repos_path: '/home/git/repositories',
             shell_path: '/home/git/gitlab-shell',
             signup_enabled: false,
-            projects_limit: 10
+            projects_limit: 10,
+            oauth_enabled: false,
+            oauth_block_auto_created_users: true,
+            oauth_providers: []
           }
         )
       end
@@ -297,7 +300,10 @@ describe "gitlab::install" do
             repos_path: '/home/git/repositories',
             shell_path: '/home/git/gitlab-shell',
             signup_enabled: false,
-            projects_limit: 10
+            projects_limit: 10,
+            oauth_enabled: false,
+            oauth_block_auto_created_users: true,
+            oauth_providers: []
           }
         )
       end
