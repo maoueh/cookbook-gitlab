@@ -40,30 +40,15 @@ directory gitlab['satellites_path'] do
   group gitlab['group']
 end
 
-### Copy the example Unicorn config
-# Creating the file this way for the following reasons
-# 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks
-# 2. Using file resource is not an option because it is ran at compilation time
-# and at that point the file doesn't exist
-# 3. Using cookbook_file resource is not an option because we do not want to include the file
-# in the cookbook for maintenance reasons. Same for template resource.
-# 4. Using remote_file resource is not an option because Chef 11.4.0 connects to remote URI
-# see https://github.com/opscode/chef/blob/11.4.4/lib/chef/resource/remote_file.rb#L63
-# 5 Using bash and execute resource is not an option because they would run at every chef run
-# and supplying a restriction in the form of "not_if" would prevent an update of a file
-# if there is any
-# Ruby block is compiled at compilation time but only executed during execution time
-# allowing us to create a resource.
-
-ruby_block "Copy unicorn config file from example" do
-  block do
-    resource = Chef::Resource::File.new("unicorn.rb", run_context)
-    resource.path File.join(gitlab['path'], 'config', 'unicorn.rb')
-    resource.content IO.read(File.join(gitlab['path'], 'config', 'unicorn.rb.example'))
-    resource.owner gitlab['user']
-    resource.group gitlab['group']
-    resource.run_action :create
-  end
+### Unicorn config
+template File.join(gitlab['path'], 'config', 'unicorn.rb') do
+  source "unicorn.rb.erb"
+  user gitlab['user']
+  group gitlab['group']
+  variables({
+    :unicorn_workers_number => gitlab['unicorn_workers_number'],
+    :unicorn_timeout => gitlab['unicorn_timeout']
+  })
 end
 
 ### Enable Rack attack
