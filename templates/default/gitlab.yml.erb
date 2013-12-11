@@ -52,7 +52,7 @@ production: &base
 
     ## Users management
     # default: false - Account passwords are not sent via the email if signup is enabled.
-    # signup_enabled: true
+    signup_enabled: <%= @signup_enabled %>
 
     ## Automatic issue closing
     # If a commit message matches this regular express, all issues referenced from the matched text will be closed.

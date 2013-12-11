@@ -73,6 +73,7 @@ default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
 default['gitlab']['path'] = "/home/git/gitlab" # Do not change this attribute in production since some code from the GitLab repo such as init.d assume this path.
+default['gitlab']['signup_enabled'] = false
 
 # GitLab shell config
 default['gitlab']['repos_path'] = "/home/git/repositories"

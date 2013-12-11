@@ -18,7 +18,8 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :support_email => gitlab['support_email'],
     :satellites_path => gitlab['satellites_path'],
     :repos_path => gitlab['repos_path'],
-    :shell_path => gitlab['shell_path']
+    :shell_path => gitlab['shell_path'],
+    :signup_enabled => gitlab['signup_enabled']
   })
   notifies :run, "bash[git config]", :immediately
 end

@@ -12,7 +12,7 @@ describe "gitlab::install" do
         runner.converge("gitlab::install")
       end
 
-      it 'creates a gitlab shell config' do
+      it 'creates a gitlab config' do
         expect(chef_run).to create_template('/home/git/gitlab/config/gitlab.yml').with(
           source: 'gitlab.yml.erb',
           variables: {
@@ -23,7 +23,8 @@ describe "gitlab::install" do
             support_email: 'support@localhost',
             satellites_path: '/home/git/gitlab-satellites',
             repos_path: '/home/git/repositories',
-            shell_path: '/home/git/gitlab-shell'
+            shell_path: '/home/git/gitlab-shell',
+            signup_enabled: false
           }
         )
       end
@@ -282,7 +283,7 @@ describe "gitlab::install" do
         runner.converge("gitlab::install")
       end
 
-      it 'creates a gitlab shell config' do
+      it 'creates a gitlab config' do
         expect(chef_run).to create_template('/home/git/gitlab/config/gitlab.yml').with(
           source: 'gitlab.yml.erb',
           variables: {
@@ -293,7 +294,8 @@ describe "gitlab::install" do
             support_email: 'support@localhost',
             satellites_path: '/home/git/gitlab-satellites',
             repos_path: '/home/git/repositories',
-            shell_path: '/home/git/gitlab-shell'
+            shell_path: '/home/git/gitlab-shell',
+            signup_enabled: false
           }
         )
       end
