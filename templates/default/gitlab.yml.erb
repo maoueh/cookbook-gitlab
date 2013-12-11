@@ -143,7 +143,6 @@ production: &base
       - { name: '<%= provider['name'] -%>', app_id: '<%= provider['app_id'] -%>', app_secret: '<%= provider['app_secret'] -%>' <%= ", args: { #{provider['args']} } " if provider['args'] %>}
     <% end %>
 
-
   #
   # 3. Advanced settings
   # ==========================
@@ -189,12 +188,11 @@ production: &base
 
   extra: 
     ## Google analytics. Uncomment if you want it
-    # google_analytics_id: '_your_tracking_id'
+    <%= "google_analytics_id: '#{ @google_analytics_id }'" unless @google_analytics_id.empty? %>
 
     ## Text under sign-in page (Markdown enabled)
-    # sign_in_text: | 
-    #   ![Company Logo](http://www.companydomain.com/logo.png)
-    #   [Learn more about CompanyName](http://www.companydomain.com/)
+    <%= "sign_in_text: |
+          #{ @sign_in_text }" unless @sign_in_text.empty? %>
 
 development:
   <<: *base

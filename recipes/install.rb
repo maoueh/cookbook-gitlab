@@ -23,7 +23,9 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :projects_limit => gitlab['projects_limit'],
     :oauth_enabled => gitlab['oauth_enabled'],
     :oauth_block_auto_created_users => gitlab['oauth_block_auto_created_users'],
-    :oauth_providers => gitlab['oauth_providers']
+    :oauth_providers => gitlab['oauth_providers'],
+    :google_analytics_id => gitlab['extra']['google_analytics_id'],
+    :sign_in_text => gitlab['extra']['sign_in_text']
   })
   notifies :run, "bash[git config]", :immediately
 end
