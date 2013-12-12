@@ -118,7 +118,7 @@ default['gitlab']['ssl_certificate_key'] = "" # SSL certificate key
 
 # SMTP email
 default['gitlab']['smtp'] = {
-  :enabled => false
+  :enabled => false,
   :address => "email.server.com",
   :port => 456,
   :username => "smtp",
