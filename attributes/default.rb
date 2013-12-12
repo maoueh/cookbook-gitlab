@@ -116,6 +116,18 @@ default['gitlab']['ssl_certificate_key_path'] = "/etc/ssl" # Path to .key file. 
 default['gitlab']['ssl_certificate'] = "" # SSL certificate
 default['gitlab']['ssl_certificate_key'] = "" # SSL certificate key
 
+# SMTP email
+default['gitlab']['smtp'] = {
+  :enabled => false
+  :address => "email.server.com",
+  :port => 456,
+  :username => "smtp",
+  :password => "123456",
+  :domain => "gitlab.example.com",
+  :authentication => :login,
+  :enable_starttls_auto => true
+}
+
 # AWS is disabled by default. If enabled is set to true, bundler will install gems from aws group and use the credentials to populate config/aws.yml
 default['gitlab']['aws'] = {
   :enabled => false,
