@@ -28,6 +28,7 @@ describe "gitlab::install" do
             projects_limit: 10,
             oauth_enabled: false,
             oauth_block_auto_created_users: true,
+            oauth_allow_single_sign_on: false,
             oauth_providers: [],
             google_analytics_id: "",
             sign_in_text: ""
@@ -305,6 +306,7 @@ describe "gitlab::install" do
             projects_limit: 10,
             oauth_enabled: false,
             oauth_block_auto_created_users: true,
+            oauth_allow_single_sign_on: false,
             oauth_providers: [],
             google_analytics_id: "",
             sign_in_text: ""

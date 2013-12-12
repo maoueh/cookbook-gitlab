@@ -79,6 +79,7 @@ default['gitlab']['signup_enabled'] = false
 default['gitlab']['projects_limit'] = 10
 default['gitlab']['oauth_enabled'] = false
 default['gitlab']['oauth_block_auto_created_users'] = true
+default['gitlab']['oauth_allow_single_sign_on'] = false
 default['gitlab']['oauth_providers'] = [] # Example: default['gitlab']['oauth_providers'] = [ { "name": "google_oauth2", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET", "args": "access_type: 'offline', approval_prompt: ''" }, { "name": "twitter", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }, { "name":"github", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }]
 
 default['gitlab']['extra']['google_analytics_id'] = "" # Example:  "AA-1231231-1"
