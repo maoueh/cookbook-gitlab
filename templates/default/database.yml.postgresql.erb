@@ -8,7 +8,7 @@ production:
   pool: 5
   username: <%= @user %>
   password: <%= @password %>
-  host <%= @host %>
+  host: <%= @host %>
   # port: 5432 
   # socket: /tmp/postgresql.sock
 
@@ -22,7 +22,7 @@ development:
   pool: 5
   username: <%= @user %>
   password: <%= @password %>
-  host <%= @host %>
+  host: <%= @host %>
   # socket: /tmp/postgresql.sock
 
 #
@@ -35,7 +35,7 @@ staging:
   pool: 5
   username: <%= @user %>
   password: <%= @password %>
-  host <%= @host %>
+  host: <%= @host %>
   # socket: /tmp/postgresql.sock
 
 # Warning: The database defined as "test" will be erased and
@@ -48,5 +48,5 @@ test: &test
   pool: 5
   username: <%= @user %>
   password: <%= @password %>
-  host <%= @host %>
+  host: <%= @host %>
   # socket: /tmp/postgresql.sock
