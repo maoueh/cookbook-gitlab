@@ -88,25 +88,6 @@ ruby_block "Copy from example rack attack config" do
   end
 end
 
-# SMTP email settings
-if gitlab['smtp']['enabled']
-  smtp = gitlab['smtp']
-  template File.join(gitlab['path'], 'config', 'initializers', 'smtp_settings.rb') do
-    source "smtp_settings.rb.erb"
-    user gitlab['user']
-    group gitlab['group']
-    variables({
-      :address => smtp['address'],
-      :port => smtp['port'],
-      :username => smtp['username'],
-      :password => smtp['password'],
-      :domain => smtp['domain'],
-      :authentication => smtp['authentication'],
-      :enable_starttls_auto => smtp['enable_starttls_auto']
-    })
-  end
-end
-
 ### Configure Git global settings for git user, useful when editing via web
 bash "git config" do
   code <<-EOS
@@ -247,6 +228,25 @@ when 'production'
       resource.content IO.read(File.join(gitlab['path'], "lib", "support", "logrotate", "gitlab"))
       resource.mode 0644
       resource.run_action :create
+    end
+  end
+
+  # SMTP email settings
+  if gitlab['smtp']['enabled']
+    smtp = gitlab['smtp']
+    template File.join(gitlab['path'], 'config', 'initializers', 'smtp_settings.rb') do
+      source "smtp_settings.rb.erb"
+      user gitlab['user']
+      group gitlab['group']
+      variables({
+        :address => smtp['address'],
+        :port => smtp['port'],
+        :username => smtp['username'],
+        :password => smtp['password'],
+        :domain => smtp['domain'],
+        :authentication => smtp['authentication'],
+        :enable_starttls_auto => smtp['enable_starttls_auto']
+      })
     end
   end
 
