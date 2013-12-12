@@ -4,6 +4,6 @@
     user_name: "<%= @username %>",
     password: "<%= @password %>",
     domain: "<%= @domain %>",
-    authentication: <%= @authentication %>,
+    authentication: <%= @authentication.to_sym %>,
     enable_starttls_auto: <%= @enable_starttls_auto %>
   }

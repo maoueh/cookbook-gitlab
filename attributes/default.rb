@@ -126,7 +126,7 @@ default['gitlab']['smtp'] = {
   :username => "smtp",
   :password => "123456",
   :domain => "gitlab.example.com",
-  :authentication => :login,
+  :authentication => "login",
   :enable_starttls_auto => true
 }
 
