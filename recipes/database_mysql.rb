@@ -36,7 +36,6 @@ gitlab['environments'].each do |environment|
     connection mysql_connection
     password gitlab['database_password']
     database_name "gitlabhq_#{environment}"
-    host 'localhost'
     privileges ["SELECT", "UPDATE", "INSERT", "DELETE", "CREATE", "DROP", "INDEX", "ALTER", "LOCK TABLES"]
     action :grant
   end
