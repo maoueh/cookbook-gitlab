@@ -84,3 +84,9 @@ end
 Vagrant.configure("2") do |config|
   config.vm.provision :shell, :path => "./git_login.sh"
 end
+
+# Disable sshd file permission checks. This is needed because our bindfs configuration
+# uniformly applies liberal file permissions to /home/git .
+Vagrant.configure("2") do |config|
+  config.vm.provision :shell, :path => "./sshd_development.sh"
+end
