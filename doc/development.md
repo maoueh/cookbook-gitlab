@@ -14,6 +14,22 @@ Make sure to use Vagrant v1.3.x. Do not install Vagrant via rubygems.org as ther
 
 On OS X you can also choose to use [the (commercial) Vagrant VMware Fusion plugin](http://www.vagrantup.com/vmware) instead of VirtualBox.
 
+### Speed notice
+
+Running in Vagrant is slow compared to running in a metal (non-virtualized) environment. To run your tests at an acceptable speed we recommend using the [Spork application preloader](https://github.com/sporkrb/spork). If you run `bundle exec spork` before running a single test it completes 4 to 10 times faster after the initial run.
+
+Time of `time be rspec spec/models/project_spec.rb` on a Intel core i5 processor with 6GB:
+- Metal without spork: 53 seconds
+- Metal with spork: 16 seconds
+- Virtualbox without spork: 298 seconds (almost 5 minutes)
+- Virtualbox with Spork: 32 seconds
+
+The paid [VMware Fusion](http://www.vmware.com/products/fusion/) is a little faster than Virtualbox but it doesn't make a big difference. In it does seem to be more stable than Virtualbox, so consider it if you encounter problems running Virtualbox.
+
+Rails 4.1 comes with the [Spring application preloader](https://github.com/jonleighton/spring), when we upgrade to Rails 4.1 that will replace Spork.
+
+If you are frequently developing GitLab you can consider installing all the development dependencies on your metal environment.
+
 ### Installation
 
 `Vagrantfile` already contains the correct attributes so in order use this cookbook in a development environment following steps are needed:
