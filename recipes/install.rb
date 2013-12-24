@@ -18,7 +18,15 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :support_email => gitlab['support_email'],
     :satellites_path => gitlab['satellites_path'],
     :repos_path => gitlab['repos_path'],
-    :shell_path => gitlab['shell_path']
+    :shell_path => gitlab['shell_path'],
+    :signup_enabled => gitlab['signup_enabled'],
+    :projects_limit => gitlab['projects_limit'],
+    :oauth_enabled => gitlab['oauth_enabled'],
+    :oauth_block_auto_created_users => gitlab['oauth_block_auto_created_users'],
+    :oauth_allow_single_sign_on => gitlab['oauth_allow_single_sign_on'],
+    :oauth_providers => gitlab['oauth_providers'],
+    :google_analytics_id => gitlab['extra']['google_analytics_id'],
+    :sign_in_text => gitlab['extra']['sign_in_text']
   })
   notifies :run, "bash[git config]", :immediately
 end
@@ -31,6 +39,7 @@ end
     owner gitlab['user']
     group gitlab['group']
     mode 0755
+    not_if { File.exist?(File.join(gitlab['path'], path)) }
   end
 end
 
@@ -38,6 +47,7 @@ end
 directory gitlab['satellites_path'] do
   owner gitlab['user']
   group gitlab['group']
+  not_if { File.exist?(gitlab['satellites_path']) }
 end
 
 ### Unicorn config
@@ -98,7 +108,8 @@ template File.join(gitlab['path'], "config", "database.yml") do
   group gitlab['group']
   variables({
     :user => gitlab['database_user'],
-    :password => gitlab['database_password']
+    :password => gitlab['database_password'],
+    :host => node[gitlab['database_adapter']]['server_host']
   })
 end
 
@@ -218,6 +229,25 @@ when 'production'
       resource.content IO.read(File.join(gitlab['path'], "lib", "support", "logrotate", "gitlab"))
       resource.mode 0644
       resource.run_action :create
+    end
+  end
+
+  # SMTP email settings
+  if gitlab['smtp']['enabled']
+    smtp = gitlab['smtp']
+    template File.join(gitlab['path'], 'config', 'initializers', 'smtp_settings.rb') do
+      source "smtp_settings.rb.erb"
+      user gitlab['user']
+      group gitlab['group']
+      variables({
+        :address => smtp['address'],
+        :port => smtp['port'],
+        :username => smtp['username'],
+        :password => smtp['password'],
+        :domain => smtp['domain'],
+        :authentication => smtp['authentication'],
+        :enable_starttls_auto => smtp['enable_starttls_auto']
+      })
     end
   end
 

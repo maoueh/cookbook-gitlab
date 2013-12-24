@@ -20,6 +20,7 @@ mysql_connection = {
 mysql_database_user gitlab['database_user'] do
   connection mysql_connection
   password gitlab['database_password']
+  host mysql['client_host']
   action :create
 end
 
@@ -36,7 +37,7 @@ gitlab['environments'].each do |environment|
     connection mysql_connection
     password gitlab['database_password']
     database_name "gitlabhq_#{environment}"
-    host 'localhost'
+    host mysql['client_host']
     privileges ["SELECT", "UPDATE", "INSERT", "DELETE", "CREATE", "DROP", "INDEX", "ALTER", "LOCK TABLES"]
     action :grant
   end

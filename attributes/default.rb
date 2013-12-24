@@ -49,10 +49,12 @@ default['gitlab']['database_password'] = "datapass"
 default['gitlab']['database_user'] = "git"
 default['gitlab']['env'] = "production"
 
-default['mysql']['server_host'] = "localhost"
+default['mysql']['server_host'] = "localhost" # Host of the server that hosts the database.
+default['mysql']['client_host'] = "localhost" # Host where user connections are allowed from.
 default['mysql']['server_root_password'] = "rootpass"
 default['mysql']['server_repl_password'] = "replpass"
 default['mysql']['server_debian_password'] = "debianpass"
+
 
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
@@ -66,6 +68,8 @@ default['postfix']['smtp_use_tls'] = "no"
 # User
 default['gitlab']['user'] = "git" # Do not change this attribute in production since some code from the GitLab repo such as init.d script assume it is git.
 default['gitlab']['group'] = "git"
+default['gitlab']['user_uid'] = nil # Use to specify user id.
+default['gitlab']['user_gid'] = nil # Use to specify group id.
 default['gitlab']['home'] = "/home/git"
 
 # GitLab shell
@@ -73,6 +77,16 @@ default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
 default['gitlab']['path'] = "/home/git/gitlab" # Do not change this attribute in production since some code from the GitLab repo such as init.d assume this path.
+default['gitlab']['signup_enabled'] = false
+default['gitlab']['projects_limit'] = 10
+default['gitlab']['oauth_enabled'] = false
+default['gitlab']['oauth_block_auto_created_users'] = true
+default['gitlab']['oauth_allow_single_sign_on'] = false
+default['gitlab']['oauth_providers'] = [] # Example: default['gitlab']['oauth_providers'] = [ { "name": "google_oauth2", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET", "args": "access_type: 'offline', approval_prompt: ''" }, { "name": "twitter", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }, { "name":"github", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }]
+
+default['gitlab']['extra']['google_analytics_id'] = "" # Example:  "AA-1231231-1"
+default['gitlab']['extra']['sign_in_text'] = "" # Example:  "![Company Logo](http://www.example.com/logo.png)"
+
 
 # GitLab shell config
 default['gitlab']['repos_path'] = "/home/git/repositories"
@@ -103,6 +117,18 @@ default['gitlab']['ssl_certificate_path'] = "/etc/ssl" # Path to .crt file. If i
 default['gitlab']['ssl_certificate_key_path'] = "/etc/ssl" # Path to .key file. If directory doesn't exist it will be created
 default['gitlab']['ssl_certificate'] = "" # SSL certificate
 default['gitlab']['ssl_certificate_key'] = "" # SSL certificate key
+
+# SMTP email
+default['gitlab']['smtp'] = {
+  :enabled => false,
+  :address => "email.server.com",
+  :port => 456,
+  :username => "smtp",
+  :password => "123456",
+  :domain => "gitlab.example.com",
+  :authentication => "login",
+  :enable_starttls_auto => true
+}
 
 # AWS is disabled by default. If enabled is set to true, bundler will install gems from aws group and use the credentials to populate config/aws.yml
 default['gitlab']['aws'] = {

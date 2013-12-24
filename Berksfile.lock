@@ -3,6 +3,9 @@
     "gitlab": {
       "path": "."
     },
+    "yum": {
+      "locked_version": "2.4.2"
+    },
     "magic_shell": {
       "locked_version": "0.3.2",
       "git": "git://github.com/customink-webops/magic_shell.git",
@@ -48,9 +51,6 @@
     },
     "postfix": {
       "locked_version": "3.0.4"
-    },
-    "yum": {
-      "locked_version": "2.4.2"
     },
     "phantomjs": {
       "locked_version": "1.0.3"
