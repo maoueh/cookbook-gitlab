@@ -106,7 +106,8 @@ describe "gitlab::install" do
             group: 'git',
             variables: {
               user: 'git',
-              password: 'datapass'
+              password: 'datapass',
+              host: "localhost"
             }
           )
         end
@@ -128,7 +129,8 @@ describe "gitlab::install" do
             group: 'git',
             variables: {
               user: 'git',
-              password: 'datapass'
+              password: 'datapass',
+              host: "localhost"
             }
           )
         end
@@ -386,7 +388,8 @@ describe "gitlab::install" do
             group: 'git',
             variables: {
               user: 'git',
-              password: 'datapass'
+              password: 'datapass',
+              host: "localhost"
             }
           )
         end
@@ -408,7 +411,8 @@ describe "gitlab::install" do
             group: 'git',
             variables: {
               user: 'git',
-              password: 'datapass'
+              password: 'datapass',
+              host: "localhost"
             }
           )
         end
