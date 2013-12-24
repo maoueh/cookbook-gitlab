@@ -7,7 +7,3 @@ check process gitlab_sidekiq with pidfile <%= @sidekiq_pid_path %>
   if totalmem is greater than <%= @mem_threshold %> MB for <%= @mem_cycles_number %> cycles then restart
   if <%= @restart_number %> restart within <%= @restart_cycles_number %> cycles then alert
   group gitlab_sidekiq
-
-check program test_sidekiq_max_workers with path "<%= @app_home %>/bin/test_sidekiq_max_workers.sh"
-  alert <%= @notify_email %>
-  if status = 0 then exec "/usr/bin/monit restart gitlab_sidekiq"

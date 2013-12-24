@@ -43,8 +43,3 @@ directory "#{gitlab['path']}/bin" do
   mode 0755
   action :create
 end
-
-file "#{gitlab['path']}/bin/test_sidekiq_max_workers.sh" do
-  mode 0755
-  action :create_if_missing
-end
