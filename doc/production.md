@@ -54,7 +54,7 @@ For example, if you are using `mysql`, there is no need to keep the `postgresql`
 First we install dependencies based on the OS used:
 
 ```bash
-distro="$(lsb_release -i | sed -r 's/.*:\t(.*)/\1/')"
+distro="$(cat /etc/issue | awk ''NR==1'{ print $1 }')"
 case "$distro" in
   Ubuntu)
     sudo apt-get update
