@@ -4,7 +4,7 @@ maintainer_email 'marin@gitlab.com'
 license          'MIT'
 description      'Installs/Configures GitLab'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.6.3'
+version          '0.6.4'
 
 recipe "gitlab::default", "Installation"
 

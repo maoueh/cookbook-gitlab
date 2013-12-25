@@ -18,7 +18,7 @@ default['gitlab']['ruby'] = "2.0.0-p353"
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
-default['gitlab']['shell_revision'] = "v1.7.9"
+default['gitlab']['shell_revision'] = "v1.8.0"
 
 # GitLab hq
 default['gitlab']['repository'] = "https://github.com/gitlabhq/gitlabhq.git"
@@ -107,7 +107,7 @@ if node['gitlab']['env'] == "development"
 else
   default['gitlab']['environments'] = %w{production}
   default['gitlab']['url'] = "http://localhost:80/"
-  default['gitlab']['revision'] = "6-3-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['revision'] = "6-4-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['port'] = "80"
 end
 
