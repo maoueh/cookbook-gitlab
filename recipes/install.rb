@@ -257,7 +257,6 @@ when 'production'
       group gitlab['group']
       path "#{gitlab['path']}/config/aws.yml"
       mode 0755
-      action :create_if_missing
       variables({
         :aws_access_key_id => gitlab['aws']['aws_access_key_id'],
         :aws_secret_access_key => gitlab['aws']['aws_secret_access_key'],
