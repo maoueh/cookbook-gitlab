@@ -16,7 +16,6 @@ unless gitlab['deploy_key'].empty?
     variables({
       :path => File.join(gitlab['home'], ".ssh")
     })
-    action :create_if_missing
   end
 
   file File.join(gitlab['home'], ".ssh", "id_deploy_key") do
@@ -24,7 +23,6 @@ unless gitlab['deploy_key'].empty?
     content gitlab['deploy_key']
     user gitlab['user']
     group gitlab['group']
-    action :create_if_missing
   end
 end
 

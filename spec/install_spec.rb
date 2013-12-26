@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "gitlab::install" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::install") }
+  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::start","gitlab::install") }
 
 
   describe "under ubuntu" do
@@ -9,7 +9,7 @@ describe "gitlab::install" do
       let(:chef_run) do 
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
-        runner.converge("gitlab::install")
+        runner.converge("gitlab::start","gitlab::install")
       end
 
       it 'creates a gitlab config' do
@@ -96,7 +96,7 @@ describe "gitlab::install" do
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
           runner.node.set['gitlab']['database_password'] = "datapass"
-          runner.converge("gitlab::install")
+          runner.converge("gitlab::start","gitlab::install")
         end
 
         it 'creates a database config' do
@@ -119,7 +119,7 @@ describe "gitlab::install" do
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "postgresql"
           runner.node.set['gitlab']['database_password'] = "datapass"
-          runner.converge("gitlab::install")
+          runner.converge("gitlab::start","gitlab::install")
         end
 
         it 'creates a database config' do
@@ -199,7 +199,7 @@ describe "gitlab::install" do
         let(:chef_run) do 
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::install")
+          runner.converge("gitlab::start","gitlab::install")
         end
 
         it 'runs an execute to rake db:setup' do
@@ -269,7 +269,7 @@ describe "gitlab::install" do
           let(:chef_run) do 
             runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
             runner.node.set['gitlab']['env'] = "development"
-            runner.converge("gitlab::install")
+            runner.converge("gitlab::start","gitlab::install")
           end
 
           it 'copies gitlab init example file' do
@@ -289,7 +289,7 @@ describe "gitlab::install" do
       let(:chef_run) do 
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
-        runner.converge("gitlab::install")
+        runner.converge("gitlab::start","gitlab::install")
       end
 
       it 'creates a gitlab config' do
@@ -378,7 +378,7 @@ describe "gitlab::install" do
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
           runner.node.set['gitlab']['database_password'] = "datapass"
-          runner.converge("gitlab::install")
+          runner.converge("gitlab::start","gitlab::install")
         end
 
         it 'creates a database config' do
@@ -401,7 +401,7 @@ describe "gitlab::install" do
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "postgresql"
           runner.node.set['gitlab']['database_password'] = "datapass"
-          runner.converge("gitlab::install")
+          runner.converge("gitlab::start","gitlab::install")
         end
 
         it 'creates a database config' do
@@ -481,7 +481,7 @@ describe "gitlab::install" do
         let(:chef_run) do 
           runner = ChefSpec::Runner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::install")
+          runner.converge("gitlab::start","gitlab::install")
         end
 
         it 'runs an execute to rake db:setup' do
@@ -552,7 +552,7 @@ describe "gitlab::install" do
           let(:chef_run) do 
             runner = ChefSpec::Runner.new(platform: "centos", version: version)
             runner.node.set['gitlab']['env'] = "development"
-            runner.converge("gitlab::install")
+            runner.converge("gitlab::start","gitlab::install")
           end
 
           it 'copies gitlab init example file' do

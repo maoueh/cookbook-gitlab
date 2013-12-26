@@ -29,6 +29,7 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :sign_in_text => gitlab['extra']['sign_in_text']
   })
   notifies :run, "bash[git config]", :immediately
+  notifies :reload, "service[gitlab]"
 end
 
 ### Make sure GitLab can write to the log/ and tmp/ directories
@@ -59,6 +60,7 @@ template File.join(gitlab['path'], 'config', 'unicorn.rb') do
     :unicorn_workers_number => gitlab['unicorn_workers_number'],
     :unicorn_timeout => gitlab['unicorn_timeout']
   })
+  notifies :reload, "service[gitlab]"
 end
 
 ### Enable Rack attack
@@ -85,6 +87,9 @@ ruby_block "Copy from example rack attack config" do
     resource.group gitlab['group']
     resource.mode 0644
     resource.run_action :create
+    if resource.updated?
+      self.notifies :reload, resources(:service => "gitlab")
+    end
   end
 end
 
@@ -111,6 +116,7 @@ template File.join(gitlab['path'], "config", "database.yml") do
     :password => gitlab['database_password'],
     :host => node[gitlab['database_adapter']]['server_host']
   })
+  notifies :reload, "service[gitlab]"
 end
 
 ### db:setup
@@ -248,6 +254,7 @@ when 'production'
         :authentication => smtp['authentication'],
         :enable_starttls_auto => smtp['enable_starttls_auto']
       })
+      notifies :reload, "service[gitlab]"
     end
   end
 
@@ -265,6 +272,7 @@ when 'production'
         :host => gitlab['aws']['host'],
         :endpoint => gitlab['aws']['endpoint']
       })
+      notifies :reload, "service[gitlab]"
     end
   end
 
