@@ -18,6 +18,7 @@ describe "gitlab::default" do
         stub_command("git --version | grep 1.8.4.1").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
         stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
+        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do
@@ -54,6 +55,7 @@ describe "gitlab::default" do
         stub_command("git --version | grep 1.8.4.1").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
         stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
+        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do
