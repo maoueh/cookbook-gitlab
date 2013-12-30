@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe "gitlab::clone" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::clone") }
+  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::clone", "gitlab::start") }
 
 
   describe "under ubuntu" do
@@ -9,7 +9,7 @@ describe "gitlab::clone" do
       let(:chef_run) do 
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
-        runner.converge("gitlab::clone")
+        runner.converge("gitlab::clone", "gitlab::start")
       end
 
       it "clones the gitlab repository" do
@@ -25,7 +25,7 @@ describe "gitlab::clone" do
         let(:chef_run) do 
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::clone")
+          runner.converge("gitlab::clone", "gitlab::start")
         end
 
         it "clones the gitlab repository" do
@@ -45,7 +45,7 @@ describe "gitlab::clone" do
       let(:chef_run) do 
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
-        runner.converge("gitlab::clone")
+        runner.converge("gitlab::clone", "gitlab::start")
       end
 
       it "clones the gitlab repository" do
@@ -61,7 +61,7 @@ describe "gitlab::clone" do
         let(:chef_run) do 
           runner = ChefSpec::Runner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "development"
-          runner.converge("gitlab::clone")
+          runner.converge("gitlab::clone", "gitlab::start")
         end
 
         it "clones the gitlab repository" do

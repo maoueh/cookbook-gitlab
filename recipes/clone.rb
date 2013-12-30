@@ -37,7 +37,7 @@ git gitlab['path'] do
   action :sync
   notifies :delete, "file[gems]", :immediately
   notifies :delete, "file[migrate]", :immediately
-  notifies :delete, "file[gitlab start]", :immediately
+  notifies :reload, "service[gitlab]"
 end
 
 ## Section below won't be triggered on the first run
@@ -64,15 +64,4 @@ end
 file "migrate" do
   path File.join(gitlab['home'], ".gitlab_migrate_#{gitlab['env']}")
   action :nothing
-end
-
-gitlab_run = file "gitlab start" do
-  path File.join(gitlab['home'], ".gitlab_start")
-  action :nothing
-  notifies :stop, "service[gitlab]", :immediately
-end
-
-service "gitlab" do
-  action :nothing
-  only_if { gitlab_run.updated_by_last_action? }
 end
