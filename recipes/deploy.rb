@@ -22,10 +22,10 @@ include_recipe "gitlab::gems"
 # Configure and install GitLab
 include_recipe "gitlab::install"
 
-if gitlab['env'] == 'production'
-  # Start GitLab if in production
-  include_recipe "gitlab::start"
+# Start GitLab
+include_recipe "gitlab::start"
 
+if gitlab['env'] == 'production'
   # Setup and configure nginx
   include_recipe "gitlab::nginx"
 end
