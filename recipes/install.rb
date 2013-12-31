@@ -128,7 +128,7 @@ execute "rake db:setup" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  not_if "mysql -u git --password=#{gitlab['database_password']} --batch --skip-column-names -e \"SHOW DATABASES LIKE 'gitlabhq_development';\" | grep \"gitlabhq_development\" > /dev/null;"
+  not_if "mysql -u git --password=#{gitlab['database_password']} --batch --skip-column-names -e \"SHOW DATABASES LIKE 'gitlabhq_#{gitlab['env']}';\" | grep \"gitlabhq_#{gitlab['env']}\" > /dev/null;"
 end
 
 ### db:migrate
