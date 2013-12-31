@@ -120,8 +120,6 @@ template File.join(gitlab['path'], "config", "database.yml") do
 end
 
 ### db:setup
-file_setup = File.join(gitlab['home'], ".gitlab_setup_#{gitlab['env']}")
-file_setup_old = File.join(gitlab['home'], ".gitlab_setup")
 execute "rake db:setup" do
   command <<-EOS
     PATH="/usr/local/bin:$PATH"
@@ -130,18 +128,10 @@ execute "rake db:setup" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  not_if {File.exists?(file_setup) || File.exists?(file_setup_old)}
-end
-
-file file_setup do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create
+  not_if "mysql -u git --password=#{gitlab['database_password']} --batch --skip-column-names -e \"SHOW DATABASES LIKE 'gitlabhq_development';\" | grep \"gitlabhq_development\" > /dev/null;"
 end
 
 ### db:migrate
-file_migrate = File.join(gitlab['home'], ".gitlab_migrate_#{gitlab['env']}")
-file_migrate_old = File.join(gitlab['home'], ".gitlab_migrate")
 execute "rake db:migrate" do
   command <<-EOS
     PATH="/usr/local/bin:$PATH"
@@ -150,7 +140,8 @@ execute "rake db:migrate" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  not_if {File.exists?(file_migrate) || File.exists?(file_migrate_old)}
+  action :nothing
+  subscribes :run, "git[#{gitlab[path]}]", :immediately
 end
 
 ### db:seed_fu
@@ -284,7 +275,8 @@ when 'production'
     cwd gitlab['path']
     user gitlab['user']
     group gitlab['group']
-    not_if { File.exists?(file_migrate) }
+    action :nothing
+    subscribes :run, "execute[rake db:migrate]", :immediately
   end
 
   execute "rake assets:precompile" do
@@ -295,7 +287,8 @@ when 'production'
     cwd gitlab['path']
     user gitlab['user']
     group gitlab['group']
-    not_if { File.exists?(file_migrate) }
+    action :nothing
+    subscribes :run, "execute[rake db:migrate]", :immediately
   end
 
   execute "rake cache:clear" do
@@ -306,15 +299,10 @@ when 'production'
     cwd gitlab['path']
     user gitlab['user']
     group gitlab['group']
-    not_if { File.exists?(file_migrate) }
+    action :nothing
+    subscribes :run, "execute[rake db:migrate]", :immediately
   end
 else
   ## For execute javascript test
   include_recipe "phantomjs"
-end
-
-file file_migrate do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create
 end

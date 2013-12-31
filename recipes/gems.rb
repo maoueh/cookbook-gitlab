@@ -62,9 +62,5 @@ execute "bundle install" do
   user gitlab['user']
   group gitlab['group']
   action File.exists?(File.join(gitlab['home'], "Gemfile.lock")) ? :nothing : :run
-  subscribes :sync, "git[#{gitlab[path]}]", :immediately
+  subscribes :run, "git[#{gitlab[path]}]", :immediately
 end
-
-# file File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}") do
-#   action :touch
-# end
