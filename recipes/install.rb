@@ -173,46 +173,46 @@ file file_seed do
   action :create
 end
 
+
+## Setup Init Script
+# Creating the file this way for the following reasons
+# 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks
+# 2. Using file resource is not an option because it is ran at compilation time
+# and at that point the file doesn't exist
+# 3. Using cookbook_file resource is not an option because we do not want to include the file
+# in the cookbook for maintenance reasons. Same for template resource.
+# 4. Using remote_file resource is not an option because Chef 11.4.0 connects to remote URI
+# see https://github.com/opscode/chef/blob/11.4.4/lib/chef/resource/remote_file.rb#L63
+# 5 Using bash and execute resource is not an option because they would run at every chef run
+# and supplying a restriction in the form of "not_if" would prevent an update of a file
+# if there is any
+# Ruby block is compiled at compilation time but only executed during execution time
+# allowing us to create a resource.
+
+ruby_block "Copy from example gitlab init config" do
+  block do
+    resource = Chef::Resource::File.new("gitlab_init", run_context)
+    resource.path "/etc/init.d/gitlab"
+    resource.content IO.read(File.join(gitlab['path'], "lib", "support", "init.d", "gitlab"))
+    resource.mode 0755
+    resource.run_action :create
+    if resource.updated?
+      self.notifies :run, resources(:execute => "set gitlab to start on boot"), :immediately
+    end
+  end
+end
+
+# Updates defaults so gitlab can boot on start. As per man pages of update-rc.d runs only if links do not exist
+execute "set gitlab to start on boot" do
+  if platform_family?("debian")
+    command "update-rc.d gitlab defaults 21"
+  else
+    command "chkconfig --level 21 gitlab on"
+  end
+  action :nothing
+end
 case gitlab['env']
 when 'production'
-  ## Setup Init Script
-  # Creating the file this way for the following reasons
-  # 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks
-  # 2. Using file resource is not an option because it is ran at compilation time
-  # and at that point the file doesn't exist
-  # 3. Using cookbook_file resource is not an option because we do not want to include the file
-  # in the cookbook for maintenance reasons. Same for template resource.
-  # 4. Using remote_file resource is not an option because Chef 11.4.0 connects to remote URI
-  # see https://github.com/opscode/chef/blob/11.4.4/lib/chef/resource/remote_file.rb#L63
-  # 5 Using bash and execute resource is not an option because they would run at every chef run
-  # and supplying a restriction in the form of "not_if" would prevent an update of a file
-  # if there is any
-  # Ruby block is compiled at compilation time but only executed during execution time
-  # allowing us to create a resource.
-
-  ruby_block "Copy from example gitlab init config" do
-    block do
-      resource = Chef::Resource::File.new("gitlab_init", run_context)
-      resource.path "/etc/init.d/gitlab"
-      resource.content IO.read(File.join(gitlab['path'], "lib", "support", "init.d", "gitlab"))
-      resource.mode 0755
-      resource.run_action :create
-      if resource.updated?
-        self.notifies :run, resources(:execute => "set gitlab to start on boot"), :immediately
-      end
-    end
-  end
-
-  # Updates defaults so gitlab can boot on start. As per man pages of update-rc.d runs only if links do not exist
-  execute "set gitlab to start on boot" do
-    if platform_family?("debian")
-      command "update-rc.d gitlab defaults 21"
-    else
-      command "chkconfig --level 21 gitlab on"
-    end
-    action :nothing
-  end
-
   ## Setup logrotate
   # Creating the file this way for the following reasons
   # 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks
