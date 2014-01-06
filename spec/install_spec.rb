@@ -556,7 +556,7 @@ describe "gitlab::install" do
           end
 
           it 'copies gitlab init example file' do
-            expect(chef_run).to_not run_ruby_block("Copy from example gitlab init config")
+            expect(chef_run).to run_ruby_block("Copy from example gitlab init config")
           end
 
           it 'includes phantomjs recipe' do
