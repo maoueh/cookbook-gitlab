@@ -137,3 +137,18 @@ You can use the following one-liner to format a file or standard input for inclu
 ```bash
 ruby -rjson -e 'puts JSON.dump([ARGF.read])[1..-2]' my_site.cert
 ```
+
+### Storing repositories and satellites in a custom directory
+In some situations it can be practical to repository and satellite data on a separate volume.
+Below we assume that the GitLab system user (`git`) will have UID:GID 1234:1234, and that `/mnt/storage` is owned by 1234:1234.
+
+```json
+{
+  "gitlab": {
+    "user_uid": 1234,
+    "user_gid": 1234,
+    "repos_path": "/mnt/storage/repositories",
+    "satellites_path": "/mnt/storage/satellites"
+  }
+}
+```
