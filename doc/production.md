@@ -52,6 +52,12 @@ EOF
 
 You only need to keep parameters which need to differ from their default values.
 For example, if you are using `mysql`, there is no need to keep the `postgresql` configuration.
+If you are NOT on Debian/Ubuntu, you can remove `server_debian_password` and if you are not
+planning to use MySQL replication, then you can remove `server_repl_password`.
+
+If you wish to relay mail through a remote SMTP server instead of having Postfix installed you
+can entirely remove the `postfix` secttion and remove it's enture from `run_list`.
+
 
 First we install dependencies based on the OS used:
 
