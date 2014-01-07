@@ -21,7 +21,9 @@ cat > /tmp/solo.json << EOF
     "email_from": "gitlab@example.com",
     "support_email": "support@example.com",
     "database_adapter": "postgresql",
-    "database_password": "datapass"
+    "database_password": "datapass",
+    "repository": "clone URL for e.g. GitLab Enterprise Edition; omit this line to use Community Edition",
+    "revision": "branch or tag or SHA1 to install a specific version of GitLab, e.g. 6-4-stable"
   },
   "postgresql": {
     "password": {
