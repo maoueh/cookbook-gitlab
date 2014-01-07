@@ -97,6 +97,14 @@ EOF
 sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 
+**NOTE**: If you are behind a proxy server, `chef-solo` does not seem to use the environment settings
+instead you need to add the following to the end of your `solo.rb` file:
+
+```ruby
+http_proxy      "https://my-proxy.example.com:8080"
+https_proxy     "https://my-proxy.example.com:8080"
+```
+
 Chef-solo command should start running and setting up GitLab and it's dependencies.
 No errors should be reported and at the end of the run you should be able to navigate to the
 `gitlab['host']` you specified using your browser and connect to the GitLab instance.
