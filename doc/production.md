@@ -105,12 +105,8 @@ In order to enable HTTPS you will need to provide the following custom attribute
   "gitlab": {
     "port": 443,
     "url": "https://example.com/",
-    "ssl_certificate": "-----BEGIN CERTIFICATE-----
-Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
------END CERTIFICATE-----",
-    "ssl_certificate_key": "-----BEGIN PRIVATE KEY-----
-Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
------END PRIVATE KEY-----"
+    "ssl_certificate": "-----BEGIN CERTIFICATE-----\nLio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs\n-----END CERTIFICATE-----",
+    "ssl_certificate_key": "-----BEGIN PRIVATE KEY-----\nLio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs\n-----END PRIVATE KEY-----"
   }
 }
 ```
@@ -123,9 +119,7 @@ If you need to clone GitLab from a private repository (eg. you are maintaining a
 ```json
 {
   "gitlab": {
-    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----
-                   MIIEpAIBAAK
-                   -----END RSA PRIVATE KEY-----"
+    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAK\n-----END RSA PRIVATE KEY-----"
   }
 }
 ```
@@ -133,3 +127,11 @@ If you need to clone GitLab from a private repository (eg. you are maintaining a
 *Note*: Deploy key is a *private key*.
 =======
 *Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start! By default, both the certificate and key will be located in `/etc/ssl/` and will have the name of HOSTNAME, eg. `/etc/ssl/example.com.crt` and `/etc/ssl/example.com.key`.
+
+### Including multi-line strings in JSON
+It is not possible to just copy-paste a multi-line string such as an SSL certificate into a JSON file.
+You can use the following one-liner to format a file or standard input for inclusion in JSON (using Ruby 1.9):
+
+```bash
+ruby -rjson -e 'puts JSON.dump([ARGF.read])[1..-2]' my_site.cert
+```
