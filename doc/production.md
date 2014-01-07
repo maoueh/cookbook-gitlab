@@ -20,8 +20,8 @@ cat > /tmp/solo.json << EOF
     "url": "http://example.com/",
     "email_from": "gitlab@example.com",
     "support_email": "support@example.com",
-    "database_adapter": "postgresql",
-    "database_password": "datapass",
+    "database_adapter": "mysql or postgresql",
+    "database_password": "database password used by the GitLab application",
     "repository": "clone URL for e.g. GitLab Enterprise Edition; omit this line to use Community Edition",
     "revision": "branch or tag or SHA1 to install a specific version of GitLab, e.g. 6-4-stable"
   },
@@ -31,9 +31,9 @@ cat > /tmp/solo.json << EOF
     }
   },
   "mysql": {
-    "server_root_password": "rootpass",
-    "server_repl_password": "replpass",
-    "server_debian_password": "debianpass"
+    "server_root_password": "mysql root password",
+    "server_repl_password": "mysql replication password; omit this line for a random password",
+    "server_debian_password": "Debian administration password; omit this line for a random password"
   },
   "postfix": {
     "mail_type": "client",
