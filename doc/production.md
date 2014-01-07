@@ -7,6 +7,9 @@ By using Chef Solo you do not need a dedicated Chef Server.
 
 Ubuntu 12.04 or CentOS 6.4
 
+If you are behind a proxy server, you must ensure that the `http_proxy`
+and `https_proxy` environment variables have been correctly set.
+
 ### Installation
 
 Configure your installation parameters by editing the `/tmp/solo.json` file.
