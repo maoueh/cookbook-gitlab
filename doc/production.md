@@ -5,10 +5,14 @@ By using Chef Solo you do not need a dedicated Chef Server.
 
 ### Requirements
 
-Ubuntu 12.04 or CentOS 6.4
+Ubuntu 12.04, CentOS 6.4 or RHEL 6.5
 
 If you are behind a proxy server, you must ensure that the `http_proxy`
 and `https_proxy` environment variables have been correctly set.
+
+If you are on RHEL 6.4+, `libicu-devel` has been moved to the
+*optional* channel. You must enable the optional channel if you have not
+already done so, see here: https://access.redhat.com/site/solutions/389423.
 
 ### Installation
 
