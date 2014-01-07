@@ -139,7 +139,7 @@ ruby -rjson -e 'puts JSON.dump([ARGF.read])[1..-2]' my_site.cert
 ```
 
 ### Storing repositories and satellites in a custom directory
-In some situations it can be practical to repository and satellite data on a separate volume.
+In some situations it can be practical to put repository and satellite data on a separate volume.
 Below we assume that the GitLab system user (`git`) will have UID:GID 1234:1234, and that `/mnt/storage` is owned by 1234:1234.
 
 ```json
