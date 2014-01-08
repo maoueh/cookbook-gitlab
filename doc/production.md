@@ -131,8 +131,7 @@ If you need to clone GitLab from a private repository (eg. you are maintaining a
 *Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start! By default, both the certificate and key will be located in `/etc/ssl/` and will have the name of HOSTNAME, eg. `/etc/ssl/example.com.crt` and `/etc/ssl/example.com.key`.
 
 ### Including multi-line strings in JSON
-It is not possible to just copy-paste a multi-line string such as an SSL certificate into a JSON file.
-You can use the following one-liner to format a file or standard input for inclusion in JSON (using Ruby 1.9):
+You can use the following Ruby 1.9 one-liner to output valid JSON for a certificate file or private key:
 
 ```bash
 ruby -rjson -e 'puts JSON.dump([ARGF.read])[1..-2]' my_site.cert
