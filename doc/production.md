@@ -126,7 +126,7 @@ In order to enable HTTPS you will need to provide the following custom attribute
 ```json
 {
   "gitlab": {
-    "port": 443,
+    "port": "443",
     "url": "https://example.com/",
     "ssl_certificate": "-----BEGIN CERTIFICATE-----\nLio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs\n-----END CERTIFICATE-----",
     "ssl_certificate_key": "-----BEGIN PRIVATE KEY-----\nLio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs\n-----END PRIVATE KEY-----"
