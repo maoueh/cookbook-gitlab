@@ -20,7 +20,6 @@ server {
   server_name <%= @host %>;
   server_tokens off;     # don't show the version number, a security best practice
   root <%= @path %>/public;
-  add_header X-Frame-Options DENY;
 
   <% if @port == '443' %>
   ssl on;

@@ -20,8 +20,10 @@ cat > /tmp/solo.json << EOF
     "url": "http://example.com/",
     "email_from": "gitlab@example.com",
     "support_email": "support@example.com",
-    "database_adapter": "postgresql",
-    "database_password": "datapass"
+    "database_adapter": "mysql or postgresql",
+    "database_password": "database password used by the GitLab application",
+    "repository": "clone URL for e.g. GitLab Enterprise Edition; omit this line to use Community Edition",
+    "revision": "branch or tag or SHA1 to install a specific version of GitLab, e.g. 6-4-stable"
   },
   "postgresql": {
     "password": {
@@ -29,9 +31,9 @@ cat > /tmp/solo.json << EOF
     }
   },
   "mysql": {
-    "server_root_password": "rootpass",
-    "server_repl_password": "replpass",
-    "server_debian_password": "debianpass"
+    "server_root_password": "mysql root password",
+    "server_repl_password": "mysql replication password; omit this line for a random password",
+    "server_debian_password": "Debian administration password; omit this line for a random password"
   },
   "postfix": {
     "mail_type": "client",
@@ -105,12 +107,8 @@ In order to enable HTTPS you will need to provide the following custom attribute
   "gitlab": {
     "port": 443,
     "url": "https://example.com/",
-    "ssl_certificate": "-----BEGIN CERTIFICATE-----
-Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
------END CERTIFICATE-----",
-    "ssl_certificate_key": "-----BEGIN PRIVATE KEY-----
-Lio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs
------END PRIVATE KEY-----"
+    "ssl_certificate": "-----BEGIN CERTIFICATE-----\nLio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs\n-----END CERTIFICATE-----",
+    "ssl_certificate_key": "-----BEGIN PRIVATE KEY-----\nLio90slsdflsa0salLfjfFLJQOWWWWFLJFOAlll0029043jlfssLSIlccihhopqs\n-----END PRIVATE KEY-----"
   }
 }
 ```
@@ -123,9 +121,7 @@ If you need to clone GitLab from a private repository (eg. you are maintaining a
 ```json
 {
   "gitlab": {
-    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----
-                   MIIEpAIBAAK
-                   -----END RSA PRIVATE KEY-----"
+    "deploy_key": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAK\n-----END RSA PRIVATE KEY-----"
   }
 }
 ```
@@ -133,3 +129,25 @@ If you need to clone GitLab from a private repository (eg. you are maintaining a
 *Note*: Deploy key is a *private key*.
 =======
 *Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start! By default, both the certificate and key will be located in `/etc/ssl/` and will have the name of HOSTNAME, eg. `/etc/ssl/example.com.crt` and `/etc/ssl/example.com.key`.
+
+### Including multi-line strings in JSON
+You can use the following Ruby 1.9 one-liner to output valid JSON for a certificate file or private key:
+
+```bash
+ruby -rjson -e 'puts JSON.dump([ARGF.read])[1..-2]' my_site.cert
+```
+
+### Storing repositories and satellites in a custom directory
+In some situations it can be practical to put repository and satellite data on a separate volume.
+Below we assume that the GitLab system user (`git`) will have UID:GID 1234:1234, and that `/mnt/storage` is owned by 1234:1234.
+
+```json
+{
+  "gitlab": {
+    "user_uid": 1234,
+    "user_gid": 1234,
+    "repos_path": "/mnt/storage/repositories",
+    "satellites_path": "/mnt/storage/satellites"
+  }
+}
+```
