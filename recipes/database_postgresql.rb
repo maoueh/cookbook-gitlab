@@ -25,7 +25,8 @@ end
 
 ## Create the GitLab database & grant all privileges on database
 gitlab['environments'].each do |environment|
-  postgresql_database "gitlabhq_#{environment}" do
+  postgresql_database "gitlabhq_database" do
+    database_name "gitlabhq_#{environment}"
     connection postgresql_connection
     action :create
   end

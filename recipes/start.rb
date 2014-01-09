@@ -11,9 +11,7 @@ service "gitlab" do
   action :enable
 end
 
-file File.join(gitlab['home'], ".gitlab_start") do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create_if_missing
-  notifies :start, "service[gitlab]"
+service "gitlab" do
+  action :nothing
+  subscribes :start, "execute[rake db:migrate]"
 end

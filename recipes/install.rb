@@ -128,7 +128,9 @@ execute "rake db:setup" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  not_if "mysql -u git --password=#{gitlab['database_password']} --batch --skip-column-names -e \"SHOW DATABASES LIKE 'gitlabhq_#{gitlab['env']}';\" | grep \"gitlabhq_#{gitlab['env']}\" > /dev/null;"
+  action :nothing
+  subscribes :run, "mysql_database[gitlabhq_database]"
+  subscribes :run, "postgresql_database[gitlabhq_#{environment}]"
 end
 
 ### db:migrate
@@ -142,11 +144,10 @@ execute "rake db:migrate" do
   group gitlab['group']
   action :nothing
   subscribes :run, "git[#{gitlab[path]}]", :immediately
+  subscribes :run, "execute[rake db:setup]"
 end
 
 ### db:seed_fu
-file_seed = File.join(gitlab['home'], ".gitlab_seed_#{gitlab['env']}")
-file_seed_old = File.join(gitlab['home'], ".gitlab_seed")
 execute "rake db:seed_fu" do
   command <<-EOS
     PATH="/usr/local/bin:$PATH"
@@ -155,13 +156,8 @@ execute "rake db:seed_fu" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  not_if {File.exists?(file_seed) || File.exists?(file_seed_old)}
-end
-
-file file_seed do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create
+  action :nothing
+  subscribes :run, "execute[rake db:setup]"
 end
 
 ## Setup Init Script
