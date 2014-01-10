@@ -143,7 +143,7 @@ execute "rake db:migrate" do
   user gitlab['user']
   group gitlab['group']
   action :nothing
-  subscribes :run, "git[clone gitlabhq source]", :immediately
+  subscribes :run, "git[clone gitlabhq source]"
   subscribes :run, "execute[rake db:setup]"
 end
 
