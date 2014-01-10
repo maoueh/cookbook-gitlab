@@ -28,7 +28,8 @@ end
 
 # 6. GitLab
 ## Clone the Source
-git gitlab['path'] do
+git "clone gitlabhq source" do
+  destination gitlab['path']
   repository gitlab['repository']
   revision gitlab['revision']
   user gitlab['user']
