@@ -1,7 +1,7 @@
 ### Production installation with Chef Solo
 
 This guide details installing a GitLab server with Chef Solo.
-By using Chef Solo you do not need a decicated Chef Server.
+By using Chef Solo you do not need a dedicated Chef Server.
 
 ### Requirements
 
