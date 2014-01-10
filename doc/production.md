@@ -7,9 +7,6 @@ By using Chef Solo you do not need a dedicated Chef Server.
 
 Ubuntu 12.04, CentOS 6.4 or RHEL 6.5
 
-If you are behind a proxy server, you must ensure that the `http_proxy`
-and `https_proxy` environment variables have been correctly set.
-
 If you are on RHEL 6.4+, `libicu-devel` has been moved to the
 *optional* channel. You must enable the optional channel if you have not
 already done so, see here: https://access.redhat.com/site/solutions/389423.
@@ -101,13 +98,6 @@ EOF
 sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 
-**NOTE**: If you are behind a proxy server, `chef-solo` does not seem to use the environment settings
-instead you need to add the following to the end of your `solo.rb` file:
-
-```ruby
-http_proxy      "https://my-proxy.example.com:8080"
-https_proxy     "https://my-proxy.example.com:8080"
-```
 
 Chef-solo command should start running and setting up GitLab and it's dependencies.
 No errors should be reported and at the end of the run you should be able to navigate to the
@@ -171,4 +161,15 @@ Below we assume that the GitLab system user (`git`) will have UID:GID 1234:1234,
     "satellites_path": "/mnt/storage/satellites"
   }
 }
+```
+
+### Using a proxy server for network access
+If you are behind a proxy server, you must ensure that the `http_proxy`
+and `https_proxy` environment variables have been correctly set.
+
+In addition, you need to add the following to the end of your `solo.rb` file:
+
+```ruby
+http_proxy      "https://my-proxy.example.com:8080"
+https_proxy     "https://my-proxy.example.com:8080"
 ```
