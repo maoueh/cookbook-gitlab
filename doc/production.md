@@ -56,8 +56,7 @@ If you are NOT on Debian/Ubuntu, you can remove `server_debian_password` and if 
 planning to use MySQL replication, then you can remove `server_repl_password`.
 
 If you wish to relay mail through a remote SMTP server instead of having Postfix installed you
-can entirely remove the `postfix` secttion and remove it's enture from `run_list`.
-
+can entirely remove the `postfix` section and remove its entry from `run_list`.
 
 First we install dependencies based on the OS used:
 
