@@ -7,10 +7,6 @@ By using Chef Solo you do not need a dedicated Chef Server.
 
 Ubuntu 12.04, CentOS 6.4 or RHEL 6.5
 
-If you are on RHEL 6.4+, `libicu-devel` has been moved to the
-*optional* channel. You must enable the optional channel if you have not
-already done so, see here: https://access.redhat.com/site/solutions/389423.
-
 ### Installation
 
 Configure your installation parameters by editing the `/tmp/solo.json` file.
@@ -173,3 +169,8 @@ In addition, you need to add the following to the end of your `solo.rb` file:
 http_proxy      "https://my-proxy.example.com:8080"
 https_proxy     "https://my-proxy.example.com:8080"
 ```
+
+### RHEL
+If you are on RHEL 6.4+, `libicu-devel` has been moved to the
+*optional* channel. You must enable the optional channel if you have not
+already done so, see here: https://access.redhat.com/site/solutions/389423.
