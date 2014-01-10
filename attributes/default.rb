@@ -104,11 +104,13 @@ if node['gitlab']['env'] == "development"
   default['gitlab']['url'] = "http://localhost:3000/"
   default['gitlab']['revision'] = "master"
   default['gitlab']['environments'] = %w{development test}
+  default['gitlab']['ssh_port'] = "2222"
 else
   default['gitlab']['environments'] = %w{production}
   default['gitlab']['url'] = "http://localhost:80/"
   default['gitlab']['revision'] = "6-4-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['port'] = "80"
+  default['gitlab']['ssh_port'] = "22"
 end
 
 # Nginx ssl certificates

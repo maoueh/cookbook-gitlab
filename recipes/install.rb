@@ -26,7 +26,8 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :oauth_allow_single_sign_on => gitlab['oauth_allow_single_sign_on'],
     :oauth_providers => gitlab['oauth_providers'],
     :google_analytics_id => gitlab['extra']['google_analytics_id'],
-    :sign_in_text => gitlab['extra']['sign_in_text']
+    :sign_in_text => gitlab['extra']['sign_in_text'],
+    :ssh_port => gitlab['ssh_port'],
   })
   notifies :run, "bash[git config]", :immediately
   notifies :reload, "service[gitlab]"

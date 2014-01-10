@@ -98,7 +98,7 @@ production: &base
     #   ##  :project_id        - GitLab project identifier
     #   ##  :issues_tracker_id - Project Name or Id in external issue tracker
     #   new_issue_url: "http://redmine.sample/projects/:issues_tracker_id/issues/new"
-    # 
+    #
     # jira:
     #   title: "Atlassian Jira"
     #   project_url: "http://jira.sample/issues/?jql=project=:issues_tracker_id"
@@ -180,7 +180,7 @@ production: &base
     receive_pack: true
 
     # If you use non-standard ssh port you need to specify it
-    # ssh_port: 22
+    ssh_port: <%= @ssh_port =%>
 
   ## Git settings
   # CAUTION!
@@ -197,7 +197,7 @@ production: &base
   # 4. Extra customization
   # ==========================
 
-  extra: 
+  extra:
     ## Google analytics. Uncomment if you want it
     <%= "google_analytics_id: '#{ @google_analytics_id }'" unless @google_analytics_id.empty? %>
 
