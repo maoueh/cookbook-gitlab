@@ -151,3 +151,7 @@ Below we assume that the GitLab system user (`git`) will have UID:GID 1234:1234,
   }
 }
 ```
+
+### Monitoring
+
+Basic monitoring can be [setup with monit](doc/monit.md)
