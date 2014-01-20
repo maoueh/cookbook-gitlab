@@ -20,7 +20,7 @@ remote_file "Fetch the latest ca-bundle" do
   owner gitlab['user']
   group gitlab['group']
   mode 0755
-  action :create_if_missing
+  action :create
 end
 
 execute "Update rubygems" do
@@ -32,7 +32,7 @@ template File.join(gitlab['home'], ".gemrc") do
   source "gemrc.erb"
   user gitlab['user']
   group gitlab['group']
-  action :create_if_missing
+  action :create
 end
 
 ### without
@@ -61,10 +61,6 @@ execute "bundle install" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  action :run
-  not_if { File.exists?(File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}")) }
-end
-
-file File.join(gitlab['home'], ".gitlab_gems_#{gitlab['env']}") do
-  action :touch
+  action File.exists?(File.join(gitlab['home'], "Gemfile.lock")) ? :nothing : :run
+  subscribes :run, "git[clone gitlabhq source]", :immediately
 end

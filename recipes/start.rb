@@ -7,13 +7,12 @@ gitlab = node['gitlab']
 
 ## Start Your GitLab Instance
 service "gitlab" do
-  supports :start => true, :stop => true, :restart => true, :status => true
+  supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
   action :enable
 end
 
-file File.join(gitlab['home'], ".gitlab_start") do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create_if_missing
-  notifies :start, "service[gitlab]"
+service "gitlab" do
+  action :nothing
+  subscribes :start, "execute[rake db:migrate]"
+  subscribes :reload, "execute[rake assets:precompile]"
 end

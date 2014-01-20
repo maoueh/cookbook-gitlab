@@ -13,11 +13,11 @@ describe "gitlab::gems" do
       end
 
       it "gets the latest certificate bundle" do
-        expect(chef_run).to create_remote_file_if_missing("Fetch the latest ca-bundle").with(owner: "git", group: "git", source: "http://curl.haxx.se/ca/cacert.pem", path: "/opt/local/etc/certs/cacert.pem")
+        expect(chef_run).to create_remote_file("Fetch the latest ca-bundle").with(owner: "git", group: "git", source: "http://curl.haxx.se/ca/cacert.pem", path: "/opt/local/etc/certs/cacert.pem")
       end
 
       it 'creates a gemrc from template' do
-        expect(chef_run).to create_template_if_missing('/home/git/.gemrc').with(
+        expect(chef_run).to create_template('/home/git/.gemrc').with(
           source: "gemrc.erb",
           user: "git",
           group: "git",
@@ -107,11 +107,11 @@ describe "gitlab::gems" do
       end
 
       it "gets the latest certificate bundle" do
-        expect(chef_run).to create_remote_file_if_missing("Fetch the latest ca-bundle").with(owner: "git", group: "git", source: "http://curl.haxx.se/ca/cacert.pem", path: "/opt/local/etc/certs/cacert.pem")
+        expect(chef_run).to create_remote_file("Fetch the latest ca-bundle").with(owner: "git", group: "git", source: "http://curl.haxx.se/ca/cacert.pem", path: "/opt/local/etc/certs/cacert.pem")
       end
 
       it 'creates a gemrc from template' do
-        expect(chef_run).to create_template_if_missing('/home/git/.gemrc').with(
+        expect(chef_run).to create_template('/home/git/.gemrc').with(
           source: "gemrc.erb",
           user: "git",
           group: "git",
