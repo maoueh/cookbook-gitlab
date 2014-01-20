@@ -14,4 +14,5 @@ end
 service "gitlab" do
   action :nothing
   subscribes :start, "execute[rake db:migrate]"
+  subscribes :reload, "execute[rake assets:precompile]"
 end

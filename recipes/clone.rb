@@ -36,5 +36,4 @@ git "clone gitlabhq source" do
   group gitlab['group']
   ssh_wrapper File.join(gitlab['home'], ".ssh", "deploy-ssh-wrapper.sh") unless gitlab['deploy_key'].empty?
   action :sync
-  notifies :reload, "service[gitlab]"
 end
