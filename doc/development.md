@@ -68,6 +68,12 @@ GITLAB_VAGRANT_MEMORY=2048 GITLAB_VAGRANT_CORES=4 vagrant up
 You can't use a vagrant project on an encrypted partition (ie. it won't work if your home directory is encrypted).
 
 You'll be asked for your password to set up NFS shares.
+Also note that if you are using a firewall on the host machine, it should allow the NFS related traffic,
+otherwise you might encouter NFS mounting errors during `vagrant up` like:
+```
+mount.nfs: mount to NFS server '.../cookbook-gitlab/home_git' failed: timed out, giving up
+```
+
 
 ### Running the tests
 
