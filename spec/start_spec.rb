@@ -16,19 +16,9 @@ describe "gitlab::start" do
         expect(chef_run).to enable_service('gitlab')
       end
 
-      it 'creates an empty file that will trigger gitlab start' do
-        expect(chef_run).to create_file_if_missing('/home/git/.gitlab_start').with(
-          user:   'git',
-          group:  'git'
-        )
-      end
-
-      describe "when empty gitlab_start file is created" do
-        let(:gitlab_start) { chef_run.file("/home/git/.gitlab_start") }
-
-        it "sends start notification to gitlab service" do
-          expect(gitlab_start).to notify('service[gitlab]').to(:start).delayed
-        end
+      # For current version of chefspec(3.0.1) there are no subscription tests
+      it 'does not run gitlab service unless subscribed' do
+        expect(chef_run).not_to start_service('gitlab')
       end
     end
   end
@@ -45,19 +35,9 @@ describe "gitlab::start" do
         expect(chef_run).to enable_service('gitlab')
       end
 
-      it 'creates an empty file that will trigger gitlab start' do
-        expect(chef_run).to create_file_if_missing('/home/git/.gitlab_start').with(
-          user:   'git',
-          group:  'git'
-        )
-      end
-
-      describe "when empty gitlab_start file is created" do
-        let(:gitlab_start) { chef_run.file("/home/git/.gitlab_start") }
-
-        it "sends start notification to gitlab service" do
-          expect(gitlab_start).to notify('service[gitlab]').to(:start).delayed
-        end
+      # For current version of chefspec(3.0.1) there are no subscription tests
+      it 'does not run gitlab service unless subscribed' do
+        expect(chef_run).not_to start_service('gitlab')
       end
     end
   end
