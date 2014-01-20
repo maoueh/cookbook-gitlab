@@ -2,29 +2,21 @@
 
 Running Gitlab directly on your machine can make it run considerably faster than inside a virtual machine, possibly making non reasonable wait times (10 minutes to start a test) reasonable (1.5 minutes).
 
-### System choice
+### OS choice
 
 Before doing anything, you have to decide if you will install Gitlab on your existing system, or if you will install a new system dedicated to develop Gitlab.
 
-#### Existing system
+#### Existing OS
 
-The advantage of installing an existing system is that you keep all your development programs and configurations untouched.
+The advantage of installing an existing OS is that you keep all your development programs and configurations untouched, and it is the fastest way to get started.
 
-The downside is that there is a chance that your existing system setting (e.g. PPAs you added to Ubuntu, binaries you compiled from source) will be incompatible with those required by Gitlab, so if you want to play it safe and avoid hard to track problems, use a dedicated development system.
+The downside is that there is a chance that your existing OS setting (e.g. PPAs you added to Ubuntu, binaries you compiled from source) will be incompatible with those required by Gitlab, so if you want to play it safe and avoid hard to track problems, use a dedicated development system.
 
-Furthermore, to install on an existing system you must be using a supported distribution. It is possible that things will work if you use a non-supported version of a supported system (e.g Ubuntu 13.10 instead of 12.04), but this adds even further to the risk of incompatibilities.
+Furthermore, to install on an existing OS you must be using a supported distribution. It is possible that things will work if you use a non-supported version of a supported system (e.g. Ubuntu 13.10 instead of 12.04), but this adds even further to the risk of incompatibilities.
 
-#### Dedicated system
+**Install**
 
-The downside of installing a dedicated development system (possibly on the same HD as the existing one) is that it takes up a little time (~30 minutes if you know what your are doing) to install and disk space (30GB should be more than enough).
-
-If your development environment is slow, however, it can be really worth it because of how much time you can gain later.
-
-If you chose this option, do *not* create the `git` user at installation time: use the same username that you use on your existing system. This cookbook will create a correctly configured `git` user for you.
-
-### Install
-
-Once your a logged into the development system, the installation process is the same as a [production install](production.md), the only difference being what you put in the `/tmp/solo.json` configuration file which should instead be:
+The installation process is the same as a [production install](production.md), the only difference being what you put in the `/tmp/solo.json` configuration file which should instead be:
 
 ```bash
 cat > /tmp/solo.json << EOF
@@ -44,11 +36,17 @@ cat > /tmp/solo.json << EOF
 EOF
 ```
 
-### Develop on dedicated system
+#### Dedicated OS
 
-If you chose to use a dedicated system, you have the following options of how to develop.
+The downside of installing a dedicated OS (possibly on the same HD as the existing one) is that it takes up a little time (~30 minutes if you know what your are doing) to install and disk space (30GB should be more than enough).
 
-#### Git user on the development system
+If you chose this option, do *not* create the `git` user at installation time: use the same username that you use on your existing system. This cookbook will create a correctly configured `git` user for you.
+
+Once you have installed your dedicated system and logged in, the installation process is the same as that for the existing system.
+
+If you chose to use a dedicated OS, you have the following options of how to develop.
+
+**Git user on the dedicated OS**
 
 The advantage of running as the `git` user is that it is very easy to start up the server and run tests. Just do:
 
@@ -64,28 +62,28 @@ Using the `git` user has the following downsides:
 
 - you have to reinstall every development program that you use (editors, browsers, etc.)
 
-- you have to find a way to copy all your configurations under your existing system's home to the git home.
+- you have to find a way to copy all your configurations under your existing OS's home to the git home.
 
     The problem is that it is not possible to use `mount` because the home folder is used by Gitlab.
 
     One option is to use git to store your configurations + a script that symlinks files to your home folder,
     such as done in [Zack Holam's dotfiles](https://github.com/dosire/dotfiles).
 
-#### Non-Git user on the development system
+**Non-Git user on the dedicated OS**
 
-The advantage of this option is that you can reuse your existing system's `/home` folder by mounting it.
+The advantage of this option is that you can reuse your existing OS's `/home` folder by mounting it.
 
 Furthermore, there will be no interference between your home directory and the `git` home directory.
 
 You do still have to reinstall all your development programs, and there is a small chance that they will interfere with those that Gitlab uses.
 
-First make sure that your username on the development system is the same as the username on your existing system.
+First make sure that your username on the dedicated OS is the same as the username on your existing OS.
 
-Next, mount your existing system's home directory on your development machine home by adding a line like the following line to your `/etc/fstab`:
+Next, mount your existing OS's home directory on your dedicated OS's home by adding a line like the following line to your `/etc/fstab`:
 
-    UUID=<existing_system_uuid> /home/<existing_username>    ext4    defaults    0    0
+    UUID=<existing_os_uuid> /home/<existing_username>    ext4    defaults    0    0
 
-where you can find the `existing_system_uuid` via `sudo blkid` and `sudo lsblk -f`.
+where you can find the `existing_os_uuid` via `sudo blkid` and `sudo lsblk -f`.
 
 To be able to edit the Gitlab files easily, use `bindfs` to bind the Gitlab folder to your home directory under a different username.
 
