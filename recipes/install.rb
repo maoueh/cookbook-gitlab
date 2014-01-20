@@ -27,6 +27,9 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :oauth_providers => gitlab['oauth_providers'],
     :google_analytics_id => gitlab['extra']['google_analytics_id'],
     :sign_in_text => gitlab['extra']['sign_in_text'],
+    :default_projects_features => gitlab['default_projects_features'],
+    :gravatar => gitlab['gravatar'],
+    :ldap_config => gitlab['ldap'],
     :ssh_port => gitlab['ssh_port'],
   })
   notifies :run, "bash[git config]", :immediately

@@ -52,7 +52,6 @@ production: &base
     ##   COLOR  = 5
     # default_theme: 2 # default: 2
 
-
     ## Users management
     # default: false - Account passwords are not sent via the email if signup is enabled.
     signup_enabled: <%= @signup_enabled %>
@@ -69,12 +68,12 @@ production: &base
 
     ## Default project features settings
     default_projects_features:
-      issues: true
-      merge_requests: true
-      wiki: true
-      wall: false
-      snippets: false
-      visibility_level: "private"  # can be "private" | "internal" | "public"
+      issues: <%= @default_projects_features['issues'] %>
+      merge_requests: <%= @default_projects_features['merge_requests'] %>
+      wiki: <%= @default_projects_features['wiki'] %>
+      wall: <%= @default_projects_features['wall'] %>
+      snippets: <%= @default_projects_features['snippets'] %>
+      visibility_level: "<%= @default_projects_features['visibility_level'] %>"  # can be "private" | "internal" | "public"
 
   ## External issues trackers
   issues_tracker:
@@ -107,7 +106,7 @@ production: &base
 
   ## Gravatar
   gravatar:
-    enabled: true                 # Use user avatar image from Gravatar.com (default: true)
+    enabled: <%= @gravatar %>      # Use user avatar image from Gravatar.com (default: true)
     # plain_url: "http://..."     # default: http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=mm
     # ssl_url:   "https://..."    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=mm
 
@@ -119,15 +118,15 @@ production: &base
   # You can inspect the first 100 LDAP users with login access by running:
   #   bundle exec rake gitlab:ldap:check[100] RAILS_ENV=production
   ldap:
-    enabled: false
-    host: '_your_ldap_server'
-    base: '_the_base_where_you_search_for_users'
-    port: 636
-    uid: 'sAMAccountName'
-    method: 'ssl' # "ssl" or "plain"
-    bind_dn: '_the_full_dn_of_the_user_you_will_bind_with'
-    password: '_the_password_of_the_bind_user'
-    allow_username_or_email_login: true
+    enabled: <%= @ldap_config["enabled"] %>
+    host: '<%= @ldap_config["host"] %>'
+    base: '<%= @ldap_config["base"] %>'
+    port: <%= @ldap_config["port"] %>
+    uid: '<%= @ldap_config["uid"] %>'
+    method: '<%= @ldap_config["method"] %>' # "ssl" or "plain"
+    bind_dn: '<%= @ldap_config["bind_dn"] %>'
+    password: '<%= @ldap_config["password"] %>'
+    allow_username_or_email_login: <%= @ldap_config["allow_username_or_email_login"] %>
 
   ## OmniAuth settings
   omniauth:
@@ -173,7 +172,6 @@ production: &base
     # REPOS_PATH MUST NOT BE A SYMLINK!!!
     repos_path: <%= @repos_path %>/
     hooks_path: <%= File.join(@shell_path, 'hooks') %>/
-
 
     # Git over HTTP
     upload_pack: true

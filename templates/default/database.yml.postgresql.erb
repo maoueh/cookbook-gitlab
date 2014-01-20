@@ -6,8 +6,8 @@ production:
   encoding: unicode
   database: gitlabhq_production
   pool: 5
-  username: <%= @user %>
-  password: <%= @password %>
+  username: "<%= @user %>"
+  password: "<%= @password %>"
   host: <%= @host %>
   # port: 5432 
   # socket: /tmp/postgresql.sock
@@ -20,8 +20,8 @@ development:
   encoding: unicode
   database: gitlabhq_development
   pool: 5
-  username: <%= @user %>
-  password: <%= @password %>
+  username: "<%= @user %>"
+  password: "<%= @password %>"
   host: <%= @host %>
   # socket: /tmp/postgresql.sock
 
@@ -33,8 +33,8 @@ staging:
   encoding: unicode
   database: gitlabhq_staging
   pool: 5
-  username: <%= @user %>
-  password: <%= @password %>
+  username: "<%= @user %>"
+  password: "<%= @password %>"
   host: <%= @host %>
   # socket: /tmp/postgresql.sock
 
@@ -46,7 +46,7 @@ test: &test
   encoding: unicode
   database: gitlabhq_test
   pool: 5
-  username: <%= @user %>
-  password: <%= @password %>
+  username: "<%= @user %>"
+  password: "<%= @password %>"
   host: <%= @host %>
   # socket: /tmp/postgresql.sock
