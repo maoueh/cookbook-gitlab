@@ -31,7 +31,26 @@ describe "gitlab::install" do
             oauth_allow_single_sign_on: false,
             oauth_providers: [],
             google_analytics_id: "",
-            sign_in_text: ""
+            sign_in_text: "",
+            default_projects_features: {
+              "issues"=>true,
+              "merge_requests"=>true,
+              "wiki"=>true, "wall"=>false,
+              "snippets"=>false,
+              "visibility_level"=>"private"
+              },
+              gravatar: true,
+              ldap_config: {
+                "enabled"=>false,
+                "host"=>"_your_ldap_server",
+                "base"=>"_the_base_where_you_search_for_users",
+                "port"=>636,
+                "uid"=>"sAMAccountName",
+                "method"=>"ssl",
+                "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
+                "password"=>"_the_password_of_the_bind_user",
+                "allow_username_or_email_login"=>true
+              }
           }
         )
       end
@@ -138,7 +157,7 @@ describe "gitlab::install" do
 
       describe "running database setup, migrations and seed when production" do
         it 'runs an execute to rake db:setup' do
-          expect(chef_run).to run_execute('rake db:setup')
+          expect(chef_run).not_to run_execute('rake db:setup')
         end
 
         it 'runs db setup' do
@@ -149,15 +168,8 @@ describe "gitlab::install" do
           expect(resource.cwd).to eq("/home/git/gitlab")
         end
 
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_setup_production').with(
-            user:   'git',
-            group:  'git'
-          )
-        end
-
         it 'runs an execute to rake db:migrate' do
-          expect(chef_run).to run_execute('rake db:migrate')
+          expect(chef_run).not_to run_execute('rake db:migrate')
         end
 
         it 'runs db migrate' do
@@ -168,15 +180,8 @@ describe "gitlab::install" do
           expect(resource.cwd).to eq("/home/git/gitlab")
         end
 
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_migrate_production').with(
-            user:   'git',
-            group:  'git'
-          )
-        end
-
         it 'runs an execute to rake db:seed' do
-          expect(chef_run).to run_execute('rake db:seed_fu')
+          expect(chef_run).not_to run_execute('rake db:seed_fu')
         end
 
         it 'runs db seed' do
@@ -185,13 +190,6 @@ describe "gitlab::install" do
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
-        end
-
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_seed_production').with(
-            user:   'git',
-            group:  'git'
-          )
         end
       end
 
@@ -203,7 +201,7 @@ describe "gitlab::install" do
         end
 
         it 'runs an execute to rake db:setup' do
-          expect(chef_run).to run_execute('rake db:setup')
+          expect(chef_run).not_to run_execute('rake db:setup')
         end
 
         it 'runs db setup for all environments' do
@@ -217,7 +215,7 @@ describe "gitlab::install" do
         end
 
         it 'runs an execute to rake db:migrate' do
-          expect(chef_run).to run_execute('rake db:migrate')
+          expect(chef_run).not_to run_execute('rake db:migrate')
         end
 
         it 'runs db migrate for all environments' do
@@ -231,7 +229,7 @@ describe "gitlab::install" do
         end
 
         it 'runs an execute to rake db:seed' do
-          expect(chef_run).to run_execute('rake db:seed_fu')
+          expect(chef_run).not_to run_execute('rake db:seed_fu')
         end
 
         it 'runs db seed' do
@@ -242,13 +240,6 @@ describe "gitlab::install" do
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
-        end
-
-        it 'creates a gitlab_seed file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_seed_development').with(
-            user:   'git',
-            group:  'git'
-          )
         end
       end
 
@@ -311,7 +302,26 @@ describe "gitlab::install" do
             oauth_allow_single_sign_on: false,
             oauth_providers: [],
             google_analytics_id: "",
-            sign_in_text: ""
+            sign_in_text: "",
+            default_projects_features: {
+              "issues"=>true,
+              "merge_requests"=>true,
+              "wiki"=>true, "wall"=>false,
+              "snippets"=>false,
+              "visibility_level"=>"private"
+              },
+              gravatar: true,
+              ldap_config: {
+                "enabled"=>false,
+                "host"=>"_your_ldap_server",
+                "base"=>"_the_base_where_you_search_for_users",
+                "port"=>636,
+                "uid"=>"sAMAccountName",
+                "method"=>"ssl",
+                "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
+                "password"=>"_the_password_of_the_bind_user",
+                "allow_username_or_email_login"=>true
+              }
           }
         )
       end
@@ -419,8 +429,8 @@ describe "gitlab::install" do
       end
 
       describe "running database setup, migrations and seed when production" do
-        it 'runs an execute to rake db:setup' do
-          expect(chef_run).to run_execute('rake db:setup')
+        it 'does not run an execute to rake db:setup' do
+          expect(chef_run).not_to run_execute('rake db:setup')
         end
 
         it 'runs db setup' do
@@ -431,15 +441,8 @@ describe "gitlab::install" do
           expect(resource.cwd).to eq("/home/git/gitlab")
         end
 
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_setup_production').with(
-            user:   'git',
-            group:  'git'
-          )
-        end
-
-        it 'runs an execute to rake db:migrate' do
-          expect(chef_run).to run_execute('rake db:migrate')
+        it 'does not run an execute to rake db:migrate' do
+          expect(chef_run).not_to run_execute('rake db:migrate')
         end
 
         it 'runs db migrate' do
@@ -450,15 +453,8 @@ describe "gitlab::install" do
           expect(resource.cwd).to eq("/home/git/gitlab")
         end
 
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_migrate_production').with(
-            user:   'git',
-            group:  'git'
-          )
-        end
-
-        it 'runs an execute to rake db:seed' do
-          expect(chef_run).to run_execute('rake db:seed_fu')
+        it 'does not run an execute to rake db:seed' do
+          expect(chef_run).not_to run_execute('rake db:seed_fu')
         end
 
         it 'runs db seed' do
@@ -469,12 +465,6 @@ describe "gitlab::install" do
           expect(resource.cwd).to eq("/home/git/gitlab")
         end
 
-        it 'creates a file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_seed_production').with(
-            user:   'git',
-            group:  'git'
-          )
-        end
       end
 
       describe "running database setup, migrations and seed when development" do
@@ -485,7 +475,7 @@ describe "gitlab::install" do
         end
 
         it 'runs an execute to rake db:setup' do
-          expect(chef_run).to run_execute('rake db:setup')
+          expect(chef_run).not_to run_execute('rake db:setup')
         end
 
         it 'runs db setup for all environments' do
@@ -499,7 +489,7 @@ describe "gitlab::install" do
         end
 
         it 'runs an execute to rake db:migrate' do
-          expect(chef_run).to run_execute('rake db:migrate')
+          expect(chef_run).not_to run_execute('rake db:migrate')
         end
 
         it 'runs db migrate for all environments' do
@@ -513,7 +503,7 @@ describe "gitlab::install" do
         end
 
         it 'runs an execute to rake db:seed' do
-          expect(chef_run).to run_execute('rake db:seed_fu')
+          expect(chef_run).not_to run_execute('rake db:seed_fu')
         end
 
         it 'runs db seed' do
@@ -524,13 +514,6 @@ describe "gitlab::install" do
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
-        end
-
-        it 'creates a gitlab_seed file with attributes' do
-          expect(chef_run).to create_file('/home/git/.gitlab_seed_development').with(
-            user:   'git',
-            group:  'git'
-          )
         end
       end
 
