@@ -23,6 +23,8 @@ Cookbook has been tested and it is known to work on:
 
 * [Development installation on a virtual machine with Vagrant](doc/development.md)
 
+* [Development installation on metal (outside a Virtual Machine)](doc/development_metal.md). May run much faster than inside a VM.
+
 * [Production installation on Amazon Web Services (AWS) with Vagrant](doc/aws_vagrant.md)
 
 * [Production installation with Chef Solo](doc/production.md)

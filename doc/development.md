@@ -28,7 +28,7 @@ The paid [VMware Fusion](http://www.vmware.com/products/fusion/) is a little fas
 
 Rails 4.1 comes with the [Spring application preloader](https://github.com/jonleighton/spring), when we upgrade to Rails 4.1 that will replace Spork.
 
-If you are frequently developing GitLab you can consider installing all the development dependencies on your metal environment.
+If you are frequently developing GitLab you can consider installing all the development dependencies on your [metal environment](development_metal.md).
 
 ### Installation
 
