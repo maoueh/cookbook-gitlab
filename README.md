@@ -3,7 +3,7 @@ GitLab Cookbook
 
 Chef cookbook with recipes to install GitLab and its dependencies:
 
-* GitLab: 6.4
+* GitLab: 6.5
 * GitLab Shell: 1.8.0
 * Ruby: 2.0.0p353
 * Redis: 2.6.13
