@@ -107,7 +107,7 @@ if node['gitlab']['env'] == "development"
 else
   default['gitlab']['environments'] = %w{production}
   default['gitlab']['url'] = "http://localhost:80/"
-  default['gitlab']['revision'] = "6-4-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['revision'] = "6-5-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['port'] = "80"
 end
 
