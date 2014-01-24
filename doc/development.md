@@ -58,6 +58,12 @@ cd ./cookbook-gitlab
 vagrant up --provision
 ```
 
+If you have VMWare Fusion and the Vagrant VMWare Fusion provider you can opt to use that instead of the VirtualBox provider. Follow all of the steps above except substitute the following vagrant up command instead:
+
+```bash
+vagrant up --provider=vmware_fusion --provision
+```
+
 By default the VM uses 1.5GB of memory and 2 CPU cores. If you want to use more memory or cores you can use the GITLAB_VAGRANT_MEMORY and GITLAB_VAGRANT_CORES environment variables:
 
 ```bash

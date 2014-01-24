@@ -12,6 +12,11 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
+  config.vm.provider "vmware_fusion" do |vmware, override|
+    override.vm.box = "precise64_fusion"
+    override.vm.box_url = "http://files.vagrantup.com/precise64_vmware_fusion.box"
+  end
+
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
   # any other machines on the same network, but cannot be accessed (through this
