@@ -64,7 +64,7 @@ production: &base
     # If a commit message matches this regular expression, all issues referenced from the matched text will be closed.
     # This happens when the commit is pushed or merged into the default branch of a project.
     # When not specified the default issue_closing_pattern as specified below will be used.
-    # issue_closing_pattern: ([Cc]lose[sd]|[Ff]ixe[sd]) +#\d+
+    # issue_closing_pattern: '([Cc]lose[sd]|[Ff]ixe[sd]) +#\d+'
 
     ## Default project features settings
     default_projects_features:
@@ -115,7 +115,7 @@ production: &base
   # ==========================
 
   ## LDAP settings
-  # You can inspect the first 100 LDAP users with login access by running:
+  # You can inspect a sample of the LDAP users with login access by running:
   #   bundle exec rake gitlab:ldap:check[100] RAILS_ENV=production
   ldap:
     enabled: <%= @ldap_config["enabled"] %>
@@ -126,6 +126,15 @@ production: &base
     method: '<%= @ldap_config["method"] %>' # "ssl" or "plain"
     bind_dn: '<%= @ldap_config["bind_dn"] %>'
     password: '<%= @ldap_config["password"] %>'
+    # If allow_username_or_email_login is enabled, GitLab will ignore everything
+    # after the first '@' in the LDAP username submitted by the user on login.
+    #
+    # Example:
+    # - the user enters 'jane.doe@example.com' and 'p@ssw0rd' as LDAP credentials;
+    # - GitLab queries the LDAP server with 'jane.doe' and 'p@ssw0rd'.
+    #
+    # If you are using "uid: 'userPrincipalName'" on ActiveDirectory you need to
+    # disable this setting, because the userPrincipalName contains an '@'.
     allow_username_or_email_login: <%= @ldap_config["allow_username_or_email_login"] %>
 
   ## OmniAuth settings
