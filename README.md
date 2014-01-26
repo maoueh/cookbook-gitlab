@@ -31,44 +31,6 @@ Cookbook has been tested and it is known to work on:
 
 If you want to do a production installation using AWS Opsworks please see the [cookbook for GitLab on AWS Opsworks repository](https://gitlab.com/gitlab-com/cookbook-gitlab-opsworks/blob/master/README.md).
 
-## Database
-
-Default database for this cookbook is `mysql`.
-To override default credentials for the database supply the following json to the node:
-
-```json
-{
-  "mysql": {
-    "server_root_password": "rootpass",
-    "server_repl_password": "replpass",
-    "server_debian_password": "debianpass"
-  },
-  "gitlab": {
-    "database_password": "datapass"
-  }
-}
-```
-
-To use `postgresql` override default credentials by supplying the following json to the node:
-
-```json
-{
-  "posgtresql": {
-    "password": {
-      "postgres": "psqlpass"
-    }
-  },
-  "gitlab": {
-    "database_adapter": "postgresql",
-    "database_password": "datapass",
-  }
-}
-```
-
-## Monitoring
-
-Basic monitoring can be [setup with monit](doc/monit.md)
-
 ## Recipes
 
 ### clone

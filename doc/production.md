@@ -134,9 +134,11 @@ If you need to clone GitLab from a private repository (eg. you are maintaining a
 
 *Note*: Deploy key is a *private key*.
 =======
+
 *Note*: SSL certificate(.crt) and SSL certificate key(.key) must be in valid format. If this is not the case nginx won't start! By default, both the certificate and key will be located in `/etc/ssl/` and will have the name of HOSTNAME, eg. `/etc/ssl/example.com.crt` and `/etc/ssl/example.com.key`.
 
 ### Including multi-line strings in JSON
+
 You can use the following Ruby 1.9 one-liner to output valid JSON for a certificate file or private key:
 
 ```bash
@@ -144,6 +146,7 @@ ruby -rjson -e 'puts JSON.dump([ARGF.read])[1..-2]' my_site.cert
 ```
 
 ### Storing repositories and satellites in a custom directory
+
 In some situations it can be practical to put repository and satellite data on a separate volume.
 Below we assume that the GitLab system user (`git`) will have UID:GID 1234:1234, and that `/mnt/storage` is owned by 1234:1234.
 
@@ -159,6 +162,7 @@ Below we assume that the GitLab system user (`git`) will have UID:GID 1234:1234,
 ```
 
 ### Using a proxy server for network access
+
 If you are behind a proxy server, you must ensure that the `http_proxy`
 and `https_proxy` environment variables have been correctly set.
 
@@ -170,6 +174,11 @@ https_proxy     "https://my-proxy.example.com:8080"
 ```
 
 ### RHEL
+
 If you are on RHEL 6.4+, `libicu-devel` has been moved to the
 *optional* channel. You must enable the optional channel if you have not
 already done so, see here: https://access.redhat.com/site/solutions/389423.
+
+### Monitoring
+
+Basic monitoring can be [setup with monit](doc/monit.md)
