@@ -29,7 +29,8 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :sign_in_text => gitlab['extra']['sign_in_text'],
     :default_projects_features => gitlab['default_projects_features'],
     :gravatar => gitlab['gravatar'],
-    :ldap_config => gitlab['ldap']
+    :ldap_config => gitlab['ldap'],
+    :ssh_port => gitlab['ssh_port'],
   })
   notifies :run, "bash[git config]", :immediately
   notifies :reload, "service[gitlab]"
