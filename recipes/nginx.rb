@@ -68,6 +68,11 @@ if gitlab['port'] == "443"
   end
 end
 ## Restart
+
+service "nginx" do
+  action :enable
+end
+
 service "nginx" do
   action :restart
 end
