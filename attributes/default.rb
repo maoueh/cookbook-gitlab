@@ -2,7 +2,7 @@
 if platform_family?("rhel")
   packages = %w{
     libicu-devel libxslt-devel libyaml-devel libxml2-devel gdbm-devel libffi-devel zlib-devel openssl-devel
-    libyaml-devel readline-devel curl-devel openssl-devel pcre-devel git memcached-devel valgrind-devel mysql-devel gcc-c++
+    libyaml-devel readline-devel curl-devel openssl-devel pcre-devel git mysql-devel gcc-c++
     ImageMagick-devel ImageMagick
   }
 else
