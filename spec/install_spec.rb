@@ -32,6 +32,7 @@ describe "gitlab::install" do
             oauth_providers: [],
             google_analytics_id: "",
             sign_in_text: "",
+            ssh_port: "22",
             default_projects_features: {
               "issues"=>true,
               "merge_requests"=>true,
@@ -303,6 +304,7 @@ describe "gitlab::install" do
             oauth_providers: [],
             google_analytics_id: "",
             sign_in_text: "",
+            ssh_port: "22",
             default_projects_features: {
               "issues"=>true,
               "merge_requests"=>true,
