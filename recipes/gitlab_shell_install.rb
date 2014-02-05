@@ -20,17 +20,27 @@ template File.join(gitlab['shell_path'], "config.yml") do
     :redis_port => gitlab['redis_port'],
     :namespace => gitlab['namespace']
   })
-  notifies :run, "execute[gitlab-shell install]", :immediately
 end
 
 ## Do setup
-execute "gitlab-shell install" do
-  command <<-EOS
-    PATH="/usr/local/bin:$PATH"
-    ./bin/install
-  EOS
-  cwd gitlab['shell_path']
-  user gitlab['user']
+directory "Repositories path" do
+  path gitlab['repos_path']
+  owner gitlab['user']
   group gitlab['group']
-  action :nothing
+  mode 02770
+end
+
+directory "SSH key directory" do
+  path File.join(gitlab['home'], "/", ".ssh")
+  owner gitlab['user']
+  group gitlab['group']
+  mode 0700
+end
+
+file "authorized keys file" do
+  path File.join(gitlab['home'], "/", ".ssh", "/", "authorized_keys")
+  owner gitlab['user']
+  group gitlab['group']
+  mode 0600
+  action :create_if_missing
 end
