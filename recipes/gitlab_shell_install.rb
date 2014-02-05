@@ -27,7 +27,7 @@ directory "Repositories path" do
   path gitlab['repos_path']
   owner gitlab['user']
   group gitlab['group']
-  mode 1770
+  mode 02770
 end
 
 directory "SSH key directory" do
@@ -38,6 +38,7 @@ directory "SSH key directory" do
 end
 
 file "authorized keys file" do
+  path File.join(gitlab['home'], "/", ".ssh", "/", "authorized_keys")
   owner gitlab['user']
   group gitlab['group']
   mode 0600
