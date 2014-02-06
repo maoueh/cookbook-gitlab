@@ -134,7 +134,7 @@ execute "rake db:setup" do
   group gitlab['group']
   action :nothing
   subscribes :run, "mysql_database[gitlabhq_database]"
-  subscribes :run, "postgresql_database[gitlabhq_#{environment}]"
+  subscribes :run, "postgresql_database[gitlabhq_database]"
 end
 
 ### db:migrate
