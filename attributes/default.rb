@@ -55,10 +55,20 @@ default['mysql']['server_root_password'] = "rootpass"
 default['mysql']['server_repl_password'] = "replpass"
 default['mysql']['server_debian_password'] = "debianpass"
 
+# PostgreSQL attributes
+include_attribute 'postgresql'
 
+case node["platform_family"]
+when "debian"
+  default['postgresql']['enable_pgdg_apt'] = true
+when "rhel"
+  default['postgresql']['enable_pgdg_yum'] = true
+end
+default['postgresql']['version'] = "9.3"
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
 
+# Postfix
 default['postfix']['mail_type'] = "client"
 default['postfix']['myhostname'] = "mail.localhost"
 default['postfix']['mydomain'] = "localhost"
