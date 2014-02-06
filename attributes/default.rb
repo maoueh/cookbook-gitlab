@@ -65,6 +65,8 @@ when "rhel"
   default['postgresql']['enable_pgdg_yum'] = true
 end
 default['postgresql']['version'] = "9.3"
+default['postgresql']['client']['packages'] = %w{postgresql-client-9.3 libpq-dev}
+default['postgresql']['server']['packages'] = %w{postgresql-9.3}
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
 
