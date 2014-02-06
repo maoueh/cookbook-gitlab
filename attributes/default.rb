@@ -73,6 +73,9 @@ default['postgresql']['config']['data_directory'] = "/var/lib/postgresql/#{node[
 default['postgresql']['config']['hba_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf"
 default['postgresql']['config']['ident_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_ident.conf"
 default['postgresql']['config']['external_pid_file'] = "/var/run/postgresql/#{node['postgresql']['version']}-main.pid"
+default['postgresql']['config']['ssl'] = false
+default['postgresql']['config']['unix_socket_directory'] = nil
+default['postgresql']['config']['unix_socket_directories'] = '/var/run/postgresql'
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
 
