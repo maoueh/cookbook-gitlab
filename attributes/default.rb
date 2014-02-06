@@ -67,6 +67,12 @@ end
 default['postgresql']['version'] = "9.3"
 default['postgresql']['client']['packages'] = %w{postgresql-client-9.3 libpq-dev}
 default['postgresql']['server']['packages'] = %w{postgresql-9.3}
+# due to the way attributes are organized we have to override the default paths too
+default['postgresql']['dir'] = "/etc/postgresql/#{node['postgresql']['version']}/main"
+default['postgresql']['config']['data_directory'] = "/var/lib/postgresql/#{node['postgresql']['version']}/main"
+default['postgresql']['config']['hba_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf"
+default['postgresql']['config']['ident_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_ident.conf"
+default['postgresql']['config']['external_pid_file'] = "/var/run/postgresql/#{node['postgresql']['version']}-main.pid"
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
 
