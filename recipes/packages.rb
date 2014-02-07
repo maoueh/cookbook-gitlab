@@ -7,7 +7,7 @@ gitlab = node['gitlab']
 
 # Make sure we have all common paths included in our environment
 magic_shell_environment 'PATH' do
-  value '/usr/local/bin:/usr/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin'
+  value "/usr/local/bin:/usr/local/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin:#{gitlab['postgresql']['configuration_dir']}"
 end
 
 # 1. Packages / Dependencies

@@ -79,6 +79,8 @@ when "rhel"
   default['postgresql']['server']['packages'] = ["postgresql#{node['postgresql']['version'].split('.').join}-server"]
   default['postgresql']['contrib']['packages'] = ["postgresql#{node['postgresql']['version'].split('.').join}-contrib"]
   default['postgresql']['dir'] = "/var/lib/pgsql/data"
+  default['postgresql']['server']['service_name'] = "postgresql-#{node['postgresql']['version']}"
+  default['gitlab']['postgresql']['configuration_dir'] = "/usr/pgsql-#{node['postgresql']['version']}/bin"
 end
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
