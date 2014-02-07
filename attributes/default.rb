@@ -73,6 +73,7 @@ when "debian"
   default['postgresql']['config']['ssl'] = false
   default['postgresql']['config']['unix_socket_directory'] = nil
   default['postgresql']['config']['unix_socket_directories'] = '/var/run/postgresql'
+  default['gitlab']['postgresql']['configuration_dir'] = nil
 when "rhel"
   default['postgresql']['enable_pgdg_yum'] = true
   default['postgresql']['client']['packages'] = ["postgresql#{node['postgresql']['version'].split('.').join}-devel"]

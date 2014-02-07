@@ -56,6 +56,7 @@ end
 
 execute "bundle install" do
   command <<-EOS
+    PATH="#{gitlab['postgresql']['configuration_dir']}:/usr/local/bin:$PATH"
     #{gitlab['bundle_install']} --without #{bundle_without.join(" ")}
   EOS
   cwd gitlab['path']
