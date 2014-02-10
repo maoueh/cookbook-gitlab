@@ -11,7 +11,11 @@ production:
   username: "<%= @user %>"
   password: "<%= @password %>"
   host: <%= @host %>
+  <% if @socket %>
+  socket: <%= @socket %>
+  <% else %>
   # socket: /tmp/mysql.sock
+  <% end %>
 
 #
 # Development specific
@@ -25,7 +29,11 @@ development:
   username: "<%= @user %>"
   password: "<%= @password %>"
   host: <%= @host %>
+  <% if @socket %>
+  socket: <%= @socket %>
+  <% else %>
   # socket: /tmp/mysql.sock
+  <% end %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -39,4 +47,8 @@ test: &test
   username: "<%= @user %>"
   password: "<%= @password %>"
   host: <%= @host %>
+  <% if @socket %>
+  socket: <%= @socket %>
+  <% else %>
   # socket: /tmp/mysql.sock
+  <% end %>
