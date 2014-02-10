@@ -42,6 +42,7 @@ when 'mysql'
   bundle_without << 'postgres'
 when 'postgresql'
   bundle_without << 'mysql'
+
 end
 bundle_without << 'aws' unless gitlab['aws']['enabled']
 
@@ -55,7 +56,7 @@ end
 
 execute "bundle install" do
   command <<-EOS
-    PATH="/usr/local/bin:$PATH"
+    PATH="#{gitlab['postgresql']['configuration_dir']}:/usr/local/bin:$PATH"
     #{gitlab['bundle_install']} --without #{bundle_without.join(" ")}
   EOS
   cwd gitlab['path']

@@ -55,10 +55,38 @@ default['mysql']['server_root_password'] = "rootpass"
 default['mysql']['server_repl_password'] = "replpass"
 default['mysql']['server_debian_password'] = "debianpass"
 
+# PostgreSQL attributes
+include_attribute 'postgresql'
 
+default['postgresql']['version'] = "9.3"
+case node["platform_family"]
+when "debian"
+  default['postgresql']['enable_pgdg_apt'] = true
+  default['postgresql']['client']['packages'] = %w{postgresql-client-9.3 libpq-dev}
+  default['postgresql']['server']['packages'] = %w{postgresql-9.3}
+  # due to the way attributes are organized we have to override the default paths too
+  default['postgresql']['dir'] = "/etc/postgresql/#{node['postgresql']['version']}/main"
+  default['postgresql']['config']['data_directory'] = "/var/lib/postgresql/#{node['postgresql']['version']}/main"
+  default['postgresql']['config']['hba_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf"
+  default['postgresql']['config']['ident_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_ident.conf"
+  default['postgresql']['config']['external_pid_file'] = "/var/run/postgresql/#{node['postgresql']['version']}-main.pid"
+  default['postgresql']['config']['ssl'] = false
+  default['postgresql']['config']['unix_socket_directory'] = nil
+  default['postgresql']['config']['unix_socket_directories'] = '/var/run/postgresql'
+  default['gitlab']['postgresql']['configuration_dir'] = nil
+when "rhel"
+  default['postgresql']['enable_pgdg_yum'] = true
+  default['postgresql']['client']['packages'] = ["postgresql#{node['postgresql']['version'].split('.').join}-devel"]
+  default['postgresql']['server']['packages'] = ["postgresql#{node['postgresql']['version'].split('.').join}-server"]
+  default['postgresql']['contrib']['packages'] = ["postgresql#{node['postgresql']['version'].split('.').join}-contrib"]
+  default['postgresql']['dir'] = "/var/lib/pgsql/data"
+  default['postgresql']['server']['service_name'] = "postgresql-#{node['postgresql']['version']}"
+  default['gitlab']['postgresql']['configuration_dir'] = "/usr/pgsql-#{node['postgresql']['version']}/bin"
+end
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
 
+# Postfix
 default['postfix']['mail_type'] = "client"
 default['postfix']['myhostname'] = "mail.localhost"
 default['postfix']['mydomain'] = "localhost"

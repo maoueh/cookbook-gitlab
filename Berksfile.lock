@@ -16,6 +16,11 @@
       "git": "git://github.com/phlipper/chef-monit.git",
       "ref": "276c99ba08869ebd5117267d91a2ff6aa0d9fc6b"
     },
+    "postgresql": {
+      "locked_version": "3.3.4",
+      "git": "git://github.com/maxlazio/postgresql.git",
+      "ref": "000ffed11710e8d307ea5b18c13213e53e66e289"
+    },
     "redisio": {
       "locked_version": "1.7.0"
     },
@@ -25,20 +30,14 @@
     "ruby_build": {
       "locked_version": "0.8.0"
     },
-    "postgresql": {
-      "locked_version": "3.3.4"
-    },
-    "apt": {
-      "locked_version": "2.3.0"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
+    "mysql": {
+      "locked_version": "4.0.6"
     },
     "openssl": {
       "locked_version": "1.1.0"
     },
-    "mysql": {
-      "locked_version": "4.0.6"
+    "build-essential": {
+      "locked_version": "1.4.2"
     },
     "database": {
       "locked_version": "1.5.2"
@@ -66,6 +65,9 @@
     },
     "chef_handler": {
       "locked_version": "1.1.4"
+    },
+    "apt": {
+      "locked_version": "2.3.0"
     }
   }
 }
