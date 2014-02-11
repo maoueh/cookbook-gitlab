@@ -17,4 +17,4 @@ include_recipe "gitlab::ruby"
 include_recipe "gitlab::users"
 
 # Setup chosen database
-include_recipe "gitlab::database_#{gitlab['database_adapter']}"
+include_recipe "gitlab::database_#{gitlab['database_adapter']}" unless gitlab['external_database']

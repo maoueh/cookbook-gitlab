@@ -12,7 +12,7 @@ include_recipe "database::mysql"
 
 mysql_connection = {
   :host => mysql['server_host'],
-  :username => 'root',
+  :username => mysql['server_root_username'],
   :password => mysql['server_root_password']
 }
 

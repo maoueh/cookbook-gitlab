@@ -12,7 +12,7 @@ include_recipe "database::postgresql"
 
 postgresql_connection = {
   :host => postgresql['server_host'],
-  :username => 'postgres',
+  :username => postgresql['username']['postgres'],
   :password => postgresql['password']['postgres']
 }
 
