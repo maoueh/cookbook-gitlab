@@ -2,6 +2,7 @@
 
 ### Requirements
 
+* [Ruby 1.9 or higher](https://www.ruby-lang.org/) and [Rubygems](http://rubygems.org/)
 * [VirtualBox](https://www.virtualbox.org)
 * [Vagrant 1.3.x](http://vagrantup.com)
 * The NFS packages for the synced folder of Vagrant. These are already installed if you are using Mac OSX and not necessary if you are using Windows. On Linux install them by running:
@@ -31,6 +32,8 @@ Rails 4.1 comes with the [Spring application preloader](https://github.com/jonle
 If you are frequently developing GitLab you can consider installing all the development dependencies on your [metal environment](development_metal.md).
 
 ### Installation
+
+We assume you already have a working Ruby and Rubygems installation.
 
 `Vagrantfile` already contains the correct attributes so in order use this cookbook in a development environment following steps are needed:
 
