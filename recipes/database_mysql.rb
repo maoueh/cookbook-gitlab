@@ -7,8 +7,10 @@ mysql = node['mysql']
 gitlab = node['gitlab']
 
 # 5.Database
-include_recipe "mysql::server"
-include_recipe "database::mysql"
+unless gitlab['external_database']
+  include_recipe "mysql::server"
+  include_recipe "database::mysql"
+end
 
 mysql_connection = {
   :host => mysql['server_host'],

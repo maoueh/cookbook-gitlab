@@ -32,6 +32,20 @@ describe "gitlab::database_mysql" do
         expect(chef_run).to include_recipe("mysql::server")
         expect(chef_run).to include_recipe("gitlab::database_mysql")
       end
+
+      describe "with external database" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['external_database'] = true
+          runner.converge("gitlab::database_mysql")
+        end
+
+        it "skips database setup recipe" do
+          expect(chef_run).to_not include_recipe("mysql::server")
+          expect(chef_run).to_not include_recipe("database::mysql")
+        end
+      end
     end
   end
 
@@ -56,6 +70,20 @@ describe "gitlab::database_mysql" do
       it "includes recipes from external cookbooks" do
         expect(chef_run).to include_recipe("mysql::server")
         expect(chef_run).to include_recipe("gitlab::database_mysql")
+      end
+
+      describe "with external database" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['external_database'] = true
+          runner.converge("gitlab::database_mysql")
+        end
+
+        it "skips database setup recipe" do
+          expect(chef_run).to_not include_recipe("mysql::server")
+          expect(chef_run).to_not include_recipe("database::mysql")
+        end
       end
     end
   end

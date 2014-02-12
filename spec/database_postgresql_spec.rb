@@ -25,6 +25,20 @@ describe "gitlab::database_postgresql" do
         expect(chef_run).to include_recipe("postgresql::server")
         expect(chef_run).to include_recipe("database::postgresql")
       end
+
+      describe "with external database" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['external_database'] = true
+          runner.converge("gitlab::database_postgresql")
+        end
+
+        it "skips database setup recipe" do
+          expect(chef_run).to_not include_recipe("postgresql::server")
+          expect(chef_run).to_not include_recipe("database::postgresql")
+        end
+      end
     end
   end
 
@@ -42,6 +56,20 @@ describe "gitlab::database_postgresql" do
       it "includes recipes from external cookbooks" do
         expect(chef_run).to include_recipe("postgresql::server")
         expect(chef_run).to include_recipe("database::postgresql")
+      end
+
+      describe "with external database" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['external_database'] = true
+          runner.converge("gitlab::database_postgresql")
+        end
+
+        it "skips database setup recipe" do
+          expect(chef_run).to_not include_recipe("postgresql::server")
+          expect(chef_run).to_not include_recipe("database::postgresql")
+        end
       end
     end
   end
