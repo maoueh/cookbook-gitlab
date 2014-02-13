@@ -104,6 +104,47 @@ it contains sensitive information:
 ```bash
 rm /tmp/solo.json
 ```
+
+### Note about using the external database
+
+By setting the attribute:
+
+```json
+{
+  "gitlab": {
+    "external_database": true
+  }
+}
+```
+
+database won't be installed on the server.
+If the external database doesn't have database table and database user created, superuser credentials would have to be supplied so database table and user can be created. For example, if using mysql you will need to supply:
+
+```json
+{
+  "gitlab": {
+    "external_database": true,
+    "database_adapter": "mysql",
+    "database_user": "git",
+    "database_password": "gitdbpass"
+    default['mysql']['server_host'] = "localhost"
+  },
+  "mysql": {
+    "server_host": "http://example.com",
+    "server_root_username": "root",
+    "server_root_password": "rootpass"
+  }
+}
+```
+This will connect to the database located at `http://example.com` with user `root`. User `root` has the credentials to create the database so this cookbook will create database table `gitlabhq_production` and database user `git` with password `gitdbpass`.
+
+*Note* If using an existing database and database user use the same credentials for `server_root_username` and `database_user` (passwords too).
+There is a manual step involved after the run is complete to add admin user to the database.
+You will need to create an initial user manually with:
+
+`sudo -u git -H bundle exec rake db:seed_fu RAILS_ENV=production`
+
+
 ### Enabling HTTPS
 
 In order to enable HTTPS you will need to provide the following custom attributes:

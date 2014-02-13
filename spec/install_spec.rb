@@ -157,13 +157,13 @@ describe "gitlab::install" do
       end
 
       describe "running database setup, migrations and seed when production" do
-        it 'runs an execute to rake db:setup' do
-          expect(chef_run).not_to run_execute('rake db:setup')
+        it 'runs an execute to rake db:schema:load' do
+          expect(chef_run).not_to run_execute('rake db:schema:load')
         end
 
         it 'runs db setup' do
-          resource = chef_run.find_resource(:execute, 'rake db:setup')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=production\n")
+          resource = chef_run.find_resource(:execute, 'rake db:schema:load')
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -201,15 +201,15 @@ describe "gitlab::install" do
           runner.converge("gitlab::start","gitlab::install")
         end
 
-        it 'runs an execute to rake db:setup' do
-          expect(chef_run).not_to run_execute('rake db:setup')
+        it 'runs an execute to rake db:schema:load' do
+          expect(chef_run).not_to run_execute('rake db:schema:load')
         end
 
         it 'runs db setup for all environments' do
-          resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:setup"}
+          resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:schema:load"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=development\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
@@ -431,13 +431,13 @@ describe "gitlab::install" do
       end
 
       describe "running database setup, migrations and seed when production" do
-        it 'does not run an execute to rake db:setup' do
-          expect(chef_run).not_to run_execute('rake db:setup')
+        it 'does not run an execute to rake db:schema:load' do
+          expect(chef_run).not_to run_execute('rake db:schema:load')
         end
 
         it 'runs db setup' do
-          resource = chef_run.find_resource(:execute, 'rake db:setup')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=production\n")
+          resource = chef_run.find_resource(:execute, 'rake db:schema:load')
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=production\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -476,15 +476,15 @@ describe "gitlab::install" do
           runner.converge("gitlab::start","gitlab::install")
         end
 
-        it 'runs an execute to rake db:setup' do
-          expect(chef_run).not_to run_execute('rake db:setup')
+        it 'runs an execute to rake db:schema:load' do
+          expect(chef_run).not_to run_execute('rake db:schema:load')
         end
 
         it 'runs db setup for all environments' do
-          resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:setup"}
+          resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:schema:load"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:setup RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=development\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
