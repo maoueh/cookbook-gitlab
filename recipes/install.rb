@@ -123,11 +123,11 @@ template File.join(gitlab['path'], "config", "database.yml") do
   notifies :reload, "service[gitlab]"
 end
 
-### db:setup
-execute "rake db:setup" do
+### Load db schema
+execute "rake db:schema:load" do
   command <<-EOS
     PATH="/usr/local/bin:$PATH"
-    bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}
+    bundle exec rake db:schema:load RAILS_ENV=#{gitlab['env']}
   EOS
   cwd gitlab['path']
   user gitlab['user']
@@ -148,7 +148,7 @@ execute "rake db:migrate" do
   group gitlab['group']
   action :nothing
   subscribes :run, "git[clone gitlabhq source]"
-  subscribes :run, "execute[rake db:setup]"
+  subscribes :run, "execute[rake db:schema:load]"
 end
 
 ### db:seed_fu
@@ -161,7 +161,7 @@ execute "rake db:seed_fu" do
   user gitlab['user']
   group gitlab['group']
   action :nothing
-  subscribes :run, "execute[rake db:setup]"
+  subscribes :run, "execute[rake db:schema:load]"
 end
 
 ## Setup Init Script
