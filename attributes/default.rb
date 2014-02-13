@@ -43,7 +43,7 @@ default['gitlab']['bundle_install'] = "SSL_CERT_FILE=/opt/local/etc/certs/cacert
 # Assumed defaults
 # database: mysql (option: postgresql)
 # environment: production (option: development)
-
+default['gitlab']['external_database'] = false
 default['gitlab']['database_adapter'] = "mysql"
 default['gitlab']['database_password'] = "datapass"
 default['gitlab']['database_user'] = "git"
@@ -51,6 +51,7 @@ default['gitlab']['env'] = "production"
 
 default['mysql']['server_host'] = "localhost" # Host of the server that hosts the database.
 default['mysql']['client_host'] = "localhost" # Host where user connections are allowed from.
+default['mysql']['server_root_username'] = "root"
 default['mysql']['server_root_password'] = "rootpass"
 default['mysql']['server_repl_password'] = "replpass"
 default['mysql']['server_debian_password'] = "debianpass"
@@ -83,6 +84,7 @@ when "rhel"
   default['postgresql']['server']['service_name'] = "postgresql-#{node['postgresql']['version']}"
   default['gitlab']['postgresql']['configuration_dir'] = "/usr/pgsql-#{node['postgresql']['version']}/bin"
 end
+default['postgresql']['username']['postgres'] = "postgres"
 default['postgresql']['password']['postgres'] = "psqlpass"
 default['postgresql']['server_host'] = "localhost"
 
