@@ -7,12 +7,11 @@ postgresql = node['postgresql']
 gitlab = node['gitlab']
 
 # 5.Database
-include_recipe "gitlab::database_postgresql_pg_gem"
-
 unless gitlab['external_database']
   include_recipe "postgresql::server"
   include_recipe "database::postgresql"
 end
+include_recipe "gitlab::database_postgresql_pg_gem"
 
 postgresql_connection = {
   :host => postgresql['server_host'],
