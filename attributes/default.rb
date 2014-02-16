@@ -29,6 +29,7 @@ default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
 default['gitlab']['redis_host'] = "127.0.0.1"
 default['gitlab']['redis_port'] = "6379"
 default['gitlab']['namespace']  = "resque:gitlab"
+default['gitlab']['self_signed_cert'] = false
 
 # GitLab hq config
 default['gitlab']['git_path'] = "/usr/local/bin/git"
