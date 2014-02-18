@@ -24,7 +24,8 @@ cat > /tmp/solo.json << EOF
     "gitlab": {
       "env": "development",
       "database_adapter": "mysql",
-      "database_password": "a"
+      "database_password": "a",
+      "ssh_port": "22"
     },
     "mysql": {
       "server_root_password": "a"
