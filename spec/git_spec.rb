@@ -6,14 +6,14 @@ describe "gitlab::git" do
 
   describe "under ubuntu" do
     ["12.04", "10.04"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::git")
       end
 
       before do
-        stub_command("test -f /var/chef/cache/git-1.8.4.1.zip").and_return(false)
+        stub_command("test -f #{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").and_return(false)
         stub_command("git --version | grep 1.8.4.1").and_return(false)
       end
 
@@ -25,27 +25,27 @@ describe "gitlab::git" do
       end
 
       it 'gets the source code for git' do
-        expect(chef_run).to create_remote_file('/var/chef/cache/git-1.8.4.1.zip').with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
+        expect(chef_run).to create_remote_file("#{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
       end
 
       it 'executes compiling git from source' do
         resource = chef_run.find_resource(:execute, 'Extracting and Building Git 1.8.4.1 from Source')
         expect(resource.command).to eq("    unzip -q git-1.8.4.1.zip\n    cd git-1.8.4.1 && make prefix=/usr/local install\n")
-        expect(resource.cwd).to eq("/var/chef/cache")
+        expect(resource.cwd).to eq(Chef::Config['file_cache_path'])
       end
     end
   end
 
     describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::git")
       end
 
       before do
-        stub_command("test -f /var/chef/cache/git-1.8.4.1.zip").and_return(false)
+        stub_command("test -f #{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").and_return(false)
         stub_command("git --version | grep 1.8.4.1").and_return(false)
       end
 
@@ -57,13 +57,13 @@ describe "gitlab::git" do
       end
 
       it 'gets the source code for git' do
-        expect(chef_run).to create_remote_file('/var/chef/cache/git-1.8.4.1.zip').with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
+        expect(chef_run).to create_remote_file("#{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
       end
 
       it 'executes compiling git from source' do
         resource = chef_run.find_resource(:execute, 'Extracting and Building Git 1.8.4.1 from Source')
         expect(resource.command).to eq("    unzip -q git-1.8.4.1.zip\n    cd git-1.8.4.1 && make prefix=/usr/local install\n")
-        expect(resource.cwd).to eq("/var/chef/cache")
+        expect(resource.cwd).to eq(Chef::Config['file_cache_path'])
       end
     end
   end
