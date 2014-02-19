@@ -13,8 +13,6 @@ production:
   host: <%= @host %>
   <% if @socket %>
   socket: <%= @socket %>
-  <% else %>
-  # socket: /tmp/mysql.sock
   <% end %>
 
 #
@@ -31,8 +29,6 @@ development:
   host: <%= @host %>
   <% if @socket %>
   socket: <%= @socket %>
-  <% else %>
-  # socket: /tmp/mysql.sock
   <% end %>
 
 # Warning: The database defined as "test" will be erased and
@@ -49,6 +45,4 @@ test: &test
   host: <%= @host %>
   <% if @socket %>
   socket: <%= @socket %>
-  <% else %>
-  # socket: /tmp/mysql.sock
   <% end %>
