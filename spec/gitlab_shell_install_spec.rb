@@ -23,7 +23,8 @@ describe "gitlab::gitlab_shell_install" do
             redis_path: "/usr/local/bin/redis-cli",
             redis_host: "127.0.0.1",
             redis_port: "6379",
-            namespace: "resque:gitlab"
+            namespace: "resque:gitlab",
+            self_signed_cert: false
           }
         )
       end
@@ -77,7 +78,8 @@ describe "gitlab::gitlab_shell_install" do
             redis_path: "/usr/local/bin/redis-cli",
             redis_host: "127.0.0.1",
             redis_port: "6379",
-            namespace: "resque:gitlab"
+            namespace: "resque:gitlab",
+            self_signed_cert: false
           }
         )
       end
