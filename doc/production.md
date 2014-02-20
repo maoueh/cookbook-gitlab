@@ -13,41 +13,7 @@ Configure your installation parameters by editing the `/tmp/solo.json` file.
 Parameters which you will likely want to customize include:
 
 ```bash
-cat > /tmp/solo.json << EOF
-{
-  "gitlab": {
-    "host": "example.com",
-    "url": "http://example.com/",
-    "email_from": "gitlab@example.com",
-    "support_email": "support@example.com",
-    "database_adapter": "mysql or postgresql",
-    "database_password": "database password used by the GitLab application",
-    "repository": "clone URL for e.g. GitLab Enterprise Edition; omit this line to use Community Edition",
-    "revision": "branch or tag or SHA1 to install a specific version of GitLab, e.g. 6-4-stable"
-  },
-  "postgresql": {
-    "password": {
-      "postgres": "psqlpass"
-    }
-  },
-  "mysql": {
-    "server_root_password": "mysql root password",
-    "server_repl_password": "mysql replication password; omit this line for a random password",
-    "server_debian_password": "Debian administration password; omit this line for a random password"
-  },
-  "postfix": {
-    "mail_type": "client",
-    "myhostname": "mail.example.com",
-    "mydomain": "example.com",
-    "myorigin": "mail.example.com",
-    "smtp_use_tls": "no"
-  },
-  "run_list": [
-    "postfix",
-    "gitlab::default"
-  ]
-}
-EOF
+curl -o /tmp/solo.json https://gitlab.com/gitlab-org/cookbook-gitlab/raw/master/solo.json.production_example
 ```
 
 You only need to keep parameters which need to differ from their default values.
