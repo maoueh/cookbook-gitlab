@@ -18,7 +18,7 @@ describe "gitlab::git" do
       end
 
       it "installs all git required packages" do
-        packages = %w{unzip build-essential libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev}
+        packages = %w{unzip build-essential libcurl4-openssl-dev libexpat1-dev gettext libz-dev libssl-dev}
         packages.each do |pkg|
           expect(chef_run).to install_package(pkg)
         end
