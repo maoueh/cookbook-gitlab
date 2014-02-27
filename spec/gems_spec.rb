@@ -33,7 +33,7 @@ describe "gitlab::gems" do
 
         it 'executes bundle without development and test' do
           resource = chef_run.find_resource(:execute, 'bundle install')
-          expect(resource.command).to eq("    PATH=\":/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without postgres aws development test\n")
+          expect(resource.command).to eq("    PATH=\":/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without mysql aws development test\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -48,7 +48,7 @@ describe "gitlab::gems" do
 
           it 'executes bundle without production' do
             resource = chef_run.find_resource(:execute, 'bundle install')
-            expect(resource.command).to eq("    PATH=\":/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without postgres aws production\n")
+            expect(resource.command).to eq("    PATH=\":/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without mysql aws production\n")
             expect(resource.user).to eq("git")
             expect(resource.group).to eq("git")
             expect(resource.cwd).to eq("/home/git/gitlab")
@@ -127,7 +127,7 @@ describe "gitlab::gems" do
 
         it 'executes bundle without development and test' do
           resource = chef_run.find_resource(:execute, 'bundle install')
-          expect(resource.command).to eq("    PATH=\"/usr/pgsql-9.3/bin:/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without postgres aws development test\n")
+          expect(resource.command).to eq("    PATH=\"/usr/pgsql-9.3/bin:/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without mysql aws development test\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -142,7 +142,7 @@ describe "gitlab::gems" do
 
           it 'executes bundle without production' do
             resource = chef_run.find_resource(:execute, 'bundle install')
-            expect(resource.command).to eq("    PATH=\"/usr/pgsql-9.3/bin:/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without postgres aws production\n")
+            expect(resource.command).to eq("    PATH=\"/usr/pgsql-9.3/bin:/usr/local/bin:$PATH\"\n    SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment --without mysql aws production\n")
             expect(resource.user).to eq("git")
             expect(resource.group).to eq("git")
             expect(resource.cwd).to eq("/home/git/gitlab")

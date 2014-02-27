@@ -1,4 +1,4 @@
-# Package
+# Packages
 if platform_family?("rhel")
   packages = %w{
     libicu-devel libxslt-devel libyaml-devel libxml2-devel gdbm-devel libffi-devel zlib-devel openssl-devel
@@ -20,36 +20,83 @@ default['gitlab']['ruby'] = "2.0.0-p353"
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_revision'] = "v1.8.0"
 
-# GitLab hq
-default['gitlab']['repository'] = "https://github.com/gitlabhq/gitlabhq.git"
-default['gitlab']['deploy_key'] = "" # Optional. Private key used to connect to private GitLab repository.
-
-# GitLab shell config
+# GitLab shell configuration
+default['gitlab']['repos_path'] = "/home/git/repositories"
+default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
 default['gitlab']['redis_host'] = "127.0.0.1"
 default['gitlab']['redis_port'] = "6379"
 default['gitlab']['namespace']  = "resque:gitlab"
 default['gitlab']['self_signed_cert'] = false
 
-# GitLab hq config
+# GitLab
+default['gitlab']['repository'] = "https://github.com/gitlabhq/gitlabhq.git"
+default['gitlab']['deploy_key'] = "" # Optional. Private key used to connect to private GitLab repository.
+
+# Setup environments
+if node['gitlab']['env'] == "development"
+  default['gitlab']['environments'] = %w{development test}
+  default['gitlab']['revision'] = "master"
+  default['gitlab']['url'] = "http://localhost:3000/"
+  default['gitlab']['port'] = "3000"
+  default['gitlab']['ssh_port'] = "2222"
+else
+  default['gitlab']['environments'] = %w{production}
+  default['gitlab']['revision'] = "6-6-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['url'] = "http://localhost:80/"
+  default['gitlab']['port'] = "80"
+  default['gitlab']['ssh_port'] = "22"
+end
+
+# GitLab configuration
 default['gitlab']['git_path'] = "/usr/local/bin/git"
 default['gitlab']['host'] = "localhost"
-
 default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
+
+default['gitlab']['signup_enabled'] = false
+default['gitlab']['projects_limit'] = 10
+default['gitlab']['oauth_enabled'] = false
+default['gitlab']['oauth_block_auto_created_users'] = true
+default['gitlab']['oauth_allow_single_sign_on'] = false
+default['gitlab']['oauth_providers'] = [] # Example: default['gitlab']['oauth_providers'] = [ { "name": "google_oauth2", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET", "args": "access_type: 'offline', approval_prompt: ''" }, { "name": "twitter", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }, { "name":"github", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }]
+
+default['gitlab']['extra']['google_analytics_id'] = "" # Example:  "AA-1231231-1"
+default['gitlab']['extra']['sign_in_text'] = "" # Example:  "![Company Logo](http://www.example.com/logo.png)"
+
+default['gitlab']['ldap']['enabled'] = false
+default['gitlab']['ldap']['host'] = "_your_ldap_server"
+default['gitlab']['ldap']['base'] = "_the_base_where_you_search_for_users"
+default['gitlab']['ldap']['port'] = 636
+default['gitlab']['ldap']['uid'] = "sAMAccountName"
+default['gitlab']['ldap']['method'] = "ssl"
+default['gitlab']['ldap']['bind_dn'] = "_the_full_dn_of_the_user_you_will_bind_with"
+default['gitlab']['ldap']['password'] = "_the_password_of_the_bind_user"
+default['gitlab']['ldap']['allow_username_or_email_login'] = true
+
+default['gitlab']['gravatar'] = true
+
+default['gitlab']['default_projects_features']['issues'] = true
+default['gitlab']['default_projects_features']['merge_requests'] = true
+default['gitlab']['default_projects_features']['wiki'] = true
+default['gitlab']['default_projects_features']['wall'] = false
+default['gitlab']['default_projects_features']['snippets'] = false
+default['gitlab']['default_projects_features']['visibility_level'] = "private"
 
 # Gems
 default['gitlab']['bundle_install'] = "SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment"
 
+# Databases
 # Assumed defaults
-# database: mysql (option: postgresql)
+# database: postgresql (option: mysql)
 # environment: production (option: development)
 default['gitlab']['external_database'] = false
-default['gitlab']['database_adapter'] = "mysql"
+default['gitlab']['database_adapter'] = "postgresql"
 default['gitlab']['database_password'] = "datapass"
 default['gitlab']['database_user'] = "git"
 default['gitlab']['env'] = "production"
 
+# MySQL attributes
 default['mysql']['server_host'] = "localhost" # Host of the server that hosts the database.
 default['mysql']['client_host'] = "localhost" # Host where user connections are allowed from.
 default['mysql']['server_root_username'] = "root"
@@ -103,49 +150,15 @@ default['gitlab']['user_uid'] = nil # Use to specify user id.
 default['gitlab']['user_gid'] = nil # Use to specify group id.
 default['gitlab']['home'] = "/home/git"
 
-# GitLab shell
-default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
-
 # GitLab hq
 default['gitlab']['path'] = "/home/git/gitlab" # Do not change this attribute in production since some code from the GitLab repo such as init.d assume this path.
-default['gitlab']['signup_enabled'] = false
-default['gitlab']['projects_limit'] = 10
-default['gitlab']['oauth_enabled'] = false
-default['gitlab']['oauth_block_auto_created_users'] = true
-default['gitlab']['oauth_allow_single_sign_on'] = false
-default['gitlab']['oauth_providers'] = [] # Example: default['gitlab']['oauth_providers'] = [ { "name": "google_oauth2", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET", "args": "access_type: 'offline', approval_prompt: ''" }, { "name": "twitter", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }, { "name":"github", "app_id": "YOUR APP ID", "app_secret": "YOUR APP SECRET" }]
-
-default['gitlab']['extra']['google_analytics_id'] = "" # Example:  "AA-1231231-1"
-default['gitlab']['extra']['sign_in_text'] = "" # Example:  "![Company Logo](http://www.example.com/logo.png)"
-
-
-# GitLab shell config
-default['gitlab']['repos_path'] = "/home/git/repositories"
-
-# GitLab hq config
 default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
 
 # Unicorn specific configuration
 default['gitlab']['unicorn_workers_number'] = 2
 default['gitlab']['unicorn_timeout'] = 30
 
-# Setup environments
-if node['gitlab']['env'] == "development"
-  default['gitlab']['port'] = "3000"
-  default['gitlab']['url'] = "http://localhost:3000/"
-  default['gitlab']['revision'] = "master"
-  default['gitlab']['environments'] = %w{development test}
-  default['gitlab']['ssh_port'] = "2222"
-else
-  default['gitlab']['environments'] = %w{production}
-  default['gitlab']['url'] = "http://localhost:80/"
-  default['gitlab']['revision'] = "6-5-stable" # Must be branch, otherwise GitLab update will run on each chef run
-  default['gitlab']['port'] = "80"
-  default['gitlab']['ssh_port'] = "22"
-end
-
 # Nginx ssl certificates
-
 default['gitlab']['ssl_certificate_path'] = "/etc/ssl" # Path to .crt file. If it directory doesn't exist it will be created
 default['gitlab']['ssl_certificate_key_path'] = "/etc/ssl" # Path to .key file. If directory doesn't exist it will be created
 default['gitlab']['ssl_certificate'] = "" # SSL certificate
@@ -194,23 +207,3 @@ default['gitlab']['monitrc']['unicorn'] = {
   :mem_cycles_number => "25"
 }
 default['gitlab']['monitrc']['notify_email'] = "monitrc@localhost"
-
-default['gitlab']['ldap']['enabled'] = false
-default['gitlab']['ldap']['host'] = "_your_ldap_server"
-default['gitlab']['ldap']['base'] = "_the_base_where_you_search_for_users"
-default['gitlab']['ldap']['port'] = 636
-default['gitlab']['ldap']['uid'] = "sAMAccountName"
-default['gitlab']['ldap']['method'] = "ssl"
-default['gitlab']['ldap']['bind_dn'] = "_the_full_dn_of_the_user_you_will_bind_with"
-default['gitlab']['ldap']['password'] = "_the_password_of_the_bind_user"
-default['gitlab']['ldap']['allow_username_or_email_login'] = true
-
-default['gitlab']['gravatar'] = true
-
-default['gitlab']['default_projects_features']['issues'] = true
-default['gitlab']['default_projects_features']['merge_requests'] = true
-default['gitlab']['default_projects_features']['wiki'] = true
-default['gitlab']['default_projects_features']['wall'] = false
-default['gitlab']['default_projects_features']['snippets'] = false
-default['gitlab']['default_projects_features']['visibility_level'] = "private"
-

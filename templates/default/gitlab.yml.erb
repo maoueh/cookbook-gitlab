@@ -14,7 +14,7 @@ production: &base
 
   ## GitLab settings
   gitlab:
-    ## Web server settings
+    ## Web server settings (note: host is the FQDN, do not include http://)
     host: <%= @host %>
     port: <%= @port %>
     https: <%= @port == "443" ? true : false %>
@@ -51,6 +51,7 @@ production: &base
     ##   GRAY   = 4
     ##   COLOR  = 5
     # default_theme: 2 # default: 2
+
 
     ## Users management
     # default: false - Account passwords are not sent via the email if signup is enabled.
@@ -194,7 +195,8 @@ production: &base
   # Use the default values unless you really know what you are doing
   git:
     bin_path: <%= node['gitlab']['git_path'] %>
-    # Max size of a git object (e.g. a commit), in bytes
+    # The next value is the maximum memory size grit can use
+    # Given in number of bytes per git object (e.g. a commit)
     # This value can be increased if you have very large commits
     max_size: 5242880 # 5.megabytes
     # Git timeout to read a commit, in seconds
