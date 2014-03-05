@@ -20,18 +20,15 @@ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.
 git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git ./gitlab
 cd ./gitlab/
 cp ./example/Vagrantfile_aws ./Vagrantfile
+editor ./Vagrantfile
 ```
 Fill in the AWS credentials under the aws section in Vagrantfile and then run:
 
 ```bash
-vagrant up --provider=aws --provision
-```
-
-HostName setting:
-
-```bash
-vagrant ssh-config | awk '/HostName/ {print $2}'
-editor ./Vagrantfile
+vagrant up --provider=aws
+eval $(vagrant ssh-config | awk '/HostName/ {print "HostName=" $2}')
+sed -i.bak "s/example.com/$HostName/g" Vagrantfile
+sed -i.bak 's/chef.run_list = \[\]/chef.run_list = \["gitlab::default"\]/g' Vagrantfile
 vagrant provision
 ```
 
