@@ -82,9 +82,20 @@ First make sure that your username on the dedicated OS is the same as the userna
 
 Next, mount your existing OS's home directory on your dedicated OS's home by adding a line like the following line to your `/etc/fstab`:
 
-    UUID=<existing_os_uuid> /home/<existing_username>    ext4    defaults    0    0
+```bash
+UUID=
+echo "UUID=$UUID /media/home   ext4    defaults    0    0" | sudo tee -a /etc/fstab
+```
 
-where you can find the `existing_os_uuid` via `sudo blkid` and `sudo lsblk -f`.
+where you can find `UUID` via `sudo blkid` and `sudo lsblk -f`.
+
+Get the home directory out of the way and symlink into the main system's home:
+
+```bash
+cd /home
+sudo mv "$USER" "$USER".bak
+sudo ln -s /media/home/home/"$USER" "$USER"
+```
 
 To be able to edit the Gitlab files easily, use `bindfs` to bind the Gitlab folder to your home directory under a different username.
 
