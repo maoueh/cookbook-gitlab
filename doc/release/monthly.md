@@ -1,4 +1,5 @@
 # Things to do when creating new monthly minor or major cookbook release
+
 NOTE: This is a guide for GitLab developers.
 
 ## Check the official guides

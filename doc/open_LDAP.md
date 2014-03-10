@@ -1,14 +1,13 @@
-Gitlab-Vagrant-VM OpenLDAP setup
-=================
+### Gitlab-Vagrant-VM OpenLDAP setup
 
-Description
------------
+#### Description
 
 This guide will help you setup OpenLDAP in case you need an LDAP server in your dev environment for GitLab.
 The reason why OpenLDAP is not installed by default in GitLab-Vagrant-VM is that it would extend the time needed for creating the dev box and not everyone needs LDAP.
 However, it would be great if somebody could add this as a recipe to the Chef cookbook so it is installed automatically.
 
 # Important notes
+
 This guide is very basic and any improvements are welcome!
 
 **Note:**
@@ -20,8 +19,8 @@ If you are not familiar with vim please skip this and keep using the default edi
     sudo apt-get install -y vim
     sudo update-alternatives --set editor /usr/bin/vim.basic
 
-Setup
------------
+#### Setup
+
 Login to your Vagrant machine
 
 ```bash

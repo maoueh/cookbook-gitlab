@@ -76,21 +76,26 @@ Clones the gitlab-shell repository. Recipe uses the attributes in `attributes/de
 `attributes/development.rb` or `attributes/production.rb`.
 
 ### gitlab_shell_install
+
 Creates a gitlab-shell config.yml from attributes in `attributes/default.rb` and, depending on the environment set,
 `attributes/development.rb` or `attributes/production.rb`. Runs `gitlab-shell` install script and install it.
 
 ### install
+
 Creates a gitlab config.yml, database.yml from attributes in `attributes/default.rb` and, depending on the environment set,
 `attributes/development.rb` or `attributes/production.rb`. Creates GitLab required directories and sets permissions. Copies the example files
 to their locations. Runs `db:setup`, `db:migrate`, `db:seed_fu` to prepare selected database for GitLab.
 
 ### nginx
+
 Installs and configures nginx for usage.
 
 ### packages
+
 Installs all GitLab dependency packages supplied in `attributes/default.rb`.
 
 ### ruby
+
 Compiles ruby from source based on attributes in `attributes/default.rb`.
 
 ### setup
