@@ -63,7 +63,7 @@ NOTE: Must be used in combination with `gitlab::setup` recipe.
 
 ### gems
 
-This recipe decides what will be included and what will be ommited from the bundle install command and then it runs the bundle install.
+This recipe decides what will be included and what will be omitted from the bundle install command and then it runs the bundle install.
 Inclusion or exclusion is decided based on the database selected and environment, using attributes in `attributes/default.rb`
 
 ### git
