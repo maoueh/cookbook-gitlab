@@ -105,12 +105,24 @@ To do that automatically on every startup on Ubuntu use the following:
 sudo apt-get install bindfs
 sudo tee /etc/init/bindfs-gitlab.conf << EOF
 mkdir -p ~/gitlab
+#mkdir -p ~/gitlab-shell
+#mkdir -p ~/repositories
+#mkdir -p ~/gitlab-ci
+#mkdir -p ~/gitlab-satellites
+#mkdir -p ~/gitlab-ci-runner
+
 description	"Bindfs mount gitlab for development user."
 
 start on stopping mountall
 
 script
     bindfs -u $USER -g $USER --create-for-user=git --create-for-group=git /home/git/gitlab /home/$USER/gitlab
+    # Uncomment as needed:
+    #bindfs -u $USER -g $USER --create-for-user=git --create-for-group=git /home/git/gitlab-satellites /home/$USER/gitlab-satellites
+    #bindfs -u $USER -g $USER --create-for-user=git --create-for-group=git /home/git/repositories /home/$USER/repositories
+    #bindfs -u $USER -g $USER --create-for-user=git --create-for-group=git /home/git/gitlab-shell /home/$USER/gitlab-shell
+    #bindfs -u $USER -g $USER --create-for-user=gitlab_ci --create-for-group=gitlab_ci /home/gitlab_ci/gitlab-ci /home/$USER/gitlab-ci
+    #bindfs -u $USER -g $USER --create-for-user=gitlab_ci_runner --create-for-group=gitlab_ci_runner /home/gitlab_ci_runner/gitlab-ci-runner /home/$USER/gitlab-ci-runner
 end script
 EOF
 ```
