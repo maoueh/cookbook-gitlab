@@ -6,7 +6,7 @@ describe "gitlab::install" do
 
   describe "under ubuntu" do
     ["12.04", "10.04"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::start","gitlab::install")
@@ -111,7 +111,7 @@ describe "gitlab::install" do
       end
 
       describe "when using mysql" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
@@ -127,14 +127,40 @@ describe "gitlab::install" do
             variables: {
               user: 'git',
               password: 'datapass',
-              host: "localhost"
+              host: "localhost",
+              socket: "/var/run/mysqld/mysqld.sock"
+            }
+          )
+        end
+      end
+
+      describe "when using mysql with custom server socket" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['database_adapter'] = "mysql"
+          runner.node.set['gitlab']['database_password'] = "datapass"
+          runner.node.set['mysql']['server']['socket'] = "/tmp/mysql.sock"
+          runner.converge("gitlab::start","gitlab::install")
+        end
+
+        it 'creates a database config' do
+          expect(chef_run).to create_template('/home/git/gitlab/config/database.yml').with(
+            source: 'database.yml.mysql.erb',
+            user: 'git',
+            group: 'git',
+            variables: {
+              user: 'git',
+              password: 'datapass',
+              host: "localhost",
+              socket: "/tmp/mysql.sock"
             }
           )
         end
       end
 
       describe "when using postgresql" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "postgresql"
@@ -150,7 +176,8 @@ describe "gitlab::install" do
             variables: {
               user: 'git',
               password: 'datapass',
-              host: "localhost"
+              host: "localhost",
+              socket: nil
             }
           )
         end
@@ -195,7 +222,7 @@ describe "gitlab::install" do
       end
 
       describe "running database setup, migrations and seed when development" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.converge("gitlab::start","gitlab::install")
@@ -258,7 +285,7 @@ describe "gitlab::install" do
         end
 
         describe "for development" do
-          let(:chef_run) do 
+          let(:chef_run) do
             runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
             runner.node.set['gitlab']['env'] = "development"
             runner.converge("gitlab::start","gitlab::install")
@@ -278,7 +305,7 @@ describe "gitlab::install" do
 
     describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::start","gitlab::install")
@@ -385,7 +412,7 @@ describe "gitlab::install" do
       end
 
       describe "when using mysql" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
@@ -401,14 +428,40 @@ describe "gitlab::install" do
             variables: {
               user: 'git',
               password: 'datapass',
-              host: "localhost"
+              host: "localhost",
+              socket: "/var/lib/mysql/mysql.sock"
+            }
+          )
+        end
+      end
+
+      describe "when using mysql with custom server socket" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['database_adapter'] = "mysql"
+          runner.node.set['gitlab']['database_password'] = "datapass"
+          runner.node.set['mysql']['server']['socket'] = "/tmp/mysql.sock"
+          runner.converge("gitlab::start","gitlab::install")
+        end
+
+        it 'creates a database config' do
+          expect(chef_run).to create_template('/home/git/gitlab/config/database.yml').with(
+            source: 'database.yml.mysql.erb',
+            user: 'git',
+            group: 'git',
+            variables: {
+              user: 'git',
+              password: 'datapass',
+              host: "localhost",
+              socket: "/tmp/mysql.sock"
             }
           )
         end
       end
 
       describe "when using postgresql" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "postgresql"
@@ -424,7 +477,8 @@ describe "gitlab::install" do
             variables: {
               user: 'git',
               password: 'datapass',
-              host: "localhost"
+              host: "localhost",
+              socket: nil
             }
           )
         end
@@ -470,7 +524,7 @@ describe "gitlab::install" do
       end
 
       describe "running database setup, migrations and seed when development" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.converge("gitlab::start","gitlab::install")
@@ -534,7 +588,7 @@ describe "gitlab::install" do
         end
 
         describe "for development" do
-          let(:chef_run) do 
+          let(:chef_run) do
             runner = ChefSpec::Runner.new(platform: "centos", version: version)
             runner.node.set['gitlab']['env'] = "development"
             runner.converge("gitlab::start","gitlab::install")
