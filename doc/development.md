@@ -4,14 +4,14 @@
 
 * [Ruby 1.9 or higher](https://www.ruby-lang.org/) and [Rubygems](http://rubygems.org/)
 * [VirtualBox](https://www.virtualbox.org)
-* [Vagrant 1.3.x](http://vagrantup.com)
+* [Vagrant 1.3.5](http://vagrantup.com)
 * The NFS packages for the synced folder of Vagrant. These are already installed if you are using Mac OSX and not necessary if you are using Windows. On Linux install them by running:
 
 ```bash
 sudo apt-get install nfs-kernel-server nfs-common portmap
 ```
 
-Make sure to use Vagrant v1.3.x. Do not install Vagrant via rubygems.org as there exists an old gem which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install a version ~> `1.3.0`.
+Make sure to use Vagrant v1.3.5. Do not install Vagrant via rubygems.org as there exists an old gem which will probably cause errors. Instead, go to [Vagrant download page](http://downloads.vagrantup.com/) and install version `1.3.5`.
 
 On OS X you can also choose to use [the (commercial) Vagrant VMware Fusion plugin](http://www.vagrantup.com/vmware) instead of VirtualBox.
 
