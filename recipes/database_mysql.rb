@@ -15,7 +15,8 @@ end
 mysql_connection = {
   :host => mysql['server_host'],
   :username => mysql['server_root_username'],
-  :password => mysql['server_root_password']
+  :password => mysql['server_root_password'],
+  :socket => mysql['server']['socket']
 }
 
 ## Create a user for GitLab.
