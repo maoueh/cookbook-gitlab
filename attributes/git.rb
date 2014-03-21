@@ -1,7 +1,7 @@
 # Git
 default['gitlab']['git']['prefix'] = "/usr/local"
 default['gitlab']['git']['version'] = "1.8.4.1"
-default['gitlab']['git']['url'] = "https://github.com/git/git/archive/v#{node['gitlab']['git']['version']}.zip"
+default['gitlab']['git']['url'] = "https://codeload.github.com/git/git/zip/v#{node['gitlab']['git']['version']}"
 
 if platform_family?("rhel")
   packages = %w{expat-devel gettext-devel libcurl-devel openssl-devel perl-ExtUtils-MakeMaker zlib-devel}
