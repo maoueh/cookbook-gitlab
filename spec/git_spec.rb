@@ -25,7 +25,7 @@ describe "gitlab::git" do
       end
 
       it 'gets the source code for git' do
-        expect(chef_run).to create_remote_file("#{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
+        expect(chef_run).to create_remote_file("#{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").with(mode: 0644, source: "https://codeload.github.com/git/git/zip/v1.8.4.1")
       end
 
       it 'executes compiling git from source' do
@@ -57,7 +57,7 @@ describe "gitlab::git" do
       end
 
       it 'gets the source code for git' do
-        expect(chef_run).to create_remote_file("#{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").with(mode: 0644, source: "https://github.com/git/git/archive/v1.8.4.1.zip")
+        expect(chef_run).to create_remote_file("#{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").with(mode: 0644, source: "https://codeload.github.com/git/git/zip/v1.8.4.1")
       end
 
       it 'executes compiling git from source' do
