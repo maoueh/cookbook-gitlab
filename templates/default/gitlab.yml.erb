@@ -117,11 +117,10 @@ production: &base
 
   ## LDAP settings
   # You can inspect a sample of the LDAP users with login access by running:
-  #   bundle exec rake gitlab:ldap:check[100] RAILS_ENV=production
+  #   bundle exec rake gitlab:ldap:check RAILS_ENV=production
   ldap:
     enabled: <%= @ldap_config["enabled"] %>
     host: '<%= @ldap_config["host"] %>'
-    base: '<%= @ldap_config["base"] %>'
     port: <%= @ldap_config["port"] %>
     uid: '<%= @ldap_config["uid"] %>'
     method: '<%= @ldap_config["method"] %>' # "ssl" or "plain"
@@ -137,6 +136,20 @@ production: &base
     # If you are using "uid: 'userPrincipalName'" on ActiveDirectory you need to
     # disable this setting, because the userPrincipalName contains an '@'.
     allow_username_or_email_login: <%= @ldap_config["allow_username_or_email_login"] %>
+
+    # Base where we can search for users
+    #
+    #   Ex. ou=People,dc=gitlab,dc=example
+    #
+	base: '<%= @ldap_config["base"] %>'
+
+    # Filter LDAP users
+    #
+    #   Format: RFC 4515
+    #   Ex. (employeeType=developer)
+    #
+    user_filter: ''
+
 
   ## OmniAuth settings
   omniauth:
@@ -177,7 +190,7 @@ production: &base
 
   ## GitLab Shell settings
   gitlab_shell:
-    path: <%= @shell_path %>
+    path: <%= @shell_path %>/
 
     # REPOS_PATH MUST NOT BE A SYMLINK!!!
     repos_path: <%= @repos_path %>/
@@ -210,6 +223,10 @@ production: &base
     ## Google analytics. Uncomment if you want it
     <%= "google_analytics_id: '#{ @google_analytics_id }'" unless @google_analytics_id.empty? %>
 
+    ## Piwik analytics.
+    # piwik_url: '_your_piwik_url'
+    # piwik_site_id: '_your_piwik_site_id'
+
     ## Text under sign-in page (Markdown enabled)
     <%= "sign_in_text: |
           #{ @sign_in_text }" unless @sign_in_text.empty? %>
@@ -219,6 +236,11 @@ development:
 
 test:
   <<: *base
+  gravatar:
+    enabled: true
+  gitlab:
+    host: localhost
+    port: 80
   issues_tracker:
     redmine:
       title: "Redmine"
