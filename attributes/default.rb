@@ -14,7 +14,7 @@ else
 end
 
 default['gitlab']['packages'] = packages
-default['gitlab']['ruby'] = "2.1.1"
+default['gitlab']['ruby'] = "2.0.0-p451"
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
@@ -207,4 +207,12 @@ default['gitlab']['monitrc']['unicorn'] = {
   :mem_threshold => "1000.0", # in MB
   :mem_cycles_number => "25"
 }
-default['gitlab']['monitrc']['notify_email'] = "monitrc@localhost"
+
+default['gitlab']['monitrc']['disk_usage'] = {
+  :disk_percentage => "85", # in %, 0 to disable this config
+  :path => "/" # Path on the filesystem to monitor
+}
+
+# Can be specified if you need to use different alert email in sidekiq monitor config
+# If you need only one alert email, specify with https://github.com/phlipper/chef-monit/blob/1.4.0/attributes/default.rb#L27
+default['gitlab']['monitrc']['notify_email'] = nil

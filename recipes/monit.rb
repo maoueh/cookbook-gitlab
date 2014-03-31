@@ -25,6 +25,11 @@ monit_monitrc "sidekiq" do
   })
 end
 
+file "/usr/local/bin/sidekiq_load_ok" do
+  content "#!/bin/sh\nexec $(dirname $0)/background_jobs load_ok\n"
+  mode 0755
+end
+
 unicorn = monitrc['unicorn']
 monit_monitrc "unicorn" do
   variables ({
@@ -35,6 +40,16 @@ monit_monitrc "unicorn" do
     mem_cycles_number: unicorn['mem_cycles_number'],
     notify_email: monitrc['notify_email']
   })
+end
+
+disk_usage = monitrc['disk_usage']
+if disk_usage['disk_percentage'] != "0"
+  monit_monitrc "disk_usage" do
+    variables ({
+      disk_percentage: disk_usage['disk_percentage'],
+      path: disk_usage['path']
+    })
+  end
 end
 
 directory "#{gitlab['path']}/bin" do
