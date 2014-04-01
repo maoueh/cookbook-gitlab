@@ -26,7 +26,7 @@ monit_monitrc "sidekiq" do
 end
 
 file "/usr/local/bin/sidekiq_load_ok" do
-  content "#!/bin/sh\nexec $(dirname $0)/background_jobs load_ok\n"
+  content "#!/bin/sh\nexec #{gitlab['path']}/script/background_jobs load_ok\n"
   mode 0755
 end
 
