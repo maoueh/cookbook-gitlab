@@ -52,6 +52,7 @@ end
 directory gitlab['satellites_path'] do
   owner gitlab['user']
   group gitlab['group']
+  mode 0750
   not_if { File.exist?(gitlab['satellites_path']) }
 end
 
