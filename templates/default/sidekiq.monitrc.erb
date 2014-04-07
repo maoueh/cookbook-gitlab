@@ -1,6 +1,6 @@
 check process gitlab_sidekiq with pidfile <%= @sidekiq_pid_path %>
   <% if @notify_email%>
-  alert <%= @notify_email %>
+    alert <%= @notify_email %> not on { resource }
   <% end %>
   start program = "/bin/su - <%= @gitlab_user %> -c 'RAILS_ENV=production <%= @gitlab_path %>/script/background_jobs start'" with timeout <%= @start_timeout %> seconds
   stop program = "/bin/su - <%= @gitlab_user %> -c 'RAILS_ENV=production <%= @gitlab_path %>/script/background_jobs stop'" with timeout <%= @stop_timeout %> seconds
