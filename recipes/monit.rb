@@ -25,9 +25,12 @@ monit_monitrc "sidekiq" do
   })
 end
 
-file "/usr/local/bin/sidekiq_load_ok" do
-  content "#!/bin/sh\nexec #{gitlab['path']}/script/background_jobs load_ok\n"
+template "/usr/local/bin/sidekiq_load_ok" do
   mode 0755
+  variables ({
+    gitlab_root: gitlab['path'],
+    timeout: sidekiq['max_workers_timeout']
+  })
 end
 
 unicorn = monitrc['unicorn']

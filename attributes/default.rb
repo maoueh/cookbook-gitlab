@@ -199,7 +199,8 @@ default['gitlab']['monitrc']['sidekiq'] = {
   :mem_threshold => "225", # in MB
   :mem_cycles_number => "10",
   :restart_number => "5", # Number of consecutive restarts before alerting.
-  :restart_cycles_number => "5" # Number of cycles to monitor for consecutive restarts.
+  :restart_cycles_number => "5", # Number of cycles to monitor for consecutive restarts.
+  :max_workers_timeout => "60" # Number of consecutive seconds that Sidekiq may report 25/25 workers busy
 }
 
 default['gitlab']['monitrc']['unicorn'] = {
