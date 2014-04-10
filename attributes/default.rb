@@ -217,3 +217,7 @@ default['gitlab']['monitrc']['disk_usage'] = {
 # Can be specified if you need to use different alert email in sidekiq monitor config
 # If you need only one alert email, specify with https://github.com/phlipper/chef-monit/blob/1.4.0/attributes/default.rb#L27
 default['gitlab']['monitrc']['notify_email'] = nil
+
+# Some events may warrant extra notifcations, e.g. to a pager notification service
+default['gitlab']['monitrc']['emergency_email'] = nil
+default['gitlab']['monitrc']['emergency_events'] = ['timeout']
