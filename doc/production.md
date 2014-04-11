@@ -152,6 +152,8 @@ You can use the following Ruby 1.9 one-liner to output valid JSON for a certific
 ruby -rjson -e 'puts JSON.dump([ARGF.read])[1..-2]' my_site.cert
 ```
 
+This one-liner reads `my_site.cert` and writes its contents to standard out as a multi-line JSON string.
+
 ### Storing repositories and satellites in a custom directory
 
 In some situations it can be practical to put repository and satellite data on a separate volume.
