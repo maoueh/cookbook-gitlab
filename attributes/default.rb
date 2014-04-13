@@ -14,7 +14,7 @@ else
 end
 
 default['gitlab']['packages'] = packages
-default['gitlab']['ruby'] = "2.0.0-p451"
+default['gitlab']['ruby'] = "2.0.0-p353" # Latest 2.0 by ruby-build 20131225.1 (Ubuntu)
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
