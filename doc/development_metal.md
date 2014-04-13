@@ -28,7 +28,8 @@ cat > /tmp/solo.json << EOF
       "ssh_port": "22"
     },
     "mysql": {
-      "server_root_password": "a"
+      "server_root_password": "a",
+      "server": {}
     },
       "run_list": [
       "gitlab::default"
