@@ -37,6 +37,15 @@ cat > /tmp/solo.json << EOF
 EOF
 ```
 
+After installing please do:
+
+```bash
+sudo su - git
+cd /home/git/gitlab
+```
+
+And follow [the readme instructions to run it in development mode](https://github.com/gitlabhq/gitlabhq/blob/master/README.md#run-in-development-mode).
+
 #### Dedicated OS
 
 The downside of installing a dedicated OS (possibly on the same HD as the existing one) is that it takes up a little time (~30 minutes if you know what your are doing) to install and disk space (30GB should be more than enough).
