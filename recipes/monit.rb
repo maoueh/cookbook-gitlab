@@ -21,7 +21,9 @@ monit_monitrc "sidekiq" do
     mem_cycles_number: sidekiq['mem_cycles_number'],
     restart_number: sidekiq['restart_number'],
     restart_cycles_number: sidekiq['restart_cycles_number'],
-    notify_email: monitrc['notify_email']
+    notify_email: monitrc['notify_email'],
+    emergency_email: monitrc['emergency_email'],
+    emergency_events: monitrc['emergency_events']
   })
 end
 
