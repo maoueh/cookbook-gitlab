@@ -16,9 +16,12 @@ Furthermore, to install on an existing OS you must be using a supported distribu
 
 **Install**
 
-The installation process is the same as a [production install](production.md), the only difference being what you put in the `/tmp/solo.json` configuration file which should instead be:
+The installation process is almost the same as a [production install](production.md).
+You use the same /tmp/solo.rb as mentioned in the production install.
+The only difference is the `/tmp/solo.json` configuration file that can be written with:
 
 ```bash
+rm -f /tmp/solo.json
 cat > /tmp/solo.json << EOF
 {
     "gitlab": {
