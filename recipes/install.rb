@@ -62,6 +62,7 @@ template File.join(gitlab['path'], 'config', 'unicorn.rb') do
   user gitlab['user']
   group gitlab['group']
   variables({
+    :app_root => gitlab['path'],
     :unicorn_workers_number => gitlab['unicorn_workers_number'],
     :unicorn_timeout => gitlab['unicorn_timeout']
   })
