@@ -56,7 +56,7 @@ production: &base
     ## Users management
     # default: false - Account passwords are not sent via the email if signup is enabled.
     signup_enabled: <%= @signup_enabled %>
-     #
+    #
     # default: true - If set to false, standard login form won't be shown on the sign-in page
     # signin_enabled: false
 
@@ -178,7 +178,7 @@ production: &base
     # see https://github.com/gitlabhq/gitlab-public-wiki/wiki/Working-custom-omniauth-provider-configurations
     # The 'app_id' and 'app_secret' parameters are always passed as the first two
     # arguments, followed by optional 'args' which can be either a hash or an array.
-	# Documentation for this is available at http://doc.gitlab.com/ce/integration/omniauth.html
+    # Documentation for this is available at http://doc.gitlab.com/ce/integration/omniauth.html
     providers:
     <% @oauth_providers.each do |provider| %>
       - { name: '<%= provider['name'] -%>', app_id: '<%= provider['app_id'] -%>', app_secret: '<%= provider['app_secret'] -%>' <%= ", args: { #{provider['args']} } " if provider['args'] %>}

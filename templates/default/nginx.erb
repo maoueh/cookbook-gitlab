@@ -59,7 +59,7 @@ server {
   # if a file, which is not found in the root folder is requested,
   # then the proxy pass the request to the upsteam (gitlab unicorn)
   location @gitlab {
-    # If you use https make sure you disable gzip compression 
+    # If you use https make sure you disable gzip compression
     # to be safe against BREACH attack
     <% if @port == '443' %>
     gzip off;
