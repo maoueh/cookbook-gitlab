@@ -44,6 +44,7 @@ EOF
 After installing please do:
 
 ```bash
+sudo update-rc.d gitlab disable
 sudo su - git
 cd /home/git/gitlab
 ```
