@@ -93,6 +93,7 @@ describe "gitlab::install" do
         expect(chef_run).to create_template('/home/git/gitlab/config/unicorn.rb').with(
           source: 'unicorn.rb.erb',
           variables: {
+            app_root: "/home/git/gitlab",
             unicorn_workers_number: 2,
             unicorn_timeout: 30
           }
@@ -392,6 +393,7 @@ describe "gitlab::install" do
         expect(chef_run).to create_template('/home/git/gitlab/config/unicorn.rb').with(
           source: 'unicorn.rb.erb',
           variables: {
+            app_root: "/home/git/gitlab",
             unicorn_workers_number: 2,
             unicorn_timeout: 30
           }
