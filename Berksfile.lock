@@ -22,7 +22,7 @@
       "ref": "000ffed11710e8d307ea5b18c13213e53e66e289"
     },
     "redisio": {
-      "locked_version": "1.7.0"
+      "locked_version": "1.7.1"
     },
     "ulimit": {
       "locked_version": "0.3.2"
@@ -31,43 +31,55 @@
       "locked_version": "0.8.0"
     },
     "mysql": {
-      "locked_version": "4.0.6"
-    },
-    "openssl": {
-      "locked_version": "1.1.0"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
+      "locked_version": "5.1.12"
     },
     "database": {
-      "locked_version": "1.5.2"
+      "locked_version": "2.1.6"
     },
     "aws": {
-      "locked_version": "1.0.0"
+      "locked_version": "2.1.1"
     },
     "xfs": {
       "locked_version": "1.1.0"
     },
+    "mysql-chef_gem": {
+      "locked_version": "0.0.2"
+    },
+    "build-essential": {
+      "locked_version": "2.0.0"
+    },
     "postfix": {
-      "locked_version": "3.0.4"
+      "locked_version": "3.1.8"
     },
     "phantomjs": {
       "locked_version": "1.0.3"
     },
     "chocolatey": {
-      "locked_version": "0.0.5"
+      "locked_version": "0.1.0"
     },
     "powershell": {
-      "locked_version": "1.1.2"
+      "locked_version": "3.0.0"
     },
     "windows": {
-      "locked_version": "1.11.0"
+      "locked_version": "1.30.2"
     },
     "chef_handler": {
-      "locked_version": "1.1.4"
+      "locked_version": "1.1.6"
+    },
+    "ms_dotnet45": {
+      "locked_version": "1.1.2"
+    },
+    "ms_dotnet4": {
+      "locked_version": "1.0.2"
+    },
+    "ms_dotnet2": {
+      "locked_version": "1.0.0"
     },
     "apt": {
-      "locked_version": "2.3.0"
+      "locked_version": "2.3.8"
+    },
+    "openssl": {
+      "locked_version": "1.1.0"
     }
   }
 }
