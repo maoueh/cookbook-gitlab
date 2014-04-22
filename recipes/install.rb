@@ -195,6 +195,15 @@ ruby_block "Copy from example gitlab init config" do
   end
 end
 
+template "/etc/default/gitlab" do
+  source "gitlab.default.erb"
+  mode 0755
+  variables(
+    :app_user => node['gitlab']['user'],
+    :app_root => node['gitlab']['path']
+  )
+end
+
 case gitlab['env']
 when 'production'
   # Updates defaults so gitlab can boot on start. As per man pages of update-rc.d runs only if links do not exist
