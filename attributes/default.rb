@@ -20,8 +20,8 @@ default['gitlab']['ruby'] = "2.0.0-p353" # Latest 2.0 by ruby-build 20131225.1 (
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 
 # GitLab shell configuration
-default['gitlab']['repos_path'] = "/home/git/repositories"
-default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
+default['gitlab']['repos_path'] = "#{node['gitlab']['home']}/repositories"
+default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
 default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
 default['gitlab']['redis_host'] = "127.0.0.1"
 default['gitlab']['redis_port'] = "6379"
@@ -145,15 +145,15 @@ default['postfix']['myorigin'] = "mail.localhost"
 default['postfix']['smtp_use_tls'] = "no"
 
 # User
-default['gitlab']['user'] = "git" # Do not change this attribute in production since some code from the GitLab repo such as init.d script assume it is git.
+default['gitlab']['user'] = "git" # Do not change this attribute in production unless you know what you do since some code from the GitLab repo such as init.d script assume it is git.
 default['gitlab']['group'] = "git"
 default['gitlab']['user_uid'] = nil # Use to specify user id.
 default['gitlab']['user_gid'] = nil # Use to specify group id.
 default['gitlab']['home'] = "/home/git"
 
 # GitLab hq
-default['gitlab']['path'] = "/home/git/gitlab" # Do not change this attribute in production since some code from the GitLab repo such as init.d assume this path.
-default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
+default['gitlab']['path'] = "#{node['gitlab']['home']}/gitlab" # Do not change this attribute in production unless you know what you do since some code from the GitLab repo such as init.d assume this path.
+default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satellites"
 
 # Unicorn specific configuration
 default['gitlab']['unicorn_workers_number'] = 2
