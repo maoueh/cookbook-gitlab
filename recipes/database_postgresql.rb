@@ -30,6 +30,9 @@ end
 gitlab['environments'].each do |environment|
   postgresql_database "gitlabhq_database" do
     database_name "gitlabhq_#{environment}"
+    template "template0"
+    encoding "utf8"
+    collation "en_US.UTF-8"
     connection postgresql_connection
     action :create
   end
