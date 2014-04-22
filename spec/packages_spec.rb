@@ -10,8 +10,8 @@ describe "gitlab::packages" do
 
       before do
         # stubbing git commands because packages recipe requires gitlab::git
-        stub_command("test -f #{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").and_return(true)
-        stub_command("git --version | grep 1.8.4.1").and_return(true)
+        stub_command("test -f #{Chef::Config['file_cache_path']}/git-1.8.5.2.zip").and_return(true)
+        stub_command("git --version | grep 1.8.5.2").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
       end
 
@@ -38,14 +38,14 @@ describe "gitlab::packages" do
 
       before do
         # stubbing git commands because packages recipe requires gitlab::git
-        stub_command("test -f #{Chef::Config['file_cache_path']}/git-1.8.4.1.zip").and_return(true)
-        stub_command("git --version | grep 1.8.4.1").and_return(true)
+        stub_command("test -f #{Chef::Config['file_cache_path']}/git-1.8.5.2.zip").and_return(true)
+        stub_command("git --version | grep 1.8.5.2").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do
         expect(chef_run).to_not include_recipe("apt::default")
-        expect(chef_run).to include_recipe("yum::epel")
+        expect(chef_run).to include_recipe("yum-epel::default")
         expect(chef_run).to include_recipe("gitlab::git")
         expect(chef_run).to include_recipe("redisio::install")
         expect(chef_run).to include_recipe("redisio::enable")

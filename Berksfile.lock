@@ -1,73 +1,78 @@
-{
-  "sources": {
-    "gitlab": {
-      "path": "."
-    },
-    "yum": {
-      "locked_version": "2.4.2"
-    },
-    "magic_shell": {
-      "locked_version": "0.3.2",
-      "git": "git://github.com/customink-webops/magic_shell.git",
-      "ref": "447b4b67420d3a7a749d2dd3b13a7f9aceb54c36"
-    },
-    "monit": {
-      "locked_version": "1.4.0",
-      "git": "git://github.com/phlipper/chef-monit.git",
-      "ref": "276c99ba08869ebd5117267d91a2ff6aa0d9fc6b"
-    },
-    "postgresql": {
-      "locked_version": "3.3.4",
-      "git": "git://github.com/maxlazio/postgresql.git",
-      "ref": "000ffed11710e8d307ea5b18c13213e53e66e289"
-    },
-    "redisio": {
-      "locked_version": "1.7.0"
-    },
-    "ulimit": {
-      "locked_version": "0.3.2"
-    },
-    "ruby_build": {
-      "locked_version": "0.8.0"
-    },
-    "mysql": {
-      "locked_version": "4.0.6"
-    },
-    "openssl": {
-      "locked_version": "1.1.0"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
-    },
-    "database": {
-      "locked_version": "1.5.2"
-    },
-    "aws": {
-      "locked_version": "1.0.0"
-    },
-    "xfs": {
-      "locked_version": "1.1.0"
-    },
-    "postfix": {
-      "locked_version": "3.0.4"
-    },
-    "phantomjs": {
-      "locked_version": "1.0.3"
-    },
-    "chocolatey": {
-      "locked_version": "0.0.5"
-    },
-    "powershell": {
-      "locked_version": "1.1.2"
-    },
-    "windows": {
-      "locked_version": "1.11.0"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
-    },
-    "apt": {
-      "locked_version": "2.3.0"
-    }
-  }
-}
+DEPENDENCIES
+  gitlab
+    path: .
+    metadata: true
+  magic_shell
+    git: https://github.com/customink-webops/magic_shell.git
+    revision: 447b4b67420d3a7a749d2dd3b13a7f9aceb54c36
+    ref: 447b4b6
+  monit
+    git: https://github.com/phlipper/chef-monit.git
+    revision: 276c99ba08869ebd5117267d91a2ff6aa0d9fc6b
+    tag: 1.4.0
+  postgresql
+    git: https://github.com/maxlazio/postgresql.git
+    revision: 000ffed11710e8d307ea5b18c13213e53e66e289
+  yum
+
+GRAPH
+  apt (2.3.8)
+  aws (2.1.1)
+  build-essential (1.4.4)
+  chef_handler (1.1.6)
+  chocolatey (0.1.0)
+    powershell (>= 0.0.0)
+  database (2.1.6)
+    aws (>= 0.0.0)
+    mysql (>= 5.0.0)
+    mysql-chef_gem (>= 0.0.0)
+    postgresql (>= 1.0.0)
+    xfs (>= 0.0.0)
+  gitlab (0.6.8)
+    apt (>= 0.0.0)
+    database (>= 0.0.0)
+    magic_shell (>= 0.0.0)
+    monit (>= 0.0.0)
+    mysql (>= 0.0.0)
+    phantomjs (>= 0.0.0)
+    postfix (>= 0.0.0)
+    postgresql (>= 0.0.0)
+    redisio (>= 0.0.0)
+    ruby_build (>= 0.0.0)
+    yum-epel (>= 0.0.0)
+  magic_shell (0.3.2)
+  monit (1.4.0)
+  ms_dotnet2 (1.0.0)
+    windows (>= 0.0.0)
+  ms_dotnet4 (1.0.2)
+    windows (>= 0.0.0)
+  ms_dotnet45 (1.1.2)
+    windows (>= 0.0.0)
+  mysql (5.1.12)
+  mysql-chef_gem (0.0.2)
+    build-essential (>= 0.0.0)
+    mysql (>= 0.0.0)
+  openssl (1.1.0)
+  phantomjs (1.0.3)
+    build-essential (>= 0.0.0)
+    chocolatey (>= 0.0.0)
+  postfix (3.1.8)
+  postgresql (3.3.4)
+    apt (>= 0.0.0)
+    build-essential (>= 0.0.0)
+    openssl (>= 0.0.0)
+  powershell (3.0.0)
+    ms_dotnet2 (>= 0.0.0)
+    ms_dotnet4 (>= 0.0.0)
+    ms_dotnet45 (>= 0.0.0)
+    windows (>= 1.2.8)
+  redisio (1.7.1)
+    ulimit (>= 0.1.2)
+  ruby_build (0.8.0)
+  ulimit (0.3.2)
+  windows (1.30.2)
+    chef_handler (>= 0.0.0)
+  xfs (1.1.0)
+  yum (3.2.0)
+  yum-epel (0.3.6)
+    yum (~> 3.0)

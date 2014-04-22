@@ -20,6 +20,7 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :repos_path => gitlab['repos_path'],
     :shell_path => gitlab['shell_path'],
     :signup_enabled => gitlab['signup_enabled'],
+    :signin_enabled => gitlab['signin_enabled'],
     :projects_limit => gitlab['projects_limit'],
     :oauth_enabled => gitlab['oauth_enabled'],
     :oauth_block_auto_created_users => gitlab['oauth_block_auto_created_users'],

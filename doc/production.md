@@ -51,7 +51,7 @@ curl -LO https://www.opscode.com/chef/install.sh && sudo bash ./install.sh -v 11
 sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
 git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git /tmp/cookbook-gitlab
 cd /tmp/cookbook-gitlab
-/opt/chef/embedded/bin/berks install --path /tmp/cookbooks
+/opt/chef/embedded/bin/berks vendor /tmp/cookbooks
 cat > /tmp/solo.rb << EOF
 cookbook_path    ["/tmp/cookbooks/"]
 log_level        :debug

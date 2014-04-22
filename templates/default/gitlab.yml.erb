@@ -56,6 +56,10 @@ production: &base
     ## Users management
     # default: false - Account passwords are not sent via the email if signup is enabled.
     signup_enabled: <%= @signup_enabled %>
+    #
+    # default: true - If set to false, standard login form won't be shown on the sign-in page
+    # signin_enabled: false
+
 
     # Restrict setting visibility levels for non-admin users.
     # The default is to allow all levels.
@@ -65,7 +69,7 @@ production: &base
     # If a commit message matches this regular expression, all issues referenced from the matched text will be closed.
     # This happens when the commit is pushed or merged into the default branch of a project.
     # When not specified the default issue_closing_pattern as specified below will be used.
-    # issue_closing_pattern: '([Cc]lose[sd]|[Ff]ixe[sd]) +#\d+'
+    # issue_closing_pattern: '([Cc]lose[sd]|[Ff]ixe[sd]) #(\d+)'
 
     ## Default project features settings
     default_projects_features:
@@ -75,6 +79,11 @@ production: &base
       wall: <%= @default_projects_features['wall'] %>
       snippets: <%= @default_projects_features['snippets'] %>
       visibility_level: "<%= @default_projects_features['visibility_level'] %>"  # can be "private" | "internal" | "public"
+
+    ## Repository downloads directory
+    # When a user clicks e.g. 'Download zip' on a project, a temporary zip file is created in the following directory.
+    # The default is 'tmp/repositories' relative to the root of the Rails app.
+    # repository_downloads_path: tmp/repositories
 
   ## External issues trackers
   issues_tracker:
@@ -169,6 +178,7 @@ production: &base
     # see https://github.com/gitlabhq/gitlab-public-wiki/wiki/Working-custom-omniauth-provider-configurations
     # The 'app_id' and 'app_secret' parameters are always passed as the first two
     # arguments, followed by optional 'args' which can be either a hash or an array.
+    # Documentation for this is available at http://doc.gitlab.com/ce/integration/omniauth.html
     providers:
     <% @oauth_providers.each do |provider| %>
       - { name: '<%= provider['name'] -%>', app_id: '<%= provider['app_id'] -%>', app_secret: '<%= provider['app_secret'] -%>' <%= ", args: { #{provider['args']} } " if provider['args'] %>}
