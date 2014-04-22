@@ -56,6 +56,44 @@ describe "gitlab::gitlab_shell_install" do
       it 'does not run a execute to install gitlab shell on its own' do
         expect(chef_run).to_not run_execute('gitlab-shell install')
       end
+
+      describe "when customizing gitlab user home" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::gitlab_shell_install")
+        end
+
+        it 'creates a gitlab shell config' do
+          expect(chef_run).to create_template('/data/git/gitlab-shell/config.yml').with(
+            source: 'gitlab_shell.yml.erb',
+            variables: {
+              user: "git",
+              home: "/data/git",
+              url: "http://localhost:80/",
+              repos_path: "/data/git/repositories",
+              redis_path: "/usr/local/bin/redis-cli",
+              redis_host: "127.0.0.1",
+              redis_port: "6379",
+              namespace: "resque:gitlab",
+              self_signed_cert: false
+            }
+          )
+        end
+
+        it 'creates repository directory in the gitlab user home directory' do
+          expect(chef_run).to create_directory("/data/git/repositories")
+        end
+
+        it 'creates .ssh directory in the gitlab user home directory' do
+          expect(chef_run).to create_directory("/data/git/.ssh")
+        end
+
+        it 'creates authorized hosts file in .ssh directory' do
+          expect(chef_run).to create_file_if_missing("/data/git/.ssh/authorized_keys")
+        end
+      end
     end
   end
 
@@ -110,6 +148,44 @@ describe "gitlab::gitlab_shell_install" do
 
       it 'does not run a execute to install gitlab shell on its own' do
         expect(chef_run).to_not run_execute('gitlab-shell install')
+      end
+
+      describe "when customizing gitlab user home" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::gitlab_shell_install")
+        end
+
+        it 'creates a gitlab shell config' do
+          expect(chef_run).to create_template('/data/git/gitlab-shell/config.yml').with(
+            source: 'gitlab_shell.yml.erb',
+            variables: {
+              user: "git",
+              home: "/data/git",
+              url: "http://localhost:80/",
+              repos_path: "/data/git/repositories",
+              redis_path: "/usr/local/bin/redis-cli",
+              redis_host: "127.0.0.1",
+              redis_port: "6379",
+              namespace: "resque:gitlab",
+              self_signed_cert: false
+            }
+          )
+        end
+
+        it 'creates repository directory in the gitlab user home directory' do
+          expect(chef_run).to create_directory("/data/git/repositories")
+        end
+
+        it 'creates .ssh directory in the gitlab user home directory' do
+          expect(chef_run).to create_directory("/data/git/.ssh")
+        end
+
+        it 'creates authorized hosts file in .ssh directory' do
+          expect(chef_run).to create_file_if_missing("/data/git/.ssh/authorized_keys")
+        end
       end
     end
   end

@@ -278,6 +278,17 @@ describe "gitlab::install" do
 
       describe "creating gitlab init" do
         describe "for production" do
+          it 'creates gitlab default configuration file' do
+            expect(chef_run).to create_template('/etc/default/gitlab').with(
+              source: 'gitlab.default.erb',
+              mode: 0755,
+              variables: {
+                app_user: 'git',
+                app_root: '/home/git/gitlab'
+              }
+            )
+          end
+
           # TODO Write the test that will check if notification is triggered within the ruby_block
           it 'triggers service defaults update' do
             expect(chef_run).to run_ruby_block('Copy from example gitlab init config')
@@ -298,6 +309,105 @@ describe "gitlab::install" do
 
           it 'includes phantomjs recipe' do
             expect(chef_run).to include_recipe("phantomjs::default")
+          end
+        end
+      end
+
+      describe "when customizing gitlab user home" do
+        # Only test stuff that change when git user home is different
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::start","gitlab::install")
+        end
+
+        it 'creates a gitlab config' do
+          expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+        end
+
+        it 'updates git config' do
+          resource = chef_run.find_resource(:bash, 'git config')
+          expect(resource.environment).to eq('HOME' =>"/data/git")
+        end
+
+        it 'creates required directories in the rails root' do
+          %w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
+            expect(chef_run).to create_directory("/data/git/gitlab/#{path}").with(
+              user: 'git',
+              group: 'git',
+              mode: 0755
+            )
+          end
+        end
+
+        it 'creates satellites directory' do
+         expect(chef_run).to create_directory("/data/git/gitlab-satellites")
+        end
+
+        it 'creates a unicorn config' do
+          expect(chef_run).to create_template('/data/git/gitlab/config/unicorn.rb')
+        end
+
+        describe "when using mysql" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "mysql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::start","gitlab::install")
+          end
+
+          it 'creates a database config' do
+            expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+          end
+        end
+
+        describe "when using postgresql" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "postgresql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::start","gitlab::install")
+          end
+
+          it 'creates a database config' do
+            expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+          end
+        end
+
+        describe "running database setup, migrations and seed when production" do
+          it 'runs db setup' do
+            resource = chef_run.find_resource(:execute, 'rake db:schema:load')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+
+          it 'runs db migrate' do
+            resource = chef_run.find_resource(:execute, 'rake db:migrate')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+
+          it 'runs db seed' do
+            resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+        end
+
+        describe "creating gitlab init" do
+          describe "for production" do
+            it 'creates gitlab default configuration file' do
+              expect(chef_run).to create_template('/etc/default/gitlab').with(
+                source: 'gitlab.default.erb',
+                mode: 0755,
+                variables: {
+                  app_user: 'git',
+                  app_root: '/data/git/gitlab'
+                }
+              )
+            end
           end
         end
       end
@@ -582,6 +692,17 @@ describe "gitlab::install" do
       describe "creating gitlab init" do
 
         describe "for production" do
+          it 'creates gitlab default configuration file' do
+            expect(chef_run).to create_template('/etc/default/gitlab').with(
+              source: 'gitlab.default.erb',
+              mode: 0755,
+              variables: {
+                app_user: 'git',
+                app_root: '/home/git/gitlab'
+              }
+            )
+          end
+
           # TODO Write the test that will check if notification is triggered within the ruby_block
           it 'triggers service defaults update' do
             expect(chef_run).to run_ruby_block('Copy from example gitlab init config')
@@ -602,6 +723,105 @@ describe "gitlab::install" do
 
           it 'includes phantomjs recipe' do
             expect(chef_run).to include_recipe("phantomjs::default")
+          end
+        end
+      end
+
+      describe "when customizing gitlab user home" do
+        # Only test stuff that change when git user home is different
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::start","gitlab::install")
+        end
+
+        it 'creates a gitlab config' do
+          expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+        end
+
+        it 'updates git config' do
+          resource = chef_run.find_resource(:bash, 'git config')
+          expect(resource.environment).to eq('HOME' =>"/data/git")
+        end
+
+        it 'creates required directories in the rails root' do
+          %w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
+            expect(chef_run).to create_directory("/data/git/gitlab/#{path}").with(
+              user: 'git',
+              group: 'git',
+              mode: 0755
+            )
+          end
+        end
+
+        it 'creates satellites directory' do
+         expect(chef_run).to create_directory("/data/git/gitlab-satellites")
+        end
+
+        it 'creates a unicorn config' do
+          expect(chef_run).to create_template('/data/git/gitlab/config/unicorn.rb')
+        end
+
+        describe "when using mysql" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "centos", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "mysql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::start","gitlab::install")
+          end
+
+          it 'creates a database config' do
+            expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+          end
+        end
+
+        describe "when using postgresql" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "centos", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "postgresql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::start","gitlab::install")
+          end
+
+          it 'creates a database config' do
+            expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+          end
+        end
+
+        describe "running database setup, migrations and seed when production" do
+          it 'runs db setup' do
+            resource = chef_run.find_resource(:execute, 'rake db:schema:load')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+
+          it 'runs db migrate' do
+            resource = chef_run.find_resource(:execute, 'rake db:migrate')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+
+          it 'runs db seed' do
+            resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+        end
+
+        describe "creating gitlab init" do
+          describe "for production" do
+            it 'creates gitlab default configuration file' do
+              expect(chef_run).to create_template('/etc/default/gitlab').with(
+                source: 'gitlab.default.erb',
+                mode: 0755,
+                variables: {
+                  app_user: 'git',
+                  app_root: '/data/git/gitlab'
+                }
+              )
+            end
           end
         end
       end

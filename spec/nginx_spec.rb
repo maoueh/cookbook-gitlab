@@ -6,7 +6,7 @@ describe "gitlab::nginx" do
 
   describe "under ubuntu" do
     ["12.04", "10.04"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::nginx")
@@ -48,12 +48,40 @@ describe "gitlab::nginx" do
       it 'restarts nginx service' do
         expect(chef_run).to restart_service('nginx')
       end
+
+      describe "when customizing gitlab user home" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::nginx")
+        end
+
+        it 'creates a nginx template with attributes' do
+          expect(chef_run).to create_template('/etc/nginx/sites-available/gitlab').with(
+            source: 'nginx.erb',
+            mode: 0644,
+            variables: {
+              path: "/data/git/gitlab",
+              host: "localhost",
+              port: "80",
+              url: "http://localhost:80/",
+              ssl_certificate_path: "/etc/ssl",
+              ssl_certificate_key_path: "/etc/ssl"
+            }
+          )
+        end
+
+        it 'does not create a directory' do
+          expect(chef_run).to_not create_directory('/data/git')
+        end
+      end
     end
   end
 
     describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::nginx")
@@ -90,6 +118,34 @@ describe "gitlab::nginx" do
 
       it 'restarts nginx service' do
         expect(chef_run).to restart_service('nginx')
+      end
+
+      describe "when customizing gitlab user home" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::nginx")
+        end
+
+        it 'creates a nginx template with attributes' do
+          expect(chef_run).to create_template('/etc/nginx/conf.d/gitlab.conf').with(
+            source: 'nginx.erb',
+            mode: 0644,
+            variables: {
+              path: "/data/git/gitlab",
+              host: "localhost",
+              port: "80",
+              url: "http://localhost:80/",
+              ssl_certificate_path: "/etc/ssl",
+              ssl_certificate_key_path: "/etc/ssl"
+            }
+          )
+        end
+
+        it 'creates a directory' do
+          expect(chef_run).to create_directory('/data/git')
+        end
       end
     end
   end
