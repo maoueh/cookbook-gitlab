@@ -106,6 +106,14 @@ default['mysql']['server_root_password'] = "rootpass"
 default['mysql']['server_repl_password'] = "replpass"
 default['mysql']['server_debian_password'] = "debianpass"
 
+ # Here for legacy reasons. mysql cookbook removed support for configurable sockets. See: https://github.com/opscode-cookbooks/mysql#mysql-cookbook
+case node["platform_family"]
+when "debian"
+  default['mysql']['server']['socket'] = "/var/run/mysqld/mysqld.sock"
+when "rhel"
+  default['mysql']['server']['socket'] = "/var/lib/mysql/mysql.sock"
+end
+
 # PostgreSQL attributes
 include_attribute 'postgresql'
 
