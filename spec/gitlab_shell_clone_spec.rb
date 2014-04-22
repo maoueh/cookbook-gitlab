@@ -15,7 +15,7 @@ describe "gitlab::gitlab_shell_clone" do
       it "clones the gitlab-shell repository" do
         expect(chef_run).to sync_git('/home/git/gitlab-shell').with(
           repository: 'https://github.com/gitlabhq/gitlab-shell.git',
-          revision: "v1.9.1",
+          revision: "v1.9.3",
           user: 'git',
           group: 'git'
         )
@@ -51,7 +51,7 @@ describe "gitlab::gitlab_shell_clone" do
       it "clones the gitlab-shell repository" do
         expect(chef_run).to sync_git('/home/git/gitlab-shell').with(
           repository: 'https://github.com/gitlabhq/gitlab-shell.git',
-          revision: "v1.9.1",
+          revision: "v1.9.3",
           user: 'git',
           group: 'git'
         )
