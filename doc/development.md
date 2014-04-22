@@ -4,7 +4,7 @@
 
 * [Ruby 1.9 or higher](https://www.ruby-lang.org/) and [Rubygems](http://rubygems.org/)
 * [VirtualBox](https://www.virtualbox.org)
-* [Vagrant 1.3.5](http://vagrantup.com)
+* [Vagrant 1.4.0](https://www.vagrantup.com/download-archive/v1.4.0.html)
 * The NFS packages for the synced folder of Vagrant. These are already installed if you are using Mac OSX and not necessary if you are using Windows. On Linux install them by running:
 
 ```bash
@@ -52,12 +52,12 @@ gem uninstall vagrant
 Next steps are:
 
 ```bash
-gem install berkshelf
-vagrant plugin install vagrant-berkshelf
+vagrant plugin install vagrant-berkshelf --plugin-version 1.3.7
 vagrant plugin install vagrant-omnibus
 vagrant plugin install vagrant-bindfs
 git clone https://gitlab.com/gitlab-org/cookbook-gitlab.git
 cd ./cookbook-gitlab
+bundle install
 vagrant up --provision
 ```
 
