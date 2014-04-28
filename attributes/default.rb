@@ -14,6 +14,7 @@ else
 end
 
 default['gitlab']['packages'] = packages
+default['gitlab']['compile_ruby'] = true
 default['gitlab']['ruby'] = "2.0.0-p353" # Latest 2.0 by ruby-build 20131225.1 (Ubuntu)
 
 # GitLab shell

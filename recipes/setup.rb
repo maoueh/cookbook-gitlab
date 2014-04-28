@@ -11,7 +11,7 @@ gitlab = node['gitlab']
 include_recipe "gitlab::packages"
 
 # Compile ruby
-include_recipe "gitlab::ruby"
+include_recipe "gitlab::ruby" if gitlab['compile_ruby']
 
 # Setup GitLab user
 include_recipe "gitlab::users"
