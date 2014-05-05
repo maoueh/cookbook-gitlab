@@ -63,3 +63,12 @@ directory "#{gitlab['path']}/bin" do
   mode 0755
   action :create
 end
+
+redis = monitrc['redis']
+monit_monitrc "redis" do
+  variables ({
+    host: gitlab['redis_host'],
+    port: gitlab['redis_port'],
+    redis_pid_path: redis['redis_pid_path']
+  })
+end

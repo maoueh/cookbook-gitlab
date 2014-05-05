@@ -223,6 +223,11 @@ default['gitlab']['monitrc']['disk_usage'] = {
   :path => "/" # Path on the filesystem to monitor
 }
 
+default['gitlab']['monitrc']['redis'] = {
+  :redis_pid_path => "/var/run/redis/6379/redis_6379.pid"
+}
+
+
 # Can be specified if you need to use different alert email in sidekiq monitor config
 # If you need only one alert email, specify with https://github.com/phlipper/chef-monit/blob/1.4.0/attributes/default.rb#L27
 default['gitlab']['monitrc']['notify_email'] = nil
