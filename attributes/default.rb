@@ -224,6 +224,7 @@ default['gitlab']['monitrc']['disk_usage'] = {
 }
 
 default['gitlab']['monitrc']['redis'] = {
+  :service_name => "/etc/init.d/redis6379",
   :redis_pid_path => "/var/run/redis/6379/redis_6379.pid"
 }
 
