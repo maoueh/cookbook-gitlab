@@ -1,4 +1,6 @@
 check process redis-server with pidfile <%= @redis_pid_path %>
   start program = "/etc/init.d/redis6379 start"
   stop program = "/etc/init.d/redis6379 stop"
-  if failed host <%= @host %> port <%= @port %> then alert
+  if failed host <%= @host %> port <%= @port %>
+    send "PING\r\n" expect "PONG\r\n"
+  then alert
