@@ -95,6 +95,60 @@ describe "gitlab::gems" do
           end
         end
       end
+
+      describe "when customizing gitlab user home" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::gems")
+        end
+
+        it 'creates a gemrc from template' do
+          expect(chef_run).to create_template('/data/git/.gemrc')
+        end
+
+        it 'executes bundle without development and test' do
+          resource = chef_run.find_resource(:execute, 'bundle install')
+          expect(resource.cwd).to eq("/data/git/gitlab")
+        end
+
+        describe "when using mysql" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "mysql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['mysql']['server_root_password'] = "rootpass"
+            runner.node.set['mysql']['server_repl_password'] = "replpass"
+            runner.node.set['mysql']['server_debian_password'] = "debpass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::gems")
+          end
+
+          it 'executes bundle without postgres' do
+            resource = chef_run.find_resource(:execute, 'bundle install')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+        end
+
+        describe "when using postgres" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "postgresql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['postgresql']['password']['postgres'] = "psqlpass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::gems")
+          end
+
+          it 'executes bundle without mysql' do
+            resource = chef_run.find_resource(:execute, 'bundle install')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+        end
+      end
     end
   end
 
@@ -186,6 +240,60 @@ describe "gitlab::gems" do
             expect(resource.user).to eq("git")
             expect(resource.group).to eq("git")
             expect(resource.cwd).to eq("/home/git/gitlab")
+          end
+        end
+      end
+
+      describe "when customizing gitlab user home" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['home'] = "/data/git"
+          runner.converge("gitlab::gems")
+        end
+
+        it 'creates a gemrc from template' do
+          expect(chef_run).to create_template('/data/git/.gemrc')
+        end
+
+        it 'executes bundle without development and test' do
+          resource = chef_run.find_resource(:execute, 'bundle install')
+          expect(resource.cwd).to eq("/data/git/gitlab")
+        end
+
+        describe "when using mysql" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "centos", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "mysql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['mysql']['server_root_password'] = "rootpass"
+            runner.node.set['mysql']['server_repl_password'] = "replpass"
+            runner.node.set['mysql']['server_debian_password'] = "debpass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::gems")
+          end
+
+          it 'executes bundle without postgres' do
+            resource = chef_run.find_resource(:execute, 'bundle install')
+            expect(resource.cwd).to eq("/data/git/gitlab")
+          end
+        end
+
+        describe "when using postgres" do
+          let(:chef_run) do
+            runner = ChefSpec::Runner.new(platform: "centos", version: version)
+            runner.node.set['gitlab']['env'] = "production"
+            runner.node.set['gitlab']['database_adapter'] = "postgresql"
+            runner.node.set['gitlab']['database_password'] = "datapass"
+            runner.node.set['postgresql']['password']['postgres'] = "psqlpass"
+            runner.node.set['gitlab']['home'] = "/data/git"
+            runner.converge("gitlab::gems")
+          end
+
+          it 'executes bundle without mysql' do
+            resource = chef_run.find_resource(:execute, 'bundle install')
+            expect(resource.cwd).to eq("/data/git/gitlab")
           end
         end
       end

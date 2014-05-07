@@ -63,6 +63,7 @@ template File.join(gitlab['path'], 'config', 'unicorn.rb') do
   user gitlab['user']
   group gitlab['group']
   variables({
+    :app_root => gitlab['path'],
     :unicorn_workers_number => gitlab['unicorn_workers_number'],
     :unicorn_timeout => gitlab['unicorn_timeout']
   })
@@ -193,6 +194,15 @@ ruby_block "Copy from example gitlab init config" do
       self.notifies :run, resources(:execute => "set gitlab to start on boot"), :immediately
     end
   end
+end
+
+template "/etc/default/gitlab" do
+  source "gitlab.default.erb"
+  mode 0755
+  variables(
+    :app_user => node['gitlab']['user'],
+    :app_root => node['gitlab']['path']
+  )
 end
 
 case gitlab['env']
