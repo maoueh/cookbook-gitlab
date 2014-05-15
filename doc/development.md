@@ -92,6 +92,9 @@ sudo update-rc.d gitlab disable
 cd /home/USER/gitlab/gitlab
 ```
 
+and follow [the readme instructions to run it in development mode](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/README.md#run-in-development-mode).
+
+*Note* SSH push won't work on metal setup but you can still clone and push by using `http`.
 
 # Troubleshooting
 
