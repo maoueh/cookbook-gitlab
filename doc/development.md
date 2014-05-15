@@ -10,10 +10,15 @@ There is also an option of setting up a dedicated OS for GitLab, see [the direct
 
 - Tested and confirmed working on Ubuntu 13.10
 
-*Please read whole document before starting the setup.*
+*Please read the whole document before starting the setup.*
 
 The installation process is almost the same as a [production install using Chef](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/doc/production.md).
-You use the same /tmp/solo.rb as mentioned in the production install.
+You use the same `/tmp/solo.rb` as mentioned in the production install.
+
+```bash
+curl -o /tmp/solo.json https://gitlab.com/gitlab-org/cookbook-gitlab/raw/master/solo.json.production_example
+```
+
 It is convenient to setup GitLab under your existing user account.
 In `/tmp/solo.json` configuration file, replace the occurences of `USER` and `USERGROUP` with your settings(username and group can be gathered using `id` command).
 
@@ -84,7 +89,6 @@ After installing please do:
 
 ```bash
 sudo update-rc.d gitlab disable
-sudo passwd -u USER
 cd /home/USER/gitlab/gitlab
 ```
 
@@ -104,9 +108,9 @@ Make sure there are no 404'ing links in your repos.list
 sudo apt-get update
 ```
 
-should not give any 404 link.
+should not give any 404 links.
 
 ## Other
 
-- Your home folder can not already contain a `./gitlab` folder! If that already exists, append a folder to the solo.json file, such as /dev (it should already exist). The `home` attribute should still point to your homefolder, independent of the GitLab installation folder.
+- Your home folder can not already contain a `~/gitlab` folder! If that already exists, append a folder to the solo.json file, such as /dev (it should already exist). The `home` attribute should still point to your homefolder, independent of the GitLab installation folder.
 - Unicorn.rb should have the correct path set to be able to start the server.
