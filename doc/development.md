@@ -1,6 +1,10 @@
+# GitLab Vagrant virtual machine
+
+*NOTE* Development with Vagrant virtual machine has been deprecated. The old setup guide has [been moved here](doc/vagrant.md) but we strongly recommend that it is not used as it is *deprecated*.
+
 # GitLab Metal development setup
 
-To develop for GitLab, it is recommended to install a development GitLab on metal. This is much faster than any VM-based setup, but has as disadvantage that you might have to deal with anything that is already on your system.
+To develop GitLab, it is recommended to install a development GitLab on metal. This is much faster than any VM-based setup, but has as disadvantage that you might have to deal with anything that is already on your system.
 There is also an option of setting up a dedicated OS for GitLab, see [the directions here](doc/development_metal.md).
 
 
