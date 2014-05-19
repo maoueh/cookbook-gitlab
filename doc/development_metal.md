@@ -2,55 +2,6 @@
 
 Running Gitlab directly on your machine can make it run considerably faster than inside a virtual machine, possibly making non reasonable wait times (10 minutes to start a test) reasonable (1.5 minutes).
 
-### OS choice
-
-Before doing anything, you have to decide if you will install Gitlab on your existing system, or if you will install a new system dedicated to develop Gitlab.
-
-#### Existing OS
-
-The advantage of installing an existing OS is that you keep all your development programs and configurations untouched, and it is the fastest way to get started.
-
-The downside is that there is a chance that your existing OS setting (e.g. PPAs you added to Ubuntu, binaries you compiled from source) will be incompatible with those required by Gitlab, so if you want to play it safe and avoid hard to track problems, use a dedicated development system.
-
-Furthermore, to install on an existing OS you must be using a supported distribution. It is possible that things will work if you use a non-supported version of a supported system (e.g. Ubuntu 13.10 instead of 12.04), but this adds even further to the risk of incompatibilities.
-
-**Install**
-
-The installation process is almost the same as a [production install](production.md).
-You use the same /tmp/solo.rb as mentioned in the production install.
-The only difference is the `/tmp/solo.json` configuration file that can be written with:
-
-```bash
-rm -f /tmp/solo.json
-cat > /tmp/solo.json << EOF
-{
-    "gitlab": {
-      "env": "development",
-      "database_adapter": "mysql",
-      "database_password": "a",
-      "ssh_port": "22"
-    },
-    "mysql": {
-      "server_root_password": "a",
-      "server": {}
-    },
-      "run_list": [
-      "gitlab::default"
-    ]
-}
-EOF
-```
-
-After installing please do:
-
-```bash
-sudo update-rc.d gitlab disable
-sudo su - git
-cd /home/git/gitlab
-```
-
-And follow [the readme instructions to run it in development mode](https://github.com/gitlabhq/gitlabhq/blob/master/README.md#run-in-development-mode).
-
 #### Dedicated OS
 
 The downside of installing a dedicated OS (possibly on the same HD as the existing one) is that it takes up a little time (~30 minutes if you know what your are doing) to install and disk space (30GB should be more than enough).
