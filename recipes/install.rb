@@ -190,9 +190,6 @@ ruby_block "Copy from example gitlab init config" do
     resource.content IO.read(File.join(gitlab['path'], "lib", "support", "init.d", "gitlab"))
     resource.mode 0755
     resource.run_action :create
-    if resource.updated? && gitlab['env'] == 'production'
-      self.notifies :run, resources(:execute => "set gitlab to start on boot"), :immediately
-    end
   end
 end
 
@@ -207,16 +204,6 @@ end
 
 case gitlab['env']
 when 'production'
-  # Updates defaults so gitlab can boot on start. As per man pages of update-rc.d runs only if links do not exist
-  execute "set gitlab to start on boot" do
-    if platform_family?("debian")
-      command "update-rc.d gitlab defaults 21"
-    else
-      command "chkconfig --level 21 gitlab on"
-    end
-    action :nothing
-  end
-
   ## Setup logrotate
   # Creating the file this way for the following reasons
   # 1. Chef 11.4.0 must be used to keep support for AWS OpsWorks

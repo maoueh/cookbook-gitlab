@@ -21,12 +21,6 @@ If you are not familiar with vim please skip this and keep using the default edi
 
 #### Setup
 
-Login to your Vagrant machine
-
-```bash
-vagrant ssh
-```
-
 Add LDAP domain name to `/etc/hosts`
 
 ```bash
@@ -213,7 +207,7 @@ Under `gitlab.yml` there is a LDAP section that should look like this:
     password: 'gitlabldap'
 ```
 
-Navigate to `/vagrant/gitlabhq/` and start the GitLab instance with:
+Navigate to `gitlab` source directory and start the GitLab instance with:
 
 ```
 bundle exec foreman start

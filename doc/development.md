@@ -1,18 +1,17 @@
 # GitLab Vagrant virtual machine
 
-*NOTE* Development with Vagrant virtual machine has been deprecated. The old setup guide has [been moved here](doc/vagrant.md) but we strongly recommend that it is not used as it is extremely slow and error prone.
+*NOTE* Development with Vagrant virtual machine has been deprecated.
 
 # GitLab Metal development setup
 
 To develop GitLab, it is recommended to install a development GitLab on metal. This is much faster than any VM-based setup, but has as disadvantage that you might have to deal with anything that is already on your system.
-There is also an option of setting up a dedicated OS for GitLab, see [the directions here](doc/development_metal.md).
+
+*Please read the whole document including the troubleshooting and limitations section before starting the setup as it can alter your system installation.*
 
 This guide is tested and confirmed working on:
 
 * Ubuntu 13.10
 * Please send merge request to add other OS's you've tested it on.
-
-*Please read the whole document including the troubleshooting and limitations section before starting the setup.*
 
 The installation process is almost the same as a [production install using Chef](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/doc/production.md).
 You use the same `/tmp/solo.rb` as mentioned in the production install.
@@ -32,6 +31,7 @@ cat > /tmp/solo.json << EOF
 {
   "gitlab": {
     "env": "development",
+    "compile_ruby": false,
     "repos_path": "/home/USER/repositories",
     "shell_path": "/home/USER/gitlab-shell",
     "ssh_port": "22",
@@ -44,9 +44,7 @@ cat > /tmp/solo.json << EOF
 
   "run_list": [
     "postfix",
-    "gitlab::packages",
-    "gitlab::database_postgresql",
-    "gitlab::deploy"
+    "gitlab::default"
   ]
 }
 
@@ -88,16 +86,15 @@ EOF
 sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 
-After installing the cookbook please remove autostarting:
+After installing GitLab using the cookbook navigate to the source directory:
 
 ```bash
-sudo update-rc.d gitlab disable
 cd /home/USER/gitlab/gitlab
 ```
 
 and follow [the readme instructions to run it in development mode](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/README.md#run-in-development-mode).
 
-*Note* SSH push won't work on metal setup but you can still clone and push by using `http`.
+*Note* SSH push won't work on metal setup but you can still clone and push using `http`.
 
 # Troubleshooting and limitations
 

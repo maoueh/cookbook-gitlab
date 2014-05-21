@@ -26,6 +26,9 @@ user gitlab['user'] do
   supports :manage_home => true
 end
 
-user gitlab['user'] do
-  action :lock
+# Locking user is not needed in development
+if gitlab['env'] == 'production'
+  user gitlab['user'] do
+    action :lock
+  end
 end
