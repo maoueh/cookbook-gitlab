@@ -1,11 +1,10 @@
 # GitLab Vagrant virtual machine
 
-*NOTE* Development with Vagrant virtual machine has been deprecated. The old setup guide has [been moved here](doc/vagrant.md) but we strongly recommend that it is not used as it is extremely slow and error prone.
+*NOTE* Development with Vagrant virtual machine has been deprecated.
 
 # GitLab Metal development setup
 
 To develop GitLab, it is recommended to install a development GitLab on metal. This is much faster than any VM-based setup, but has as disadvantage that you might have to deal with anything that is already on your system.
-There is also an option of setting up a dedicated OS for GitLab, see [the directions here](doc/development_metal.md).
 
 This guide is tested and confirmed working on:
 
@@ -97,7 +96,7 @@ cd /home/USER/gitlab/gitlab
 
 and follow [the readme instructions to run it in development mode](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/README.md#run-in-development-mode).
 
-*Note* SSH push won't work on metal setup but you can still clone and push by using `http`.
+*Note* SSH push won't work on metal setup but you can still clone and push using `http`.
 
 # Troubleshooting and limitations
 
