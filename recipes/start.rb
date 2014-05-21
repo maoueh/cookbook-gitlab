@@ -8,7 +8,7 @@ gitlab = node['gitlab']
 ## Start Your GitLab Instance
 service "gitlab" do
   supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
-  action :enable
+  action gitlab['env'] == "production" ? :enable : :nothing
 end
 
 service "gitlab" do

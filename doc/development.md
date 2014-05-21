@@ -6,12 +6,12 @@
 
 To develop GitLab, it is recommended to install a development GitLab on metal. This is much faster than any VM-based setup, but has as disadvantage that you might have to deal with anything that is already on your system.
 
+*Please read the whole document including the troubleshooting and limitations section before starting the setup as it can alter your system installation.*
+
 This guide is tested and confirmed working on:
 
 * Ubuntu 13.10
 * Please send merge request to add other OS's you've tested it on.
-
-*Please read the whole document including the troubleshooting and limitations section before starting the setup.*
 
 The installation process is almost the same as a [production install using Chef](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/doc/production.md).
 You use the same `/tmp/solo.rb` as mentioned in the production install.
@@ -31,6 +31,7 @@ cat > /tmp/solo.json << EOF
 {
   "gitlab": {
     "env": "development",
+    "compile_ruby": false,
     "repos_path": "/home/USER/repositories",
     "shell_path": "/home/USER/gitlab-shell",
     "ssh_port": "22",
@@ -43,9 +44,7 @@ cat > /tmp/solo.json << EOF
 
   "run_list": [
     "postfix",
-    "gitlab::packages",
-    "gitlab::database_postgresql",
-    "gitlab::deploy"
+    "gitlab::default"
   ]
 }
 
