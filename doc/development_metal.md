@@ -1,8 +1,8 @@
-### Development installation on metal (outside a Virtual Machine)
+# Development installation on a Dedicated OS
 
-Running Gitlab directly on your machine can make it run considerably faster than inside a virtual machine, possibly making non reasonable wait times (10 minutes to start a test) reasonable (1.5 minutes).
+*It is possible and recommended to [develop GitLab on your existing OS](development.md), if you do want to use a dedicated OS for development please use the guide below.*
 
-#### Dedicated OS
+# Introduction
 
 The downside of installing a dedicated OS (possibly on the same HD as the existing one) is that it takes up a little time (~30 minutes if you know what your are doing) to install and disk space (30GB should be more than enough).
 
@@ -12,7 +12,7 @@ Once you have installed your dedicated system and logged in, the installation pr
 
 If you chose to use a dedicated OS, you have the following options of how to develop.
 
-**Git user on the dedicated OS**
+## Git user on the dedicated OS
 
 The advantage of running as the `git` user is that it is very easy to start up the server and run tests. Just do:
 
@@ -35,7 +35,7 @@ Using the `git` user has the following downsides:
     One option is to use git to store your configurations + a script that symlinks files to your home folder,
     such as done in [Zack Holam's dotfiles](https://github.com/dosire/dotfiles).
 
-**Non-Git user on the dedicated OS**
+## Non-Git user on the dedicated OS
 
 The advantage of this option is that you can reuse your existing OS's `/home` folder by mounting it.
 

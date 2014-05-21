@@ -1,16 +1,18 @@
 # GitLab Vagrant virtual machine
 
-*NOTE* Development with Vagrant virtual machine has been deprecated. The old setup guide has [been moved here](doc/vagrant.md) but we strongly recommend that it is not used as it is *deprecated*.
+*NOTE* Development with Vagrant virtual machine has been deprecated. The old setup guide has [been moved here](doc/vagrant.md) but we strongly recommend that it is not used as it is extremely slow and error prone.
 
 # GitLab Metal development setup
 
 To develop GitLab, it is recommended to install a development GitLab on metal. This is much faster than any VM-based setup, but has as disadvantage that you might have to deal with anything that is already on your system.
 There is also an option of setting up a dedicated OS for GitLab, see [the directions here](doc/development_metal.md).
 
+This guide is tested and confirmed working on:
 
-- Tested and confirmed working on Ubuntu 13.10
+* Ubuntu 13.10
+* Please send merge request to add other OS's you've tested it on.
 
-*Please read the whole document before starting the setup.*
+*Please read the whole document including the troubleshooting and limitations section before starting the setup.*
 
 The installation process is almost the same as a [production install using Chef](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/doc/production.md).
 You use the same `/tmp/solo.rb` as mentioned in the production install.
@@ -51,6 +53,7 @@ cat > /tmp/solo.json << EOF
 EOF
 ```
 
+Add the required development tools for your operating system:
 
 ```bash
 distro="$(cat /etc/issue | awk ''NR==1'{ print $1 }')"
@@ -69,7 +72,7 @@ case "$distro" in
 esac
 ```
 
-Next run:
+Run the cookbook:
 
 ```bash
 cd /tmp
@@ -85,7 +88,7 @@ EOF
 sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 
-After installing please do:
+After installing the cookbook please remove autostarting:
 
 ```bash
 sudo update-rc.d gitlab disable
@@ -96,7 +99,7 @@ and follow [the readme instructions to run it in development mode](https://gitla
 
 *Note* SSH push won't work on metal setup but you can still clone and push by using `http`.
 
-# Troubleshooting
+# Troubleshooting and limitations
 
 ## PostgreSQL installation problems
 
