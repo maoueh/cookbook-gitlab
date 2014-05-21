@@ -86,10 +86,9 @@ EOF
 sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 
-After installing the cookbook please remove autostarting:
+After installing GitLab using the cookbook navigate to the source directory:
 
 ```bash
-sudo update-rc.d gitlab disable
 cd /home/USER/gitlab/gitlab
 ```
 
