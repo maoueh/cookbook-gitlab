@@ -3,9 +3,9 @@ GitLab Cookbook
 
 Chef cookbook with recipes to install GitLab and its dependencies:
 
-* GitLab: 6.7
-* GitLab Shell: 1.9.1
-* Ruby: 2.1.1
+* GitLab: 6.9
+* GitLab Shell: 1.9.4
+* Ruby: 2.0.0-p451
 * Redis: 2.6.13
 * Git: 1.8.4.1
 * Nginx: 1.1.19
@@ -17,7 +17,7 @@ Chef cookbook with recipes to install GitLab and its dependencies:
 Cookbook has been tested and it is known to work on:
 
 * Ubuntu (12.04, 12.10)
-* RHEL/CentOS (6.4)
+* RHEL/CentOS (6.5)
 
 ## Installation
 
