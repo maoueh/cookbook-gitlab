@@ -5,19 +5,10 @@ To develop GitLab we install it directly on your machine (it runs on metal). A m
 This guide is tested and confirmed working on:
 
 * Ubuntu 13.10
+* Ubuntu 14.04
 * Please send merge request to add other OS's you've tested it on.
 
-The installation process is almost the same as a [production install using Chef](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/doc/production.md).
-You use the same `/tmp/solo.rb` as mentioned in the production install.
-
-```bash
-curl -o /tmp/solo.json https://gitlab.com/gitlab-org/cookbook-gitlab/raw/master/solo.json.production_example
-```
-
-It is convenient to setup GitLab under your existing user account.
-In `/tmp/solo.json` configuration file, replace the occurences of `USER` and `USERGROUP` with your settings(username and group can be gathered using `id` command).
-
-You can also alter the paths to place the code somewhere convenient, the example below places everything under home directory of `USER`:
+The first step is to create a solo.json file.
 
 ```bash
 rm -f /tmp/solo.json
@@ -45,14 +36,24 @@ cat > /tmp/solo.json << EOF
 EOF
 ```
 
-Add the required development tools for your operating system:
+For development it is convenient to setup GitLab under your existing user account.
+In `/tmp/solo.json` configuration file, replace the occurences of `USER` and `USERGROUP` with your user details, this can be done with:
+
+```bash
+sed -i s/USERGROUP/$(groups | awk '{print $1;}')/ /tmp/solo.json
+sed -i s/USER/$(whoami)/ /tmp/solo.json
+```
+
+You can alter the paths to place the code somewhere convenient but by default it places everything under home directory of `USER` which is recommended.
+
+Add the required development tools for your operating system (we need git to clone the cookbook, a newer git version will be compiled using the cookbook):
 
 ```bash
 distro="$(cat /etc/issue | awk ''NR==1'{ print $1 }')"
 case "$distro" in
   Ubuntu)
     sudo apt-get update
-    sudo apt-get install -y build-essential git curl # We need git to clone the cookbook, newer version will be compiled using the cookbook
+    sudo apt-get install -y build-essential git curl
   ;;
   CentOS)
     yum groupinstall -y "Development Tools"
@@ -80,34 +81,58 @@ EOF
 sudo chef-solo -c /tmp/solo.rb -j /tmp/solo.json
 ```
 
-After installing GitLab using the cookbook navigate to the source directory:
+After installing GitLab using the cookbook navigate to the Rails application directory:
 
 ```bash
-cd /home/USER/gitlab/gitlab
+cd /home/USER/gitlab
 ```
 
 and follow [the readme instructions to run it in development mode](https://gitlab.com/gitlab-org/gitlab-ce/blob/master/README.md#run-in-development-mode).
 
-*Note* SSH push won't work on metal setup but you can still clone and push using `http`.
+*Note* Pulling and pushing over SSH won't work on this metal setup but you can still clone and push using http.
 
 # Troubleshooting and limitations
 
-## PostgreSQL installation problems
+## PostgreSQL cookbook does not recognize Debian distribution
 
-- Make sure your distribution is added to the postgres cookbook. The latest cookbook does not include 13.10, requiring you to add `saucy` to the list of distributions
-- Only one Postgres version can be installed / running. To be sure, remove any other versions of your system if your installation runs into problems at this step.
+Make sure your distribution is added to the postgres cookbook.
+You can add your distribution name to the list of distributions on the second line of the cookbook file:
+
+```bash
+vim /tmp/cookbooks/postgresql/recipes/apt_pgdg_postgresql.rb
+```
+
+## Can have only one PostgreSQL version installed
+
+Only one PostgreSQL version can be installed / running. To be sure, remove any other versions of your system if your installation runs into problems at this step.
 
 ## Error on /tmp/cookbooks/build-essential/recipes/debian.rb
 
-Make sure there are no 404'ing links in your repos.list
+Make sure there are no 404'ing links in your repos.list since they cause a failing exit code and the cookbook run to fail. The command below should not give any 404 links:
 
 ```
 sudo apt-get update
 ```
 
-should not give any 404 links.
+## No gitlab folder in your home directory
 
-## Other
+Your home folder can not already contain a `~/gitlab` folder! If that already exists, append a folder to the solo.json file, such as /dev (it should already exist).
+The `home` attribute should still point to your homefolder, independent of the GitLab installation folder.
 
-- Your home folder can not already contain a `~/gitlab` folder! If that already exists, append a folder to the solo.json file, such as /dev (it should already exist). The `home` attribute should still point to your homefolder, independent of the GitLab installation folder.
-- Unicorn.rb should have the correct path set to be able to start the server.
+## Unicorn should have the correct path
+
+Unicorn.rb should have the correct path set to be able to start the server.
+
+## Ruby version manager conflict
+
+Ensure you ruby version manager points to a recent version of Ruby (2.0+).
+
+## Failed cookbook run / missing database
+
+If the cookbook run fails halfway you might be stuck with a half filled database, even if the next run is successfull.
+Please use the commands below to get to a complete db:
+
+```bash
+bundle exec rake db:migrate
+bundle exec rake db:seed_fu
+```
