@@ -92,6 +92,19 @@ and follow [the readme instructions to run it in development mode](https://gitla
 
 # Troubleshooting and limitations
 
+## Git configuration
+
+Running the cookbook will set your git config to:
+user.name=GitLab
+user.email=gitlab@localhost
+
+Check with `git config --list` and run the following to correct it:
+
+```bash
+$ git config --global user.name "Jane Doe"
+$ git config --global user.email janedoe@example.com
+```
+
 ## PostgreSQL installation problems
 
 - Make sure your distribution is added to the postgres cookbook. The latest cookbook does not include 13.10, requiring you to add `saucy` to the list of distributions
