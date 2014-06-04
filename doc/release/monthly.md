@@ -28,6 +28,10 @@ Most of the time only tests that need fixing are in [clone spec](spec/clone_spec
 Replace the version in [metadata](metadata.rb) with the new version.
 Example: If released GitLab version is 6.7, cookbook version is 0.6.7
 
+## Create a tag
+
+Create an annotated tag `git tag -a vx.x.x -m 'Version x.x.x'` pointing to the commit with updated version.
+
 ## Running the cookbook in different environments
 
 Provision a GitLab instance by using the cookbook in supported environments:
