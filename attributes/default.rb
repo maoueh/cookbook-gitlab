@@ -15,7 +15,7 @@ end
 
 default['gitlab']['packages'] = packages
 default['gitlab']['compile_ruby'] = true
-default['gitlab']['ruby'] = "2.0.0-p451" # Latest 2.0 by ruby-build 20131225.1 (Ubuntu)
+default['gitlab']['ruby'] = "2.1.2" # ruby-build 20140509 (Ubuntu)
 
 # User
 default['gitlab']['user'] = "git" # Do not change this attribute in production unless you know what you do since some code from the GitLab repo such as init.d script assume it is git.
