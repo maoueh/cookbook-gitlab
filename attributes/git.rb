@@ -1,6 +1,6 @@
 # Git
 default['gitlab']['git']['prefix'] = "/usr/local"
-default['gitlab']['git']['version'] = "1.8.5.2"
+default['gitlab']['git']['version'] = "2.0.0"
 default['gitlab']['git']['url'] = "https://codeload.github.com/git/git/zip/v#{node['gitlab']['git']['version']}"
 
 if platform_family?("rhel")
