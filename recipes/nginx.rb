@@ -9,7 +9,7 @@ gitlab = node['gitlab']
 ## Installation
 package "nginx" do
   action :install
-end
+end if gitlab['install_nginx']
 
 ## Site Configuration
 path = platform_family?("rhel") ? "/etc/nginx/conf.d/gitlab.conf" : "/etc/nginx/sites-available/gitlab"

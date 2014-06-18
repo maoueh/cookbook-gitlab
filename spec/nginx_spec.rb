@@ -76,6 +76,19 @@ describe "gitlab::nginx" do
           expect(chef_run).to_not create_directory('/data/git')
         end
       end
+
+      describe "when customizing install_nginx" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['install_nginx'] = false
+          runner.converge("gitlab::nginx")
+        end
+
+        it 'does not install nginx' do
+          expect(chef_run).to_not install_package('nginx')
+        end
+      end
     end
   end
 
@@ -145,6 +158,19 @@ describe "gitlab::nginx" do
 
         it 'creates a directory' do
           expect(chef_run).to create_directory('/data/git')
+        end
+      end
+
+      describe "when customizing install_nginx" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['install_nginx'] = false
+          runner.converge("gitlab::nginx")
+        end
+
+        it 'does not install nginx' do
+          expect(chef_run).to_not install_package('nginx')
         end
       end
     end

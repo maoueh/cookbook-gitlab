@@ -169,7 +169,8 @@ default['postfix']['smtp_use_tls'] = "no"
 default['gitlab']['unicorn_workers_number'] = 2
 default['gitlab']['unicorn_timeout'] = 30
 
-# Nginx ssl certificates
+# Nginx & Nginx ssl certificates
+default['gitlab']['install_nginx'] = true
 default['gitlab']['ssl_certificate_path'] = "/etc/ssl" # Path to .crt file. If it directory doesn't exist it will be created
 default['gitlab']['ssl_certificate_key_path'] = "/etc/ssl" # Path to .key file. If directory doesn't exist it will be created
 default['gitlab']['ssl_certificate'] = "" # SSL certificate
