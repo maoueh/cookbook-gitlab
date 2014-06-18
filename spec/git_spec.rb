@@ -50,7 +50,7 @@ describe "gitlab::git" do
       end
 
       it "installs all git required packages" do
-        packages = %w{expat-devel gettext-devel libcurl-devel openssl-devel perl-ExtUtils-MakeMaker zlib-devel}
+        packages = %w{unzip expat-devel gettext-devel libcurl-devel openssl-devel perl-ExtUtils-MakeMaker zlib-devel}
         packages.each do |pkg|
           expect(chef_run).to install_package(pkg)
         end
