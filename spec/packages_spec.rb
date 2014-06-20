@@ -29,6 +29,10 @@ describe "gitlab::packages" do
           expect(chef_run).to install_package(pkg)
         end
       end
+
+      it "should not install package git" do
+        expect(chef_run).to_not install_package("git")
+      end
     end
   end
 
@@ -56,6 +60,10 @@ describe "gitlab::packages" do
         packages.each do |pkg|
           expect(chef_run).to install_package(pkg)
         end
+      end
+
+      it "should not install package git" do
+        expect(chef_run).to_not install_package("git")
       end
     end
   end
