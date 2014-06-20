@@ -47,7 +47,7 @@ Finally, you should be able to start and configure the Vagrant box. This operati
 
     vagrant up
 
-You will likely encounter errors during the initial set up provisioning process. It is important to keep rerunning `vagrant provision` until it does not report any errors and returns you to the command prompt. See the Troubleshooting section for help.
+You will likely encounter errors during the initial set up provisioning process. This is due to differences between various OS and different machines this is being ran on. It is important to keep rerunning `vagrant provision` until it does not report any errors and returns you to the command prompt. See the Troubleshooting section for help.
 
 By default the VM uses 1.5GB of memory and 2 CPU cores. If you want to use more memory or cores you can use the GITLAB_VAGRANT_MEMORY and GITLAB_VAGRANT_CORES environment variables:
 
@@ -173,5 +173,6 @@ Information
 * GitLab web interface running at: http://localhost:3000/ or http://192.168.3.4:3000/
 * Virtual Machine user/password: vagrant/vagrant
 * GitLab webapp user/password: root/5iveL!fe
+* PostgreSQL user/password: git/datapass
 * MySQL user/password: git/datapass
 * MySQL root password: rootpass

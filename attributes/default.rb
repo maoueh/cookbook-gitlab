@@ -15,7 +15,7 @@ end
 
 default['gitlab']['packages'] = packages
 default['gitlab']['compile_ruby'] = true
-default['gitlab']['ruby'] = "2.0.0-p451" # Latest 2.0 by ruby-build 20131225.1 (Ubuntu)
+default['gitlab']['ruby'] = "2.1.2" # ruby-build 20140509 (Ubuntu)
 
 # User
 default['gitlab']['user'] = "git" # Do not change this attribute in production unless you know what you do since some code from the GitLab repo such as init.d script assume it is git.
@@ -54,11 +54,11 @@ if node['gitlab']['env'] == "development"
   default['gitlab']['shell_revision'] = "master"
 else
   default['gitlab']['environments'] = %w{production}
-  default['gitlab']['revision'] = "6-9-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['revision'] = "7-0-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['url'] = "http://localhost:80/"
   default['gitlab']['port'] = "80"
   default['gitlab']['ssh_port'] = "22"
-  default['gitlab']['shell_revision'] = "v1.9.4"
+  default['gitlab']['shell_revision'] = "v1.9.6"
 end
 
 # GitLab configuration
