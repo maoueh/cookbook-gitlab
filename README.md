@@ -21,7 +21,7 @@ Cookbook has been tested and it is known to work on:
 
 ## Installation
 
-* [Development installation](doc/development.md)
+* [Development installation on metal(oustside of Virtual Machine)](doc/development.md). May run much faster than inside a VM.
 
 * [Development installation on a virtual machine with Vagrant](doc/development_vagrant.md)
 

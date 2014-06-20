@@ -99,8 +99,7 @@ Vagrant.configure("2") do |config|
         "path" => "/gitlab/gitlab",
         "satellites_path" => "/gitlab/gitlab-satellites",
         "repos_path" => "/gitlab/repositories",
-        "shell_path" => "/gitlab/gitlab-shell",
-        "database_adapter" => "mysql"
+        "shell_path" => "/gitlab/gitlab-shell"
       },
       "phantomjs" => {
         "version" => "1.8.1"
