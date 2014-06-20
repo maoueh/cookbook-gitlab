@@ -36,6 +36,9 @@ case "$distro" in
   CentOS)
     yum groupinstall -y "Development Tools"
   ;;
+  Red) # RHEL
+    sudo yum groupinstall -y "Development Tools"
+  ;;
   *)
     echo "Your distro is not supported." 1>&2
     exit 1
