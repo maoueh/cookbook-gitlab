@@ -155,7 +155,7 @@ production: &base
     #   Format: RFC 4515
     #   Ex. (employeeType=developer)
     #
-    user_filter: ''
+    user_filter: '<%= @ldap_config["user_filter"] %>'
 
 
   ## OmniAuth settings
