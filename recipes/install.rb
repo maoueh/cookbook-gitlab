@@ -16,6 +16,7 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :user => gitlab['user'],
     :email_from => gitlab['email_from'],
     :support_email => gitlab['support_email'],
+    :max_size => gitlab['max_size'],
     :satellites_path => gitlab['satellites_path'],
     :repos_path => gitlab['repos_path'],
     :shell_path => gitlab['shell_path'],

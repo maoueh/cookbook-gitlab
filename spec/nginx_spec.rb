@@ -26,7 +26,8 @@ describe "gitlab::nginx" do
             port: "80",
             url: "http://localhost:80/",
             ssl_certificate_path: "/etc/ssl",
-            ssl_certificate_key_path: "/etc/ssl"
+            ssl_certificate_key_path: "/etc/ssl",
+            client_max_body_size: "20m"
           }
         )
       end
@@ -67,7 +68,8 @@ describe "gitlab::nginx" do
               port: "80",
               url: "http://localhost:80/",
               ssl_certificate_path: "/etc/ssl",
-              ssl_certificate_key_path: "/etc/ssl"
+              ssl_certificate_key_path: "/etc/ssl",
+              client_max_body_size: "20m"
             }
           )
         end
@@ -114,7 +116,8 @@ describe "gitlab::nginx" do
             port: "80",
             url: "http://localhost:80/",
             ssl_certificate_path: "/etc/ssl",
-            ssl_certificate_key_path: "/etc/ssl"
+            ssl_certificate_key_path: "/etc/ssl",
+            client_max_body_size: "20m"
           }
         )
       end
@@ -151,7 +154,8 @@ describe "gitlab::nginx" do
               port: "80",
               url: "http://localhost:80/",
               ssl_certificate_path: "/etc/ssl",
-              ssl_certificate_key_path: "/etc/ssl"
+              ssl_certificate_key_path: "/etc/ssl",
+              client_max_body_size: "20m"
             }
           )
         end

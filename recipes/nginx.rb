@@ -22,7 +22,8 @@ template path do
     :port => gitlab['port'],
     :url => gitlab['url'],
     :ssl_certificate_path => gitlab['ssl_certificate_path'],
-    :ssl_certificate_key_path => gitlab['ssl_certificate_key_path']
+    :ssl_certificate_key_path => gitlab['ssl_certificate_key_path'],
+    :client_max_body_size => gitlab['client_max_body_size']
   })
 end
 
