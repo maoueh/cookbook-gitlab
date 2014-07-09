@@ -32,6 +32,7 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :gravatar => gitlab['gravatar'],
     :ldap_config => gitlab['ldap'],
     :ssh_port => gitlab['ssh_port'],
+    :backup => gitlab['backup'],
   })
   notifies :run, "bash[git config]", :immediately
   notifies :reload, "service[gitlab]"
