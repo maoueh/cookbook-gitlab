@@ -53,7 +53,18 @@ describe "gitlab::install" do
                 "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
                 "password"=>"_the_password_of_the_bind_user",
                 "allow_username_or_email_login"=>true
-              }
+              },
+            backup: {
+              "cron"=>{
+                "action"=>:create,
+                "minute"=>0,
+                "hour"=>2,
+                "mailto"=>"gitlab@localhost",
+                "path"=>"/usr/local/bin:/usr/bin:/bin"
+              },
+              "backup_keep_time"=>0,
+              "backup_path"=>"tmp/backups"
+            }
           }
         )
       end
@@ -465,7 +476,18 @@ describe "gitlab::install" do
                 "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
                 "password"=>"_the_password_of_the_bind_user",
                 "allow_username_or_email_login"=>true
-              }
+              },
+            backup: {
+              "cron"=>{
+                "action"=>:create,
+                "minute"=>0,
+                "hour"=>2,
+                "mailto"=>"gitlab@localhost",
+                "path"=>"/usr/local/bin:/usr/bin:/bin"
+              },
+              "backup_keep_time"=>0,
+              "backup_path"=>"tmp/backups"
+            }
           }
         )
       end

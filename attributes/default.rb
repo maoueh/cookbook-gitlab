@@ -244,3 +244,12 @@ default['gitlab']['monitrc']['notify_email'] = nil
 # Some events may warrant extra notifcations, e.g. to a pager notification service
 default['gitlab']['monitrc']['emergency_email'] = nil
 default['gitlab']['monitrc']['emergency_events'] = ['timeout']
+
+# backups
+default['gitlab']['backup']['cron']['action'] = :create
+default['gitlab']['backup']['cron']['minute'] = 0
+default['gitlab']['backup']['cron']['hour'] = 2
+default['gitlab']['backup']['cron']['mailto'] = 'gitlab@localhost'
+default['gitlab']['backup']['cron']['path'] = '/usr/local/bin:/usr/bin:/bin'
+default['gitlab']['backup']['backup_keep_time'] = 0
+default['gitlab']['backup']['backup_path'] = 'tmp/backups'
