@@ -67,6 +67,7 @@ default['gitlab']['host'] = "localhost"
 default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
 
+default['gitlab']['max_size'] = "5242880" #5.megabytes
 default['gitlab']['signup_enabled'] = false
 default['gitlab']['signin_enabled'] = true
 default['gitlab']['projects_limit'] = 10
@@ -179,6 +180,7 @@ default['gitlab']['ssl_certificate_path'] = "/etc/ssl" # Path to .crt file. If i
 default['gitlab']['ssl_certificate_key_path'] = "/etc/ssl" # Path to .key file. If directory doesn't exist it will be created
 default['gitlab']['ssl_certificate'] = "" # SSL certificate
 default['gitlab']['ssl_certificate_key'] = "" # SSL certificate key
+default['gitlab']['client_max_body_size'] = "20m"
 
 # SMTP email
 default['gitlab']['smtp'] = {
