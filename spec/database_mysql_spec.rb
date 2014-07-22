@@ -12,7 +12,7 @@ describe "gitlab::database_mysql" do
 
   describe "under ubuntu" do
     ["12.04", "10.04"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
@@ -43,7 +43,7 @@ describe "gitlab::database_mysql" do
 
         it "skips database setup recipe" do
           expect(chef_run).to_not include_recipe("mysql::server")
-          expect(chef_run).to_not include_recipe("database::mysql")
+          expect(chef_run).to include_recipe("database::mysql")
         end
       end
     end
@@ -51,7 +51,7 @@ describe "gitlab::database_mysql" do
 
     describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
@@ -82,7 +82,7 @@ describe "gitlab::database_mysql" do
 
         it "skips database setup recipe" do
           expect(chef_run).to_not include_recipe("mysql::server")
-          expect(chef_run).to_not include_recipe("database::mysql")
+          expect(chef_run).to include_recipe("database::mysql")
         end
       end
     end
