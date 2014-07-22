@@ -88,6 +88,10 @@ default['gitlab']['ldap']['bind_dn'] = "_the_full_dn_of_the_user_you_will_bind_w
 default['gitlab']['ldap']['password'] = "_the_password_of_the_bind_user"
 default['gitlab']['ldap']['allow_username_or_email_login'] = true
 
+# LDAP Filter Example: Recursive query of group membership
+# default['gitlab']['ldap']['user_filter'] = '(&(objectcategory=person)(objectclass=user)(memberOf:1.2.840.113556.1.4.1941:=CN=Gitlab Users,OU=USA,DC=int,DC=contoso,DC=com))'
+default['gitlab']['ldap']['user_filter'] = ''
+
 default['gitlab']['gravatar'] = true
 
 default['gitlab']['default_projects_features']['issues'] = true
