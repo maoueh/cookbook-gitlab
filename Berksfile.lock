@@ -10,15 +10,13 @@ DEPENDENCIES
     git: https://github.com/phlipper/chef-monit.git
     revision: 276c99ba08869ebd5117267d91a2ff6aa0d9fc6b
     tag: 1.4.0
-  postgresql
-    git: https://github.com/maxlazio/postgresql.git
-    revision: 000ffed11710e8d307ea5b18c13213e53e66e289
   yum
 
 GRAPH
   apt (2.3.8)
   aws (2.1.1)
   build-essential (1.4.4)
+  chef-sugar (2.0.0)
   chef_handler (1.1.6)
   chocolatey (0.1.0)
     powershell (>= 0.0.0)
@@ -52,13 +50,14 @@ GRAPH
   mysql-chef_gem (0.0.2)
     build-essential (>= 0.0.0)
     mysql (>= 0.0.0)
-  openssl (1.1.0)
+  openssl (2.0.0)
+    chef-sugar (>= 0.0.0)
   phantomjs (1.0.3)
     build-essential (>= 0.0.0)
     chocolatey (>= 0.0.0)
   postfix (3.1.8)
-  postgresql (3.3.4)
-    apt (>= 0.0.0)
+  postgresql (3.4.1)
+    apt (>= 1.9.0)
     build-essential (>= 0.0.0)
     openssl (>= 0.0.0)
   powershell (3.0.0)
