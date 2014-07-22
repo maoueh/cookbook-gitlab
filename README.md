@@ -16,7 +16,7 @@ Chef cookbook with recipes to install GitLab and its dependencies:
 
 Cookbook has been tested and it is known to work on:
 
-* Ubuntu (12.04, 12.10)
+* Ubuntu (12.04, 12.10, 14.04)
 * RHEL/CentOS (6.5)
 
 ## Installation
