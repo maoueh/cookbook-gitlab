@@ -52,7 +52,8 @@ describe "gitlab::install" do
                 "method"=>"ssl",
                 "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
                 "password"=>"_the_password_of_the_bind_user",
-                "allow_username_or_email_login"=>true
+                "allow_username_or_email_login"=>true,
+                "user_filter"=>""
               },
             backup: {
               "cron"=>{
@@ -475,7 +476,8 @@ describe "gitlab::install" do
                 "method"=>"ssl",
                 "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
                 "password"=>"_the_password_of_the_bind_user",
-                "allow_username_or_email_login"=>true
+                "allow_username_or_email_login"=>true,
+                "user_filter"=>""
               },
             backup: {
               "cron"=>{
