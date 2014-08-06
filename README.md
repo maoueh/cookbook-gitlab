@@ -27,7 +27,7 @@ Cookbook has been tested and it is known to work on:
 
 * [On a virtual machine with Vagrant](doc/development_vagrant.md)
 
-## Production installation
+### Production installation
 
 * [On the host operating system with Chef Solo](doc/production.md)
 
