@@ -97,6 +97,11 @@ If you are using a firewall on the host machine, it should allow NFS related tra
 
     mount.nfs: mount to NFS server '.../cookbook-gitlab/vagrant' failed: timed out, giving up
 
+If you get errors about installing the pg gem, or missing make. Make sure to install the build-essentials package.
+
+    vagrant ssh
+    sudo apt-get install build-essentials
+
 After starting the server, you may not be able to log in to the GitLab web interface or you might see ActiveRecord errors. If this happens, the database may not have been seeded properly. Try logging in to the VM and running the tasks manually:
 
     vagrant ssh
@@ -113,6 +118,8 @@ Once installed and started, you'll be able to access GitLab in a browser from yo
 If you started the VM with the `GITLAB_VAGRANT_FORWARD=0` option, you'll need to use the local IP address. Point your bowser to:
 
   * http://192.168.3.4:3000
+
+Please login with root / 5iveL!fe
 
 Sometimes, when making changes to application code, you will need to restart GitLab to see the results:
 
