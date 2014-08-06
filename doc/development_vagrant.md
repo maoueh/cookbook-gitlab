@@ -1,4 +1,4 @@
-GitLab Development with Vagrant
+GitLab development setup on a virtual machine with Vagrant
 ===============================
 
 Sets up a local development environment for GitLab using a Vagrant virtual machine.
@@ -96,6 +96,11 @@ If you run into port conflicts between the guest and host, you can either:
 If you are using a firewall on the host machine, it should allow NFS related traffic, otherwise you might encouter NFS mounting errors during vagrant up like:
 
     mount.nfs: mount to NFS server '.../cookbook-gitlab/vagrant' failed: timed out, giving up
+
+If you get errors about installing the pg gem, or missing make. Make sure to install the build-essentials package.
+
+    vagrant ssh
+    sudo apt-get install build-essentials
 
 After starting the server, you may not be able to log in to the GitLab web interface or you might see ActiveRecord errors. If this happens, the database may not have been seeded properly. Try logging in to the VM and running the tasks manually:
 
