@@ -1,4 +1,4 @@
-# GitLab development setup on the host operating system with Chef Solo
+# Development setup on the host operating system with Chef Solo
 
 To develop GitLab we install it directly on your machine (it runs on metal).
 A metal install is much faster than the old deprecated installation method inside a virtual machine where a single page load could take take minutes.
