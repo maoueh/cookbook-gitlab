@@ -114,6 +114,8 @@ If you started the VM with the `GITLAB_VAGRANT_FORWARD=0` option, you'll need to
 
   * http://192.168.3.4:3000
 
+Please login with root / 5iveL!fe
+
 Sometimes, when making changes to application code, you will need to restart GitLab to see the results:
 
     Ctrl + C
