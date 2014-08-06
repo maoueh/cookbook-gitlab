@@ -1,7 +1,7 @@
 # Development setup on the host operating system with Chef Solo
 
 To develop GitLab we install it directly on your machine (it runs on metal).
-A metal install is much faster than the old deprecated installation method inside a virtual machine where a single page load could take take minutes.
+A metal install is much faster than the old deprecated installation method inside a virtual machine where a single page load could take minutes.
 A disadvantage of a metal install that you might run into conflicts because some programs are already on your system.
 *Please read the whole document including the troubleshooting and limitations section before starting the setup as it can alter your system installation.*
 
