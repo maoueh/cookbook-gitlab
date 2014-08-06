@@ -1,4 +1,4 @@
-GitLab Development with Vagrant
+GitLab development setup on a virtual machine with Vagrant
 ===============================
 
 Sets up a local development environment for GitLab using a Vagrant virtual machine.

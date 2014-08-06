@@ -21,13 +21,17 @@ Cookbook has been tested and it is known to work on:
 
 ## Installation
 
-* [Development installation on metal(oustside of Virtual Machine)](doc/development.md). May run much faster than inside a VM.
+### Development installation
 
-* [Development installation on a virtual machine with Vagrant](doc/development_vagrant.md)
+* [On the host operating system with Chef Solo](doc/development.md) (on metal it will run much faster than inside a VM)
 
-* [Production installation on Amazon Web Services (AWS) with Vagrant](doc/aws_vagrant.md)
+* [On a virtual machine with Vagrant](doc/development_vagrant.md)
 
-* [Production installation with Chef Solo](doc/production.md)
+## Production installation
+
+* [On the host operating system with Chef Solo](doc/production.md)
+
+* [On Amazon Web Services (AWS) with Vagrant](doc/aws_vagrant.md)
 
 If you want to do a production installation using AWS Opsworks please see the [cookbook for GitLab on AWS Opsworks repository](https://gitlab.com/gitlab-com/cookbook-gitlab-opsworks/blob/master/README.md).
 
