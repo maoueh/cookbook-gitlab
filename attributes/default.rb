@@ -67,7 +67,7 @@ default['gitlab']['host'] = "localhost"
 default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
 
-default['gitlab']['max_size'] = "5242880" #5.megabytes
+default['gitlab']['max_size'] = "20971520" # 20.megabytes
 default['gitlab']['signup_enabled'] = false
 default['gitlab']['signin_enabled'] = true
 default['gitlab']['projects_limit'] = 10
