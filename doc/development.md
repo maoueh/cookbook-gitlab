@@ -47,6 +47,15 @@ sed -i s/USERGROUP/$(groups | awk '{print $1;}')/ /tmp/solo.json
 sed -i s/USER/$(whoami)/ /tmp/solo.json
 ```
 
+If you don't have ruby installed on your dev machine, you can let the cookbook do it for you by setting compile_ruby to true in `/tmp/solo.json`, this can be done with:
+```bash
+which ruby
+if [ "$?" -ne "0" ]
+then
+    sed -i s/\"compile_ruby\"\:\ false/\"compile_ruby\"\:\ true/ /tmp/solo.json
+fi
+```
+
 You can alter the paths to place the code somewhere convenient but by default it places everything under home directory of `USER` which is recommended.
 
 Add the required development tools for your operating system (we need git to clone the cookbook, a newer git version will be compiled using the cookbook):
@@ -56,7 +65,7 @@ distro="$(cat /etc/issue | awk ''NR==1'{ print $1 }')"
 case "$distro" in
   Ubuntu)
     sudo apt-get update
-    sudo apt-get install -y build-essential git curl
+    sudo apt-get install -y build-essential autoconf git curl
   ;;
   CentOS)
     yum groupinstall -y "Development Tools"
@@ -109,15 +118,6 @@ $ git config --global user.name "Jane Doe"
 $ git config --global user.email janedoe@example.com
 ```
 
-## PostgreSQL cookbook does not recognize Debian distribution
-
-Make sure your distribution is added to the postgres cookbook.
-You can add your distribution name to the list of distributions on the second line of the cookbook file:
-
-```bash
-vim /tmp/cookbooks/postgresql/recipes/apt_pgdg_postgresql.rb
-```
-
 ## Can have only one PostgreSQL version installed
 
 Only one PostgreSQL version can be installed / running. To be sure, remove any other versions of your system if your installation runs into problems at this step.
@@ -141,7 +141,7 @@ Unicorn.rb should have the correct path set to be able to start the server.
 
 ## Ruby version manager conflict
 
-Ensure you ruby version manager points to a recent version of Ruby (2.0+).
+Ensure you ruby version manager points to a recent version of Ruby (2.0+) and that chef solo was run with that version in its path.
 
 ## Failed cookbook run / missing database
 
