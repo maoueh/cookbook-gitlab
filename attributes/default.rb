@@ -3,13 +3,13 @@ if platform_family?("rhel")
   packages = %w{
     libicu-devel libxslt-devel libyaml-devel libxml2-devel gdbm-devel libffi-devel zlib-devel openssl-devel
     libyaml-devel readline-devel curl-devel openssl-devel pcre-devel mysql-devel gcc-c++
-    ImageMagick-devel ImageMagick
+    ImageMagick-devel ImageMagick cmake
   }
 else
   packages = %w{
     build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
     curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev python-docutils
-    logrotate vim curl wget checkinstall
+    logrotate vim curl wget checkinstall cmake
   }
 end
 
