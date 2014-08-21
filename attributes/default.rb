@@ -98,7 +98,6 @@ default['gitlab']['gravatar'] = true
 default['gitlab']['default_projects_features']['issues'] = true
 default['gitlab']['default_projects_features']['merge_requests'] = true
 default['gitlab']['default_projects_features']['wiki'] = true
-default['gitlab']['default_projects_features']['wall'] = false
 default['gitlab']['default_projects_features']['snippets'] = false
 default['gitlab']['default_projects_features']['visibility_level'] = "private"
 

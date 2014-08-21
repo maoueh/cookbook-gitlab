@@ -38,7 +38,7 @@ describe "gitlab::install" do
             default_projects_features: {
               "issues"=>true,
               "merge_requests"=>true,
-              "wiki"=>true, "wall"=>false,
+              "wiki"=>true,
               "snippets"=>false,
               "visibility_level"=>"private"
               },
@@ -462,7 +462,7 @@ describe "gitlab::install" do
             default_projects_features: {
               "issues"=>true,
               "merge_requests"=>true,
-              "wiki"=>true, "wall"=>false,
+              "wiki"=>true,
               "snippets"=>false,
               "visibility_level"=>"private"
               },
