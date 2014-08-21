@@ -97,6 +97,12 @@ default['gitlab']['ldap']['allow_username_or_email_login'] = true
 # LDAP Filter Example: Recursive query of group membership
 # default['gitlab']['ldap']['user_filter'] = '(&(objectcategory=person)(objectclass=user)(memberOf:1.2.840.113556.1.4.1941:=CN=Gitlab Users,OU=USA,DC=int,DC=contoso,DC=com))'
 default['gitlab']['ldap']['user_filter'] = ''
+# Group base example: default['gitlab']['ldap']['group_base'] = 'ou=Groups,dc=gitlab,dc=example'
+default['gitlab']['ldap']['group_base'] = ''
+# Admin group example: default['gitlab']['ldap']['admin_group'] = 'GLAdmins'
+default['gitlab']['ldap']['admin_group'] = ''
+# Synch ssh key example: default['gitlab']['ldap']['sync_ssh_keys'] = 'sshpublickey'
+default['gitlab']['ldap']['sync_ssh_keys'] = false
 
 default['gitlab']['gravatar'] = true
 default['gitlab']['gravatar_plain_url'] = "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"

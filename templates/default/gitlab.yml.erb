@@ -158,6 +158,26 @@ production: &base
     #
     user_filter: '<%= @ldap_config["user_filter"] %>'
 
+    # Base where we can search for groups
+    #
+    #   Ex. ou=Groups,dc=gitlab,dc=example
+    #
+    group_base: <%= @ldap_config['group_base'] %>
+
+    # LDAP group of users who should be admins in GitLab
+    #
+    #   Ex. GLAdmins
+    #
+    admin_group: <%= @ldap_config['admin_group'] %>
+
+    # Name of attribute which holds a ssh public key of the user object.
+    # If false or nil, SSH key syncronisation will be disabled.
+    #
+    #   Ex. sshpublickey
+    #
+    sync_ssh_keys: <%= @ldap_config['sync_ssh_keys'] %>
+
+
 
   ## OmniAuth settings
   omniauth:
