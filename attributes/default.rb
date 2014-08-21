@@ -75,6 +75,7 @@ default['gitlab']['user_can_create_group'] = true
 default['gitlab']['user_can_change_username'] = true
 default['gitlab']['default_theme'] = 2
 default['gitlab']['standard_signin_enabled'] = true
+default['gitlab']['repository_downloads_path'] = "tmp/repositories"
 default['gitlab']['oauth_enabled'] = false
 default['gitlab']['oauth_block_auto_created_users'] = true
 default['gitlab']['oauth_allow_single_sign_on'] = false
@@ -98,6 +99,8 @@ default['gitlab']['ldap']['allow_username_or_email_login'] = true
 default['gitlab']['ldap']['user_filter'] = ''
 
 default['gitlab']['gravatar'] = true
+default['gitlab']['gravatar_plain_url'] = "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
+default['gitlab']['gravatar_ssl_url'] = "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
 
 default['gitlab']['default_projects_features']['issues'] = true
 default['gitlab']['default_projects_features']['merge_requests'] = true

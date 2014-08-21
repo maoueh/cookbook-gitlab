@@ -32,6 +32,7 @@ describe "gitlab::install" do
             user_can_change_username: true,
             default_theme: 2,
             standard_signin_enabled: true,
+            repository_downloads_path: 'tmp/repositories',
             oauth_enabled: false,
             oauth_block_auto_created_users: true,
             oauth_allow_single_sign_on: false,
@@ -46,19 +47,21 @@ describe "gitlab::install" do
               "snippets"=>false,
               "visibility_level"=>"private"
               },
-              gravatar: true,
-              ldap_config: {
-                "enabled"=>false,
-                "host"=>"_your_ldap_server",
-                "base"=>"_the_base_where_you_search_for_users",
-                "port"=>636,
-                "uid"=>"sAMAccountName",
-                "method"=>"ssl",
-                "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
-                "password"=>"_the_password_of_the_bind_user",
-                "allow_username_or_email_login"=>true,
-                "user_filter"=>""
-              },
+            gravatar: true,
+            gravatar_plain_url: "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
+            gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
+            ldap_config: {
+              "enabled"=>false,
+              "host"=>"_your_ldap_server",
+              "base"=>"_the_base_where_you_search_for_users",
+              "port"=>636,
+              "uid"=>"sAMAccountName",
+              "method"=>"ssl",
+              "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
+              "password"=>"_the_password_of_the_bind_user",
+              "allow_username_or_email_login"=>true,
+              "user_filter"=>""
+            },
             backup: {
               "cron"=>{
                 "action"=>:create,
@@ -460,6 +463,7 @@ describe "gitlab::install" do
             user_can_change_username: true,
             default_theme: 2,
             standard_signin_enabled: true,
+            repository_downloads_path: 'tmp/repositories',
             oauth_enabled: false,
             oauth_block_auto_created_users: true,
             oauth_allow_single_sign_on: false,
@@ -474,19 +478,21 @@ describe "gitlab::install" do
               "snippets"=>false,
               "visibility_level"=>"private"
               },
-              gravatar: true,
-              ldap_config: {
-                "enabled"=>false,
-                "host"=>"_your_ldap_server",
-                "base"=>"_the_base_where_you_search_for_users",
-                "port"=>636,
-                "uid"=>"sAMAccountName",
-                "method"=>"ssl",
-                "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
-                "password"=>"_the_password_of_the_bind_user",
-                "allow_username_or_email_login"=>true,
-                "user_filter"=>""
-              },
+            gravatar: true,
+            gravatar_plain_url: "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
+            gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
+            ldap_config: {
+              "enabled"=>false,
+              "host"=>"_your_ldap_server",
+              "base"=>"_the_base_where_you_search_for_users",
+              "port"=>636,
+              "uid"=>"sAMAccountName",
+              "method"=>"ssl",
+              "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
+              "password"=>"_the_password_of_the_bind_user",
+              "allow_username_or_email_login"=>true,
+              "user_filter"=>""
+            },
             backup: {
               "cron"=>{
                 "action"=>:create,
