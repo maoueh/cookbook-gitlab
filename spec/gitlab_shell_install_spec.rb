@@ -25,7 +25,7 @@ describe "gitlab::gitlab_shell_install" do
             redis_port: "6379",
             namespace: "resque:gitlab",
             self_signed_cert: false,
-            max_size: "5242880"
+            max_size: "20971520"
           }
         )
       end
@@ -79,7 +79,7 @@ describe "gitlab::gitlab_shell_install" do
               redis_port: "6379",
               namespace: "resque:gitlab",
               self_signed_cert: false,
-              max_size: "5242880"
+              max_size: "20971520"
             }
           )
         end
@@ -120,7 +120,7 @@ describe "gitlab::gitlab_shell_install" do
             redis_port: "6379",
             namespace: "resque:gitlab",
             self_signed_cert: false,
-            max_size: "5242880"
+            max_size: "20971520"
           }
         )
       end
@@ -174,7 +174,7 @@ describe "gitlab::gitlab_shell_install" do
               redis_port: "6379",
               namespace: "resque:gitlab",
               self_signed_cert: false,
-              max_size: "5242880"
+              max_size: "20971520"
             }
           )
         end
