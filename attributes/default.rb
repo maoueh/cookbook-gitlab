@@ -55,11 +55,11 @@ if node['gitlab']['env'] == "development"
   default['gitlab']['shell_revision'] = "master"
 else
   default['gitlab']['environments'] = %w{production}
-  default['gitlab']['revision'] = "7-1-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['revision'] = "7-2-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['url'] = "http://localhost:80/"
   default['gitlab']['port'] = "80"
   default['gitlab']['ssh_port'] = "22"
-  default['gitlab']['shell_revision'] = "v1.9.6"
+  default['gitlab']['shell_revision'] = "v1.9.7"
 end
 
 # GitLab configuration

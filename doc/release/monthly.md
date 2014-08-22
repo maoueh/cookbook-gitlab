@@ -40,6 +40,5 @@ Provision a GitLab instance by using the cookbook in supported environments:
 
 1. Ubuntu 12.04
 1. CentOS 6.5
-1. AWS OpsWorks
 
 After provisioning, login to each instance and *at least* create a repository and push to GitLab.
