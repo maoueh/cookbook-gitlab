@@ -177,8 +177,6 @@ production: &base
     #
     sync_ssh_keys: <%= @ldap_config['sync_ssh_keys'] %>
 
-
-
   ## OmniAuth settings
   omniauth:
     # Allow login via Twitter, Google, etc. using OmniAuth providers
@@ -211,7 +209,7 @@ production: &base
   satellites:
     # Relative paths are relative to Rails.root (default: tmp/repo_satellites/)
     path: <%= @satellites_path %>/
-    timeout: 30
+    timeout: <%= @satellites_timeout %>
 
   ## Backup settings
   backup:
@@ -243,7 +241,7 @@ production: &base
     # This value can be increased if you have very large commits
     max_size: <%= @max_size %>
     # Git timeout to read a commit, in seconds
-    timeout: 10
+    timeout: <%= @git_timeout %>
 
   #
   # 4. Extra customization

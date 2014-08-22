@@ -27,6 +27,7 @@ default['gitlab']['home'] = "/home/git"
 # GitLab hq
 default['gitlab']['path'] = "#{node['gitlab']['home']}/gitlab" # Do not change this attribute in production unless you know what you do since some code from the GitLab repo such as init.d assume this path.
 default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satellites"
+default['gitlab']['satellites_timeout'] = 30
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
@@ -68,6 +69,7 @@ default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
 
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
+default['gitlab']['git_timeout'] = 10
 default['gitlab']['signup_enabled'] = false
 default['gitlab']['signin_enabled'] = true
 default['gitlab']['projects_limit'] = 10
