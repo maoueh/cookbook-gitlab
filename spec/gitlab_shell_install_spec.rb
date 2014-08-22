@@ -6,7 +6,7 @@ describe "gitlab::gitlab_shell_install" do
 
   describe "under ubuntu" do
     ["12.04", "10.04"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::gitlab_shell_install")
@@ -25,7 +25,7 @@ describe "gitlab::gitlab_shell_install" do
             redis_port: "6379",
             namespace: "resque:gitlab",
             self_signed_cert: false,
-            max_size: "5242880"
+            max_size: "20971520"
           }
         )
       end
@@ -79,7 +79,7 @@ describe "gitlab::gitlab_shell_install" do
               redis_port: "6379",
               namespace: "resque:gitlab",
               self_signed_cert: false,
-              max_size: "5242880"
+              max_size: "20971520"
             }
           )
         end
@@ -101,7 +101,7 @@ describe "gitlab::gitlab_shell_install" do
 
   describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::gitlab_shell_install")
@@ -120,7 +120,7 @@ describe "gitlab::gitlab_shell_install" do
             redis_port: "6379",
             namespace: "resque:gitlab",
             self_signed_cert: false,
-            max_size: "5242880"
+            max_size: "20971520"
           }
         )
       end
@@ -174,7 +174,7 @@ describe "gitlab::gitlab_shell_install" do
               redis_port: "6379",
               namespace: "resque:gitlab",
               self_signed_cert: false,
-              max_size: "5242880"
+              max_size: "20971520"
             }
           )
         end

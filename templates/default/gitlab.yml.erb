@@ -35,26 +35,29 @@ production: &base
     # Email address used in the "From" field in mails sent by GitLab
     email_from: <%= @email_from %>
 
+    # Email server smtp settings are in [a separate file](initializers/smtp_settings.rb.sample).
+
     ## User settings
     default_projects_limit: <%= @projects_limit %>
-    # default_can_create_group: false  # default: true
-    # username_changing_enabled: false # default: true - User can change her username/namespace
+    default_can_create_group: <%= @user_can_create_group %>  # default: true
+    username_changing_enabled: <%= @user_can_change_username %> # default: true - User can change her username/namespace
     ## Default theme
     ##   BASIC  = 1
     ##   MARS   = 2
     ##   MODERN = 3
     ##   GRAY   = 4
     ##   COLOR  = 5
-    # default_theme: 2 # default: 2
+    default_theme: <%= @default_theme %> # default: 2
 
-
-    ## Users management
-    # default: false - Account passwords are not sent via the email if signup is enabled.
+    ## Users can create accounts
+    # This also allows normal users to sign up for accounts themselves
+    # default: false - By default GitLab administrators must create all new accounts
     signup_enabled: <%= @signup_enabled %>
-    #
-    # default: true - If set to false, standard login form won't be shown on the sign-in page
-    # signin_enabled: false
 
+    ## Standard login settings
+    # The standard login can be disabled to force login via LDAP
+    # default: true - If set to false, standard login form won't be shown on the sign-in page
+    signin_enabled: <%= @standard_signin_enabled %>
 
     # Restrict setting visibility levels for non-admin users.
     # The default is to allow all levels.
@@ -64,6 +67,7 @@ production: &base
     # If a commit message matches this regular expression, all issues referenced from the matched text will be closed.
     # This happens when the commit is pushed or merged into the default branch of a project.
     # When not specified the default issue_closing_pattern as specified below will be used.
+    # Tip: you can test your closing pattern at http://rubular.com
     # issue_closing_pattern: '([Cc]lose[sd]|[Ff]ixe[sd]) #(\d+)'
 
     ## Default project features settings
@@ -71,14 +75,13 @@ production: &base
       issues: <%= @default_projects_features['issues'] %>
       merge_requests: <%= @default_projects_features['merge_requests'] %>
       wiki: <%= @default_projects_features['wiki'] %>
-      wall: <%= @default_projects_features['wall'] %>
       snippets: <%= @default_projects_features['snippets'] %>
       visibility_level: "<%= @default_projects_features['visibility_level'] %>"  # can be "private" | "internal" | "public"
 
     ## Repository downloads directory
     # When a user clicks e.g. 'Download zip' on a project, a temporary zip file is created in the following directory.
     # The default is 'tmp/repositories' relative to the root of the Rails app.
-    # repository_downloads_path: tmp/repositories
+    repository_downloads_path: <%= @repository_downloads_path %> tmp/repositories
 
   ## External issues trackers
   issues_tracker:
@@ -112,8 +115,9 @@ production: &base
   ## Gravatar
   gravatar:
     enabled: <%= @gravatar %>      # Use user avatar image from Gravatar.com (default: true)
-    # plain_url: "http://..."     # default: http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=mm
-    # ssl_url:   "https://..."    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=mm
+    # gravatar urls: possible placeholders: %{hash} %{size} %{email}
+    plain_url: <%= @gravatar_plain_url %>     # default: http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
+    ssl_url:   <%= @gravatar_ssl_url %>    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
 
   #
   # 2. Auth settings
@@ -154,6 +158,24 @@ production: &base
     #
     user_filter: '<%= @ldap_config["user_filter"] %>'
 
+    # Base where we can search for groups
+    #
+    #   Ex. ou=Groups,dc=gitlab,dc=example
+    #
+    group_base: <%= @ldap_config['group_base'] %>
+
+    # LDAP group of users who should be admins in GitLab
+    #
+    #   Ex. GLAdmins
+    #
+    admin_group: <%= @ldap_config['admin_group'] %>
+
+    # Name of attribute which holds a ssh public key of the user object.
+    # If false or nil, SSH key syncronisation will be disabled.
+    #
+    #   Ex. sshpublickey
+    #
+    sync_ssh_keys: <%= @ldap_config['sync_ssh_keys'] %>
 
   ## OmniAuth settings
   omniauth:
@@ -170,7 +192,7 @@ production: &base
     ## Auth providers
     # Uncomment the following lines and fill in the data of the auth provider you want to use
     # If your favorite auth provider is not listed you can use others:
-    # see https://github.com/gitlabhq/gitlab-public-wiki/wiki/Working-custom-omniauth-provider-configurations
+    # see https://github.com/gitlabhq/gitlab-public-wiki/wiki/Custom-omniauth-provider-configurations
     # The 'app_id' and 'app_secret' parameters are always passed as the first two
     # arguments, followed by optional 'args' which can be either a hash or an array.
     # Documentation for this is available at http://doc.gitlab.com/ce/integration/omniauth.html
@@ -187,6 +209,7 @@ production: &base
   satellites:
     # Relative paths are relative to Rails.root (default: tmp/repo_satellites/)
     path: <%= @satellites_path %>/
+    timeout: <%= @satellites_timeout %>
 
   ## Backup settings
   backup:
@@ -218,7 +241,7 @@ production: &base
     # This value can be increased if you have very large commits
     max_size: <%= @max_size %>
     # Git timeout to read a commit, in seconds
-    timeout: 10
+    timeout: <%= @git_timeout %>
 
   #
   # 4. Extra customization
@@ -246,6 +269,17 @@ test:
   gitlab:
     host: localhost
     port: 80
+
+    # When you run tests we clone and setup gitlab-shell
+    # In order to setup it correctly you need to specify
+    # your system username you use to run GitLab
+    # user: YOUR_USERNAME
+  satellites:
+    path: tmp/tests/gitlab-satellites/
+  gitlab_shell:
+    path: tmp/tests/gitlab-shell/
+    repos_path: tmp/tests/repositories/
+    hooks_path: tmp/tests/gitlab-shell/hooks/
   issues_tracker:
     redmine:
       title: "Redmine"

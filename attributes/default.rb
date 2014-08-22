@@ -27,6 +27,7 @@ default['gitlab']['home'] = "/home/git"
 # GitLab hq
 default['gitlab']['path'] = "#{node['gitlab']['home']}/gitlab" # Do not change this attribute in production unless you know what you do since some code from the GitLab repo such as init.d assume this path.
 default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satellites"
+default['gitlab']['satellites_timeout'] = 30
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
@@ -54,11 +55,11 @@ if node['gitlab']['env'] == "development"
   default['gitlab']['shell_revision'] = "master"
 else
   default['gitlab']['environments'] = %w{production}
-  default['gitlab']['revision'] = "7-1-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['revision'] = "7-2-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['url'] = "http://localhost:80/"
   default['gitlab']['port'] = "80"
   default['gitlab']['ssh_port'] = "22"
-  default['gitlab']['shell_revision'] = "v1.9.6"
+  default['gitlab']['shell_revision'] = "v1.9.7"
 end
 
 # GitLab configuration
@@ -68,9 +69,15 @@ default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
 
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
+default['gitlab']['git_timeout'] = 10
 default['gitlab']['signup_enabled'] = false
 default['gitlab']['signin_enabled'] = true
 default['gitlab']['projects_limit'] = 10
+default['gitlab']['user_can_create_group'] = true
+default['gitlab']['user_can_change_username'] = true
+default['gitlab']['default_theme'] = 2
+default['gitlab']['standard_signin_enabled'] = true
+default['gitlab']['repository_downloads_path'] = "tmp/repositories"
 default['gitlab']['oauth_enabled'] = false
 default['gitlab']['oauth_block_auto_created_users'] = true
 default['gitlab']['oauth_allow_single_sign_on'] = false
@@ -92,13 +99,20 @@ default['gitlab']['ldap']['allow_username_or_email_login'] = true
 # LDAP Filter Example: Recursive query of group membership
 # default['gitlab']['ldap']['user_filter'] = '(&(objectcategory=person)(objectclass=user)(memberOf:1.2.840.113556.1.4.1941:=CN=Gitlab Users,OU=USA,DC=int,DC=contoso,DC=com))'
 default['gitlab']['ldap']['user_filter'] = ''
+# Group base example: default['gitlab']['ldap']['group_base'] = 'ou=Groups,dc=gitlab,dc=example'
+default['gitlab']['ldap']['group_base'] = ''
+# Admin group example: default['gitlab']['ldap']['admin_group'] = 'GLAdmins'
+default['gitlab']['ldap']['admin_group'] = ''
+# Synch ssh key example: default['gitlab']['ldap']['sync_ssh_keys'] = 'sshpublickey'
+default['gitlab']['ldap']['sync_ssh_keys'] = false
 
 default['gitlab']['gravatar'] = true
+default['gitlab']['gravatar_plain_url'] = "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
+default['gitlab']['gravatar_ssl_url'] = "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
 
 default['gitlab']['default_projects_features']['issues'] = true
 default['gitlab']['default_projects_features']['merge_requests'] = true
 default['gitlab']['default_projects_features']['wiki'] = true
-default['gitlab']['default_projects_features']['wall'] = false
 default['gitlab']['default_projects_features']['snippets'] = false
 default['gitlab']['default_projects_features']['visibility_level'] = "private"
 
