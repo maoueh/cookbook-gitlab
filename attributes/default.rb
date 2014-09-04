@@ -269,6 +269,7 @@ default['gitlab']['monitrc']['emergency_email'] = nil
 default['gitlab']['monitrc']['emergency_events'] = ['timeout']
 
 # backups
+default['gitlab']['backup']['enable'] = true
 default['gitlab']['backup']['cron']['action'] = :create
 default['gitlab']['backup']['cron']['minute'] = 0
 default['gitlab']['backup']['cron']['hour'] = 2
