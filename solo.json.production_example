@@ -3,7 +3,6 @@
     "host": "example.com",
     "url": "http://example.com/",
     "email_from": "gitlab@example.com",
-    "support_email": "support@example.com",
     "database_adapter": "postgresql",
     "database_password": "database password used by the GitLab application",
     "repository": "clone URL for e.g. GitLab Enterprise Edition; omit this line to use Community Edition",

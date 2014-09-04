@@ -66,7 +66,6 @@ end
 default['gitlab']['git_path'] = "/usr/local/bin/git"
 default['gitlab']['host'] = "localhost"
 default['gitlab']['email_from'] = "gitlab@localhost"
-default['gitlab']['support_email'] = "support@localhost"
 
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
 default['gitlab']['git_timeout'] = 10
