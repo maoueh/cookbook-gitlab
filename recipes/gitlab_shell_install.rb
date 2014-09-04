@@ -19,8 +19,7 @@ template File.join(gitlab['shell_path'], "config.yml") do
     :redis_host => gitlab['redis_host'],
     :redis_port => gitlab['redis_port'],
     :namespace => gitlab['namespace'],
-    :self_signed_cert => gitlab['self_signed_cert'],
-    :max_size => gitlab['max_size']
+    :self_signed_cert => gitlab['self_signed_cert']
   })
 end
 

@@ -20,7 +20,6 @@ template path do
     :path => gitlab['path'],
     :host => gitlab['host'],
     :port => gitlab['port'],
-    :url => gitlab['url'],
     :ssl_certificate_path => gitlab['ssl_certificate_path'],
     :ssl_certificate_key_path => gitlab['ssl_certificate_key_path'],
     :client_max_body_size => gitlab['client_max_body_size']
@@ -48,12 +47,12 @@ else
 end
 
 if gitlab['port'] == "443"
-  directory "#{gitlab['ssl_certificate_path']}" do
+  directory gitlab['ssl_certificate_path'] do
     recursive true
     mode 0755
   end
 
-  directory "#{gitlab['ssl_certificate_key_path']}" do
+  directory gitlab['ssl_certificate_key_path'] do
     recursive true
     mode 0755
   end
