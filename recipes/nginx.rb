@@ -19,6 +19,7 @@ template path do
   variables({
     :path => gitlab['path'],
     :host => gitlab['host'],
+    :ip   => gitlab['ip'],
     :port => gitlab['port'],
     :url => gitlab['url'],
     :ssl_certificate_path => gitlab['ssl_certificate_path'],
