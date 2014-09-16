@@ -64,7 +64,8 @@ describe "gitlab::install" do
               "user_filter"=>"",
               "group_base"=>"",
               "admin_group"=>"",
-              "sync_ssh_keys"=>false
+              "sync_ssh_keys"=>false,
+              "sync_time"=>3600
             },
             backup: {
               "cron"=>{
@@ -499,7 +500,8 @@ describe "gitlab::install" do
               "user_filter"=>"",
               "group_base"=>"",
               "admin_group"=>"",
-              "sync_ssh_keys"=>false
+              "sync_ssh_keys"=>false,
+              "sync_time"=>3600
             },
             backup: {
               "cron"=>{

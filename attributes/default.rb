@@ -107,6 +107,7 @@ default['gitlab']['ldap']['group_base'] = ''
 default['gitlab']['ldap']['admin_group'] = ''
 # Synch ssh key example: default['gitlab']['ldap']['sync_ssh_keys'] = 'sshpublickey'
 default['gitlab']['ldap']['sync_ssh_keys'] = false
+default['gitlab']['ldap']['sync_time'] = 3600
 
 default['gitlab']['gravatar'] = true
 default['gitlab']['gravatar_plain_url'] = "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
