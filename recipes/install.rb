@@ -15,6 +15,7 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :port => gitlab['port'],
     :user => gitlab['user'],
     :email_from => gitlab['email_from'],
+    :issue_closing_pattern => gitlab['issue_closing_pattern'],
     :max_size => gitlab['max_size'],
     :git_timeout => gitlab['git_timeout'],
     :satellites_path => gitlab['satellites_path'],
