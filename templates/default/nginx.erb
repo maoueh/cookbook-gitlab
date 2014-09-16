@@ -21,7 +21,7 @@ upstream gitlab {
 
 <% if @port == '443' %>
 server {
-  listen *:80;
+  listen <%= @ip %>:80;
   server_name <%= @host %>;
   server_tokens off;
   return 301 https://<%= @host %>$request_uri;
@@ -29,7 +29,7 @@ server {
 <% end %>
 
 server {
-  listen *:<%= @port %>;
+  listen <%= @ip %>:<%= @port %>;
   server_name <%= @host %>;
   server_tokens off;     # don't show the version number, a security best practice
   root <%= @path %>/public;

@@ -23,6 +23,7 @@ describe "gitlab::nginx" do
           variables: {
             path: "/home/git/gitlab",
             host: "localhost",
+            ip: "*",
             port: "80",
             ssl_certificate_path: "/etc/ssl",
             ssl_certificate_key_path: "/etc/ssl",
@@ -64,6 +65,7 @@ describe "gitlab::nginx" do
             variables: {
               path: "/data/git/gitlab",
               host: "localhost",
+              ip: "*",
               port: "80",
               ssl_certificate_path: "/etc/ssl",
               ssl_certificate_key_path: "/etc/ssl",
@@ -111,6 +113,7 @@ describe "gitlab::nginx" do
           variables: {
             path: "/home/git/gitlab",
             host: "localhost",
+            ip: "*",
             port: "80",
             ssl_certificate_path: "/etc/ssl",
             ssl_certificate_key_path: "/etc/ssl",
@@ -148,6 +151,7 @@ describe "gitlab::nginx" do
             variables: {
               path: "/data/git/gitlab",
               host: "localhost",
+              ip: "*",
               port: "80",
               ssl_certificate_path: "/etc/ssl",
               ssl_certificate_key_path: "/etc/ssl",

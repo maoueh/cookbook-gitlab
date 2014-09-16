@@ -62,6 +62,9 @@ else
   default['gitlab']['shell_revision'] = "v1.9.7"
 end
 
+# Nginx ip
+default['gitlab']['ip'] = "*"
+
 # GitLab configuration
 default['gitlab']['git_path'] = "/usr/local/bin/git"
 default['gitlab']['host'] = "localhost"
