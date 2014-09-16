@@ -5,8 +5,8 @@ describe "gitlab::deploy" do
 
 
   describe "under ubuntu" do
-    ["12.04", "10.04"].each do |version|
-      let(:chef_run) do 
+    ["14.04", "12.04", "10.04"].each do |version|
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::deploy")
@@ -22,7 +22,7 @@ describe "gitlab::deploy" do
       end
 
       describe "when in development environment" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.converge("gitlab::deploy")
@@ -42,7 +42,7 @@ describe "gitlab::deploy" do
 
   describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::deploy")
@@ -58,7 +58,7 @@ describe "gitlab::deploy" do
       end
 
       describe "when in development environment" do
-        let(:chef_run) do 
+        let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.converge("gitlab::deploy")

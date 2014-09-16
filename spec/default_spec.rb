@@ -5,7 +5,7 @@ describe "gitlab::default" do
 
 
   describe "under ubuntu" do
-    ["12.04", "10.04"].each do |version|
+    ["14.04", "12.04", "10.04"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"

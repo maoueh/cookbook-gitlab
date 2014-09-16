@@ -11,8 +11,8 @@ describe "gitlab::database_postgresql" do
 
 
   describe "under ubuntu" do
-    ["12.04", "10.04"].each do |version|
-      let(:chef_run) do 
+    ["14.04", "12.04", "10.04"].each do |version|
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "postgresql"
@@ -44,7 +44,7 @@ describe "gitlab::database_postgresql" do
 
     describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) do 
+      let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "postgresql"

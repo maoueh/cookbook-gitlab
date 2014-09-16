@@ -5,7 +5,7 @@ describe "gitlab::ruby" do
 
 
   describe "under ubuntu" do
-    ["12.04", "10.04"].each do |version|
+    ["14.04", "12.04", "10.04"].each do |version|
       let(:chef_run) { ChefSpec::Runner.new(platform: "ubuntu", version: version).converge("gitlab::ruby") }
 
       before do

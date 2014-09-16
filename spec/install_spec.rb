@@ -5,7 +5,7 @@ describe "gitlab::install" do
 
 
   describe "under ubuntu" do
-    ["12.04", "10.04"].each do |version|
+    ["14.04", "14.04", "12.04", "10.04"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
@@ -440,7 +440,7 @@ describe "gitlab::install" do
   end
 
     describe "under centos" do
-    ["5.8", "6.4"].each do |version|
+    ["7.0", "6.5"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
