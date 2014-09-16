@@ -121,6 +121,9 @@ default['gitlab']['default_projects_features']['visibility_level'] = "private"
 
 default['gitlab']['webhook_timeout'] = 10
 
+# Default admin user password
+default['gitlab']['admin_root_password'] = nil
+
 # Gems
 default['gitlab']['bundle_install'] = "SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem bundle install --path=.bundle --deployment"
 

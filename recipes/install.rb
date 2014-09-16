@@ -144,11 +144,12 @@ end
 execute "rake db:schema:load" do
   command <<-EOS
     PATH="/usr/local/bin:$PATH"
-    bundle exec rake db:schema:load RAILS_ENV=#{gitlab['env']}
+    bundle exec rake db:schema:load
   EOS
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
+  environment ({'RAILS_ENV' => gitlab['env']})
   action :nothing
   subscribes :run, "mysql_database[gitlabhq_database]"
   subscribes :run, "postgresql_database[gitlabhq_database]"
@@ -158,11 +159,12 @@ end
 execute "rake db:migrate" do
   command <<-EOS
     PATH="/usr/local/bin:$PATH"
-    bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}
+    bundle exec rake db:migrate
   EOS
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
+  environment ({'RAILS_ENV' => gitlab['env']})
   action :nothing
   subscribes :run, "git[clone gitlabhq source]"
   subscribes :run, "execute[rake db:schema:load]"
@@ -172,11 +174,12 @@ end
 execute "rake db:seed_fu" do
   command <<-EOS
     PATH="/usr/local/bin:$PATH"
-    bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}
+    bundle exec rake db:seed_fu
   EOS
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
+  environment ({'RAILS_ENV' => gitlab['env'], 'GITLAB_ROOT_PASSWORD' => gitlab['admin_root_password'] })
   action :nothing
   subscribes :run, "execute[rake db:schema:load]"
 end

@@ -218,10 +218,11 @@ describe "gitlab::install" do
 
         it 'runs db setup' do
           resource = chef_run.find_resource(:execute, 'rake db:schema:load')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV" => "production")
         end
 
         it 'runs an execute to rake db:migrate' do
@@ -230,10 +231,11 @@ describe "gitlab::install" do
 
         it 'runs db migrate' do
           resource = chef_run.find_resource(:execute, 'rake db:migrate')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV" => "production")
         end
 
         it 'runs an execute to rake db:seed' do
@@ -242,10 +244,29 @@ describe "gitlab::install" do
 
         it 'runs db seed' do
           resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"production", "GITLAB_ROOT_PASSWORD"=>nil)
+        end
+      end
+
+      describe "when supplying root password" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
+          runner.converge("gitlab::start","gitlab::install")
+        end
+
+        it 'runs db seed' do
+          resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
+          expect(resource.user).to eq("git")
+          expect(resource.group).to eq("git")
+          expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"production", "GITLAB_ROOT_PASSWORD"=>"NEWPASSWORD")
         end
       end
 
@@ -264,10 +285,11 @@ describe "gitlab::install" do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:schema:load"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
+          expect(dev_resource.environment).to eq("RAILS_ENV"=>"development")
         end
 
         it 'runs an execute to rake db:migrate' do
@@ -278,10 +300,11 @@ describe "gitlab::install" do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:migrate"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
+          expect(dev_resource.environment).to eq("RAILS_ENV"=>"development")
         end
 
         it 'runs an execute to rake db:seed' do
@@ -292,10 +315,29 @@ describe "gitlab::install" do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:seed_fu"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
+          expect(dev_resource.environment).to eq("RAILS_ENV"=>"development", "GITLAB_ROOT_PASSWORD"=>nil)
+        end
+      end
+
+      describe "when supplying root password in development" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['env'] = "development"
+          runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
+          runner.converge("gitlab::start","gitlab::install")
+        end
+
+        it 'runs db seed' do
+          resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
+          expect(resource.user).to eq("git")
+          expect(resource.group).to eq("git")
+          expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"development", "GITLAB_ROOT_PASSWORD"=>"NEWPASSWORD")
         end
       end
 
@@ -657,10 +699,11 @@ describe "gitlab::install" do
 
         it 'runs db setup' do
           resource = chef_run.find_resource(:execute, 'rake db:schema:load')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"production")
         end
 
         it 'does not run an execute to rake db:migrate' do
@@ -669,10 +712,11 @@ describe "gitlab::install" do
 
         it 'runs db migrate' do
           resource = chef_run.find_resource(:execute, 'rake db:migrate')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"production")
         end
 
         it 'does not run an execute to rake db:seed' do
@@ -681,12 +725,30 @@ describe "gitlab::install" do
 
         it 'runs db seed' do
           resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
-          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=production\n")
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"production", "GITLAB_ROOT_PASSWORD"=>nil)
+        end
+      end
+
+      describe "when supplying root password" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "production"
+          runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
+          runner.converge("gitlab::start","gitlab::install")
         end
 
+        it 'runs db seed' do
+          resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
+          expect(resource.user).to eq("git")
+          expect(resource.group).to eq("git")
+          expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"production", "GITLAB_ROOT_PASSWORD"=>"NEWPASSWORD")
+        end
       end
 
       describe "running database setup, migrations and seed when development" do
@@ -704,10 +766,11 @@ describe "gitlab::install" do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:schema:load"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:schema:load\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
+          expect(dev_resource.environment).to eq("RAILS_ENV"=>"development")
         end
 
         it 'runs an execute to rake db:migrate' do
@@ -718,10 +781,11 @@ describe "gitlab::install" do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:migrate"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:migrate\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
+          expect(dev_resource.environment).to eq("RAILS_ENV"=>"development")
         end
 
         it 'runs an execute to rake db:seed' do
@@ -732,10 +796,29 @@ describe "gitlab::install" do
           resources = chef_run.find_resources(:execute).select {|n| n.name == "rake db:seed_fu"}
           dev_resource = resources.first
 
-          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu RAILS_ENV=development\n")
+          expect(dev_resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
           expect(dev_resource.user).to eq("git")
           expect(dev_resource.group).to eq("git")
           expect(dev_resource.cwd).to eq("/home/git/gitlab")
+          expect(dev_resource.environment).to eq("RAILS_ENV"=>"development", "GITLAB_ROOT_PASSWORD"=>nil)
+        end
+      end
+
+      describe "when supplying root password in development" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['env'] = "development"
+          runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
+          runner.converge("gitlab::start","gitlab::install")
+        end
+
+        it 'runs db seed' do
+          resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
+          expect(resource.command).to eq("    PATH=\"/usr/local/bin:$PATH\"\n    bundle exec rake db:seed_fu\n")
+          expect(resource.user).to eq("git")
+          expect(resource.group).to eq("git")
+          expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.environment).to eq("RAILS_ENV"=>"development", "GITLAB_ROOT_PASSWORD"=>"NEWPASSWORD")
         end
       end
 
@@ -744,7 +827,6 @@ describe "gitlab::install" do
       end
 
       describe "creating gitlab init" do
-
         describe "for production" do
           it 'creates gitlab default configuration file' do
             expect(chef_run).to create_template('/etc/default/gitlab').with(
