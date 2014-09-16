@@ -22,6 +22,18 @@ describe "gitlab::backup" do
           path: '/usr/local/bin:/usr/bin:/bin')
       end
 
+      describe "when backup disabled" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner.node.set['gitlab']['backup']['enable'] = false
+          runner.converge("gitlab::backup")
+        end
+
+        it "does not create a cron job" do
+          expect(chef_run).to_not create_cron('gitlab_backups')
+        end
+      end
+
       describe "when in development environment" do
         let(:chef_run) do
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
@@ -51,6 +63,18 @@ describe "gitlab::backup" do
           user: 'git',
           mailto: 'gitlab@localhost',
           path: '/usr/local/bin:/usr/bin:/bin')
+      end
+
+      describe "when backup disabled" do
+        let(:chef_run) do
+          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner.node.set['gitlab']['backup']['enable'] = false
+          runner.converge("gitlab::backup")
+        end
+
+        it "does not create a cron job" do
+          expect(chef_run).to_not create_cron('gitlab_backups')
+        end
       end
 
       describe "when in development environment" do

@@ -15,5 +15,5 @@ cron 'gitlab_backups' do
   path node['gitlab']['backup']['cron']['path']
   command "cd #{gitlab['home']}/gitlab && bundle exec rake gitlab:backup:create RAILS_ENV=#{gitlab['env']}"
 
-  only_if { gitlab['env'] == 'production' }
+  only_if { gitlab['backup']['enable'] and gitlab['env'] == 'production' }
 end
