@@ -48,6 +48,7 @@ describe "gitlab::install" do
               "snippets"=>false,
               "visibility_level"=>"private"
               },
+            webhook_timeout: 10,
             gravatar: true,
             gravatar_plain_url: "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
             gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
@@ -484,6 +485,7 @@ describe "gitlab::install" do
               "snippets"=>false,
               "visibility_level"=>"private"
               },
+            webhook_timeout: 10,
             gravatar: true,
             gravatar_plain_url: "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
             gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",

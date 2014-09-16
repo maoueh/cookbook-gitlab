@@ -36,6 +36,7 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :google_analytics_id => gitlab['extra']['google_analytics_id'],
     :sign_in_text => gitlab['extra']['sign_in_text'],
     :default_projects_features => gitlab['default_projects_features'],
+    :webhook_timeout => gitlab['webhook_timeout'],
     :gravatar => gitlab['gravatar'],
     :gravatar_plain_url => gitlab['gravatar_plain_url'],
     :gravatar_ssl_url => gitlab['gravatar_ssl_url'],
