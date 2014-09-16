@@ -38,6 +38,7 @@ default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
 default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
 default['gitlab']['redis_host'] = "127.0.0.1"
 default['gitlab']['redis_port'] = "6379"
+default['gitlab']['redis_database'] = nil # Default value is 0
 default['gitlab']['namespace']  = "resque:gitlab"
 default['gitlab']['self_signed_cert'] = false
 

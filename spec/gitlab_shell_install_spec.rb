@@ -23,6 +23,7 @@ describe "gitlab::gitlab_shell_install" do
             redis_path: "/usr/local/bin/redis-cli",
             redis_host: "127.0.0.1",
             redis_port: "6379",
+            redis_database: nil,
             namespace: "resque:gitlab",
             self_signed_cert: false
           }
@@ -62,6 +63,7 @@ describe "gitlab::gitlab_shell_install" do
           runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
+          runner.node.set['gitlab']['redis_database'] = 2
           runner.converge("gitlab::gitlab_shell_install")
         end
 
@@ -76,6 +78,7 @@ describe "gitlab::gitlab_shell_install" do
               redis_path: "/usr/local/bin/redis-cli",
               redis_host: "127.0.0.1",
               redis_port: "6379",
+              redis_database: 2,
               namespace: "resque:gitlab",
               self_signed_cert: false
             }
@@ -102,6 +105,7 @@ describe "gitlab::gitlab_shell_install" do
       let(:chef_run) do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
+        runner.node.set['gitlab']['redis_database'] = 3
         runner.converge("gitlab::gitlab_shell_install")
       end
 
@@ -116,6 +120,7 @@ describe "gitlab::gitlab_shell_install" do
             redis_path: "/usr/local/bin/redis-cli",
             redis_host: "127.0.0.1",
             redis_port: "6379",
+            redis_database: 3,
             namespace: "resque:gitlab",
             self_signed_cert: false
           }
@@ -169,6 +174,7 @@ describe "gitlab::gitlab_shell_install" do
               redis_path: "/usr/local/bin/redis-cli",
               redis_host: "127.0.0.1",
               redis_port: "6379",
+              redis_database: nil,
               namespace: "resque:gitlab",
               self_signed_cert: false
             }
