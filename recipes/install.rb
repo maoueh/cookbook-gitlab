@@ -15,7 +15,6 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :port => gitlab['port'],
     :user => gitlab['user'],
     :email_from => gitlab['email_from'],
-    :support_email => gitlab['support_email'],
     :max_size => gitlab['max_size'],
     :git_timeout => gitlab['git_timeout'],
     :satellites_path => gitlab['satellites_path'],
@@ -28,7 +27,6 @@ template File.join(gitlab['path'], 'config', 'gitlab.yml') do
     :user_can_create_group => gitlab['user_can_create_group'],
     :user_can_change_username => gitlab['user_can_change_username'],
     :default_theme => gitlab['default_theme'],
-    :standard_signin_enabled => gitlab['standard_signin_enabled'],
     :repository_downloads_path => gitlab['repository_downloads_path'],
     :oauth_enabled => gitlab['oauth_enabled'],
     :oauth_block_auto_created_users => gitlab['oauth_block_auto_created_users'],
@@ -51,12 +49,14 @@ end
 ### Make sure GitLab can write to the log/ and tmp/ directories
 ### Create directories for sockets/pids
 ### Create public/uploads directory otherwise backup will fail
-%w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
-  directory File.join(gitlab['path'], path) do
+%w{log tmp tmp/pids tmp/sockets public/uploads}.each do |folder|
+  path = File.join(gitlab['path'], folder)
+
+  directory path do
     owner gitlab['user']
     group gitlab['group']
     mode 0755
-    not_if { File.exist?(File.join(gitlab['path'], path)) }
+    not_if { File.exist?(path) }
   end
 end
 
@@ -260,22 +260,22 @@ when 'production'
     end
   end
 
-  if gitlab['aws']['enabled']
-    template "aws.yml" do
-      owner gitlab['user']
-      group gitlab['group']
-      path "#{gitlab['path']}/config/aws.yml"
-      mode 0755
-      variables({
-        :aws_access_key_id => gitlab['aws']['aws_access_key_id'],
-        :aws_secret_access_key => gitlab['aws']['aws_secret_access_key'],
-        :bucket => gitlab['aws']['bucket'],
-        :region => gitlab['aws']['region'],
-        :host => gitlab['aws']['host'],
-        :endpoint => gitlab['aws']['endpoint']
-      })
-      notifies :reload, "service[gitlab]"
-    end
+  template "aws.yml" do
+    owner gitlab['user']
+    group gitlab['group']
+    path "#{gitlab['path']}/config/aws.yml"
+    mode 0755
+    variables({
+      :aws_access_key_id => gitlab['aws']['aws_access_key_id'],
+      :aws_secret_access_key => gitlab['aws']['aws_secret_access_key'],
+      :bucket => gitlab['aws']['bucket'],
+      :region => gitlab['aws']['region'],
+      :host => gitlab['aws']['host'],
+      :endpoint => gitlab['aws']['endpoint']
+    })
+    notifies :reload, "service[gitlab]"
+
+    only_if { gitlab['aws']['enabled'] }
   end
 
   execute "rake assets:clean" do

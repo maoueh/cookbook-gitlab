@@ -66,7 +66,6 @@ end
 default['gitlab']['git_path'] = "/usr/local/bin/git"
 default['gitlab']['host'] = "localhost"
 default['gitlab']['email_from'] = "gitlab@localhost"
-default['gitlab']['support_email'] = "support@localhost"
 
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
 default['gitlab']['git_timeout'] = 10
@@ -76,7 +75,6 @@ default['gitlab']['projects_limit'] = 10
 default['gitlab']['user_can_create_group'] = true
 default['gitlab']['user_can_change_username'] = true
 default['gitlab']['default_theme'] = 2
-default['gitlab']['standard_signin_enabled'] = true
 default['gitlab']['repository_downloads_path'] = "tmp/repositories"
 default['gitlab']['oauth_enabled'] = false
 default['gitlab']['oauth_block_auto_created_users'] = true

@@ -48,13 +48,13 @@ monit_monitrc "unicorn" do
 end
 
 disk_usage = monitrc['disk_usage']
-if disk_usage['disk_percentage'] != "0"
-  monit_monitrc "disk_usage" do
-    variables ({
-      disk_percentage: disk_usage['disk_percentage'],
-      path: disk_usage['path']
-    })
-  end
+monit_monitrc "disk_usage" do
+  variables ({
+    disk_percentage: disk_usage['disk_percentage'],
+    path: disk_usage['path']
+  })
+
+  only_if { disk_usage['disk_percentage'] != "0" }
 end
 
 directory "#{gitlab['path']}/bin" do

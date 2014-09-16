@@ -27,8 +27,7 @@ user gitlab['user'] do
 end
 
 # Locking user is not needed in development
-if gitlab['env'] == 'production'
-  user gitlab['user'] do
-    action :lock
-  end
+user gitlab['user'] do
+  action :lock
+  only_if { gitlab['env'] == 'production' }
 end
