@@ -69,6 +69,7 @@ describe "gitlab::install" do
               "sync_time"=>3600
             },
             backup: {
+              "enable"=>true,
               "cron"=>{
                 "action"=>:create,
                 "minute"=>0,
@@ -548,6 +549,7 @@ describe "gitlab::install" do
               "sync_time"=>3600
             },
             backup: {
+              "enable"=>true,
               "cron"=>{
                 "action"=>:create,
                 "minute"=>0,
