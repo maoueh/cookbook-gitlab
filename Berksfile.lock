@@ -15,7 +15,7 @@ DEPENDENCIES
 GRAPH
   apt (2.3.8)
   aws (2.1.1)
-  build-essential (1.4.4)
+  build-essential (2.0.6)
   chef-sugar (2.0.0)
   chef_handler (1.1.6)
   chocolatey (0.1.0)
@@ -28,6 +28,7 @@ GRAPH
     xfs (>= 0.0.0)
   gitlab (0.7.2)
     apt (>= 0.0.0)
+    build-essential (>= 0.0.0)
     database (>= 0.0.0)
     magic_shell (>= 0.0.0)
     monit (>= 0.0.0)
