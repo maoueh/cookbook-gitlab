@@ -21,7 +21,7 @@ file "#{gitlab['redis_unixsocket']}" do
   group node['redisio']['default_settings']['group']
   mode gitlab['redis_unixsocketperms']
   action :create_if_missing
-  notifies :reload, "service[redis#{gitlab['redis_port']}]"
+  notifies :reload, "service[redis#{gitlab['redis_port']}]", :immediately
   not_if gitlab['redis_unixsocket'].nil?
 end
 
