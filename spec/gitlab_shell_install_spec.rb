@@ -24,6 +24,8 @@ describe "gitlab::gitlab_shell_install" do
             redis_host: "127.0.0.1",
             redis_port: "6379",
             redis_database: nil,
+            redis_port: "0",
+            redis_unixsocket: "/var/lib/redis/redis.sock",
             namespace: "resque:gitlab",
             self_signed_cert: false
           }
@@ -64,6 +66,7 @@ describe "gitlab::gitlab_shell_install" do
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
           runner.node.set['gitlab']['redis_database'] = 2
+          runner.node.set['gitlab']['redis_unixsocket'] = "/var/lib/redis/redis.sock"
           runner.converge("gitlab::gitlab_shell_install")
         end
 
@@ -77,8 +80,9 @@ describe "gitlab::gitlab_shell_install" do
               repos_path: "/data/git/repositories",
               redis_path: "/usr/local/bin/redis-cli",
               redis_host: "127.0.0.1",
-              redis_port: "6379",
+              redis_port: "0",
               redis_database: 2,
+              redis_unixsocket: "/var/lib/redis/redis.sock",
               namespace: "resque:gitlab",
               self_signed_cert: false
             }
@@ -106,6 +110,7 @@ describe "gitlab::gitlab_shell_install" do
         runner = ChefSpec::Runner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['redis_database'] = 3
+        runner.node.set['gitlab']['redis_unixsocket'] = "/var/lib/redis/redis.sock"
         runner.converge("gitlab::gitlab_shell_install")
       end
 
@@ -119,8 +124,9 @@ describe "gitlab::gitlab_shell_install" do
             repos_path: "/home/git/repositories",
             redis_path: "/usr/local/bin/redis-cli",
             redis_host: "127.0.0.1",
-            redis_port: "6379",
+            redis_port: "0",
             redis_database: 3,
+            redis_unixsocket: "/var/lib/redis/redis.sock",
             namespace: "resque:gitlab",
             self_signed_cert: false
           }
@@ -175,6 +181,8 @@ describe "gitlab::gitlab_shell_install" do
               redis_host: "127.0.0.1",
               redis_port: "6379",
               redis_database: nil,
+              redis_port: "0",
+              redis_unixsocket: "/var/lib/redis/redis.sock",
               namespace: "resque:gitlab",
               self_signed_cert: false
             }
