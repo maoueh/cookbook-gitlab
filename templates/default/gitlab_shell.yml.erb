@@ -29,10 +29,12 @@ redis:
   bin: <%= @redis_path %>
   host: <%= @redis_host %>
   port: <%= @redis_port %>
+  <% if @redis_unixsocket %>
+  socket: <%= @redis_unixsocket %>
+  <% end %>
   <% if @redis_database %>
   database: <%= @redis_database %>
   <% end %>
-  # socket: /tmp/redis.socket # Only define this if you want to use sockets
   namespace: <%= @namespace %>
 
 # Log file.

@@ -140,6 +140,12 @@ template File.join(gitlab['path'], "config", "database.yml") do
   notifies :reload, "service[gitlab]"
 end
 
+file File.join(gitlab['path'], "config", "resque.yml") do
+  content "#{gitlab['env']}: unix:#{gitlab['redis_unixsocket']}"
+  user gitlab['user']
+  group gitlab['group']
+end
+
 ### Load db schema
 execute "rake db:schema:load" do
   command <<-EOS

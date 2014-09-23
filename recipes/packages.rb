@@ -15,6 +15,15 @@ include_recipe "apt" if platform?("ubuntu", "debian")
 include_recipe "yum-epel" if platform_family?("rhel")
 include_recipe "gitlab::git"
 include_recipe "redisio::install"
+
+file "#{gitlab['redis_unixsocket']}" do
+  owner node['redisio']['default_settings']['user']
+  group node['redisio']['default_settings']['group']
+  mode gitlab['redis_unixsocketperms']
+  action :create_if_missing
+  not_if gitlab['redis_unixsocket'].nil?
+end
+
 include_recipe "redisio::enable"
 
 ## Install the required packages.
