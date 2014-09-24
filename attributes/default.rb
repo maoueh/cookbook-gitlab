@@ -33,10 +33,13 @@ default['gitlab']['satellites_timeout'] = 30
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 
 # GitLab shell configuration
+include_attribute 'redisio'
+
 default['gitlab']['repos_path'] = "#{node['gitlab']['home']}/repositories"
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
 default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
-default['gitlab']['redis_unixsocket'] = "/var/lib/redis/redis.sock" # To disable redis using Unix sockets set this value to nil
+default['gitlab']['redis_socket_directory'] = "#{default['redisio']['base_piddir']}/sockets"
+default['gitlab']['redis_unixsocket'] = "#{default['gitlab']['redis_socket_directory']}/redis.sock" # To disable redis using Unix sockets set this value to nil
 if node['gitlab']['redis_unixsocket']
   default['gitlab']['redis_port'] = "0"
   default['gitlab']['redis_unixsocketperms'] = "0770"
@@ -50,7 +53,6 @@ default['gitlab']['namespace']  = "resque:gitlab"
 default['gitlab']['self_signed_cert'] = false
 
 # Redis
-include_attribute 'redisio'
 default['gitlab']['redis']['configure'] = true
 if node['gitlab']['redis']['configure']
   default['redisio']['servers'] = [{'port' => node['gitlab']['redis_port'], 'address' => node['gitlab']['redis_host']}]

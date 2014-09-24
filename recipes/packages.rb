@@ -16,13 +16,13 @@ include_recipe "yum-epel" if platform_family?("rhel")
 include_recipe "gitlab::git"
 include_recipe "redisio::install"
 
-file "#{gitlab['redis_unixsocket']}" do
+directory "make the redis socket directory" do
+  path gitlab['redis_socket_directory']
   owner node['redisio']['default_settings']['user']
-  group node['redisio']['default_settings']['group']
-  mode gitlab['redis_unixsocketperms']
-  action :create_if_missing
-  notifies :reload, "service[redis#{gitlab['redis_port']}]", :immediately
-  not_if gitlab['redis_unixsocket'].nil?
+  group gitlab['group']
+  mode 0750
+  notifies :restart, "service[redis#{gitlab['redis_port']}]", :immediately
+  action :create
 end
 
 include_recipe "redisio::enable"
