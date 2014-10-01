@@ -17,7 +17,7 @@ describe "gitlab::packages" do
 
       it "includes recipes from external cookbooks" do
         expect(chef_run).to include_recipe("apt::default")
-        expect(chef_run).to_not include_recipe("yum::epel")
+        expect(chef_run).to_not include_recipe("yum-epel::default")
         expect(chef_run).to include_recipe("gitlab::git")
         expect(chef_run).to include_recipe("redisio::install")
         expect(chef_run).to include_recipe("redisio::enable")
