@@ -74,11 +74,11 @@ if node['gitlab']['env'] == "development"
   default['gitlab']['shell_revision'] = "master"
 else
   default['gitlab']['environments'] = %w{production}
-  default['gitlab']['revision'] = "7-3-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['revision'] = "7-4-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['url'] = "http://localhost:80/"
   default['gitlab']['port'] = "80"
   default['gitlab']['ssh_port'] = "22"
-  default['gitlab']['shell_revision'] = "v2.0.0"
+  default['gitlab']['shell_revision'] = "v2.0.1"
 end
 
 # Nginx ip
@@ -108,6 +108,7 @@ default['gitlab']['extra']['google_analytics_id'] = "" # Example:  "AA-1231231-1
 default['gitlab']['extra']['sign_in_text'] = "" # Example:  "![Company Logo](http://www.example.com/logo.png)"
 
 default['gitlab']['ldap']['enabled'] = false
+default['gitlab']['ldap']['label'] = "LDAP"
 default['gitlab']['ldap']['host'] = "_your_ldap_server"
 default['gitlab']['ldap']['base'] = "_the_base_where_you_search_for_users"
 default['gitlab']['ldap']['port'] = 636
@@ -116,17 +117,12 @@ default['gitlab']['ldap']['method'] = "ssl"
 default['gitlab']['ldap']['bind_dn'] = "_the_full_dn_of_the_user_you_will_bind_with"
 default['gitlab']['ldap']['password'] = "_the_password_of_the_bind_user"
 default['gitlab']['ldap']['allow_username_or_email_login'] = true
+default['gitlab']['ldap']['active_directory'] = true
+default['gitlab']['ldap']['allow_username_or_email_login'] = true
 
 # LDAP Filter Example: Recursive query of group membership
 # default['gitlab']['ldap']['user_filter'] = '(&(objectcategory=person)(objectclass=user)(memberOf:1.2.840.113556.1.4.1941:=CN=Gitlab Users,OU=USA,DC=int,DC=contoso,DC=com))'
 default['gitlab']['ldap']['user_filter'] = ''
-# Group base example: default['gitlab']['ldap']['group_base'] = 'ou=Groups,dc=gitlab,dc=example'
-default['gitlab']['ldap']['group_base'] = ''
-# Admin group example: default['gitlab']['ldap']['admin_group'] = 'GLAdmins'
-default['gitlab']['ldap']['admin_group'] = ''
-# Synch ssh key example: default['gitlab']['ldap']['sync_ssh_keys'] = 'sshpublickey'
-default['gitlab']['ldap']['sync_ssh_keys'] = false
-default['gitlab']['ldap']['sync_time'] = 3600
 
 default['gitlab']['gravatar'] = true
 default['gitlab']['gravatar_plain_url'] = "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon"
@@ -213,7 +209,7 @@ default['postfix']['smtp_use_tls'] = "no"
 
 # Unicorn specific configuration
 default['gitlab']['unicorn_workers_number'] = 2
-default['gitlab']['unicorn_timeout'] = 30
+default['gitlab']['unicorn_timeout'] = 60
 
 # Nginx & Nginx ssl certificates
 default['gitlab']['install_nginx'] = true

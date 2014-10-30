@@ -54,6 +54,7 @@ describe "gitlab::install" do
             gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
             ldap_config: {
               "enabled"=>false,
+              "label"=>"LDAP",
               "host"=>"_your_ldap_server",
               "base"=>"_the_base_where_you_search_for_users",
               "port"=>636,
@@ -61,12 +62,9 @@ describe "gitlab::install" do
               "method"=>"ssl",
               "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
               "password"=>"_the_password_of_the_bind_user",
-              "allow_username_or_email_login"=>true,
               "user_filter"=>"",
-              "group_base"=>"",
-              "admin_group"=>"",
-              "sync_ssh_keys"=>false,
-              "sync_time"=>3600
+              "active_directory"=>true,
+              "allow_username_or_email_login"=>true
             },
             backup: {
               "enable"=>true,
