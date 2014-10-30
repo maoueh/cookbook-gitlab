@@ -7,13 +7,13 @@
 require 'spec_helper'
 
 describe "gitlab::database_mysql" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::database_mysql") }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::database_mysql") }
 
 
   describe "under ubuntu" do
-    ["14.04", "12.04", "10.04"].each do |version|
+    ["14.04", "12.04"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
         runner.node.set['gitlab']['database_password'] = "datapass"
@@ -35,7 +35,7 @@ describe "gitlab::database_mysql" do
 
       describe "with external database" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['external_database'] = true
           runner.converge("gitlab::database_mysql")
@@ -52,7 +52,7 @@ describe "gitlab::database_mysql" do
     describe "under centos" do
     ["5.8", "6.4"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "centos", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
         runner.node.set['gitlab']['database_password'] = "datapass"
@@ -74,7 +74,7 @@ describe "gitlab::database_mysql" do
 
       describe "with external database" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['external_database'] = true
           runner.converge("gitlab::database_mysql")

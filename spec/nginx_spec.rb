@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe "gitlab::nginx" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::nginx") }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::nginx") }
 
 
   describe "under ubuntu" do
-    ["14.04", "12.04", "10.04"].each do |version|
+    ["14.04", "12.04"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::nginx")
       end
@@ -52,7 +52,7 @@ describe "gitlab::nginx" do
 
       describe "when customizing gitlab user home" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
           runner.converge("gitlab::nginx")
@@ -81,7 +81,7 @@ describe "gitlab::nginx" do
 
       describe "when customizing install_nginx" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['install_nginx'] = false
           runner.converge("gitlab::nginx")
@@ -97,7 +97,7 @@ describe "gitlab::nginx" do
     describe "under centos" do
     ["5.8", "6.4"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "centos", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::nginx")
       end
@@ -138,7 +138,7 @@ describe "gitlab::nginx" do
 
       describe "when customizing gitlab user home" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
           runner.converge("gitlab::nginx")
@@ -167,7 +167,7 @@ describe "gitlab::nginx" do
 
       describe "when customizing install_nginx" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['install_nginx'] = false
           runner.converge("gitlab::nginx")

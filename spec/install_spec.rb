@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe "gitlab::install" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::start","gitlab::install") }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::start","gitlab::install") }
 
 
   describe "under ubuntu" do
-    ["14.04", "14.04", "12.04", "10.04"].each do |version|
+    ["14.04", "12.04"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::start","gitlab::install")
       end
@@ -121,7 +121,7 @@ describe "gitlab::install" do
           variables: {
             app_root: "/home/git/gitlab",
             unicorn_workers_number: 2,
-            unicorn_timeout: 30
+            unicorn_timeout: 60
           }
         )
       end
@@ -139,7 +139,7 @@ describe "gitlab::install" do
 
       describe "when using mysql" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
           runner.node.set['gitlab']['database_password'] = "datapass"
@@ -163,7 +163,7 @@ describe "gitlab::install" do
 
       describe "when using mysql with custom server socket" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
           runner.node.set['gitlab']['database_password'] = "datapass"
@@ -188,7 +188,7 @@ describe "gitlab::install" do
 
       describe "when using postgresql" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "postgresql"
           runner.node.set['gitlab']['database_password'] = "datapass"
@@ -253,7 +253,7 @@ describe "gitlab::install" do
 
       describe "when supplying root password" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
           runner.converge("gitlab::start","gitlab::install")
@@ -271,7 +271,7 @@ describe "gitlab::install" do
 
       describe "running database setup, migrations and seed when development" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.converge("gitlab::start","gitlab::install")
         end
@@ -324,7 +324,7 @@ describe "gitlab::install" do
 
       describe "when supplying root password in development" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
           runner.converge("gitlab::start","gitlab::install")
@@ -366,7 +366,7 @@ describe "gitlab::install" do
 
         describe "for development" do
           let(:chef_run) do
-            runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+            runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
             runner.node.set['gitlab']['env'] = "development"
             runner.converge("gitlab::start","gitlab::install")
           end
@@ -384,7 +384,7 @@ describe "gitlab::install" do
       describe "when customizing gitlab user home" do
         # Only test stuff that change when git user home is different
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
           runner.converge("gitlab::start","gitlab::install")
@@ -419,7 +419,7 @@ describe "gitlab::install" do
 
         describe "when using mysql" do
           let(:chef_run) do
-            runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+            runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
             runner.node.set['gitlab']['env'] = "production"
             runner.node.set['gitlab']['database_adapter'] = "mysql"
             runner.node.set['gitlab']['database_password'] = "datapass"
@@ -434,7 +434,7 @@ describe "gitlab::install" do
 
         describe "when using postgresql" do
           let(:chef_run) do
-            runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+            runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
             runner.node.set['gitlab']['env'] = "production"
             runner.node.set['gitlab']['database_adapter'] = "postgresql"
             runner.node.set['gitlab']['database_password'] = "datapass"
@@ -485,7 +485,7 @@ describe "gitlab::install" do
     describe "under centos" do
     ["7.0", "6.5"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "centos", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::start","gitlab::install")
       end
@@ -532,6 +532,7 @@ describe "gitlab::install" do
             gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
             ldap_config: {
               "enabled"=>false,
+              "label"=>"LDAP",
               "host"=>"_your_ldap_server",
               "base"=>"_the_base_where_you_search_for_users",
               "port"=>636,
@@ -539,12 +540,9 @@ describe "gitlab::install" do
               "method"=>"ssl",
               "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
               "password"=>"_the_password_of_the_bind_user",
-              "allow_username_or_email_login"=>true,
               "user_filter"=>"",
-              "group_base"=>"",
-              "admin_group"=>"",
-              "sync_ssh_keys"=>false,
-              "sync_time"=>3600
+              "active_directory"=>true,
+              "allow_username_or_email_login"=>true
             },
             backup: {
               "enable"=>true,
@@ -601,7 +599,7 @@ describe "gitlab::install" do
           variables: {
             app_root: "/home/git/gitlab",
             unicorn_workers_number: 2,
-            unicorn_timeout: 30
+            unicorn_timeout: 60
           }
         )
       end
@@ -621,7 +619,7 @@ describe "gitlab::install" do
 
       describe "when using mysql" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
           runner.node.set['gitlab']['database_password'] = "datapass"
@@ -645,7 +643,7 @@ describe "gitlab::install" do
 
       describe "when using mysql with custom server socket" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "mysql"
           runner.node.set['gitlab']['database_password'] = "datapass"
@@ -670,7 +668,7 @@ describe "gitlab::install" do
 
       describe "when using postgresql" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['database_adapter'] = "postgresql"
           runner.node.set['gitlab']['database_password'] = "datapass"
@@ -735,7 +733,7 @@ describe "gitlab::install" do
 
       describe "when supplying root password" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
           runner.converge("gitlab::start","gitlab::install")
@@ -753,7 +751,7 @@ describe "gitlab::install" do
 
       describe "running database setup, migrations and seed when development" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.converge("gitlab::start","gitlab::install")
         end
@@ -806,7 +804,7 @@ describe "gitlab::install" do
 
       describe "when supplying root password in development" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "development"
           runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
           runner.converge("gitlab::start","gitlab::install")
@@ -848,7 +846,7 @@ describe "gitlab::install" do
 
         describe "for development" do
           let(:chef_run) do
-            runner = ChefSpec::Runner.new(platform: "centos", version: version)
+            runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
             runner.node.set['gitlab']['env'] = "development"
             runner.converge("gitlab::start","gitlab::install")
           end
@@ -866,7 +864,7 @@ describe "gitlab::install" do
       describe "when customizing gitlab user home" do
         # Only test stuff that change when git user home is different
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
           runner.converge("gitlab::start","gitlab::install")
@@ -901,7 +899,7 @@ describe "gitlab::install" do
 
         describe "when using mysql" do
           let(:chef_run) do
-            runner = ChefSpec::Runner.new(platform: "centos", version: version)
+            runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
             runner.node.set['gitlab']['env'] = "production"
             runner.node.set['gitlab']['database_adapter'] = "mysql"
             runner.node.set['gitlab']['database_password'] = "datapass"
@@ -916,7 +914,7 @@ describe "gitlab::install" do
 
         describe "when using postgresql" do
           let(:chef_run) do
-            runner = ChefSpec::Runner.new(platform: "centos", version: version)
+            runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
             runner.node.set['gitlab']['env'] = "production"
             runner.node.set['gitlab']['database_adapter'] = "postgresql"
             runner.node.set['gitlab']['database_password'] = "datapass"

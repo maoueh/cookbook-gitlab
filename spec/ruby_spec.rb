@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe "gitlab::ruby" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::ruby") }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::ruby") }
 
 
   describe "under ubuntu" do
-    ["14.04", "12.04", "10.04"].each do |version|
-      let(:chef_run) { ChefSpec::Runner.new(platform: "ubuntu", version: version).converge("gitlab::ruby") }
+    ["14.04", "12.04"].each do |version|
+      let(:chef_run) { ChefSpec::SoloRunner.new(platform: "ubuntu", version: version).converge("gitlab::ruby") }
 
       before do
         stub_command("git --version >/dev/null").and_return(true)
@@ -23,7 +23,7 @@ describe "gitlab::ruby" do
 
   describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) { ChefSpec::Runner.new(platform: "centos", version: version).converge("gitlab::ruby") }
+      let(:chef_run) { ChefSpec::SoloRunner.new(platform: "centos", version: version).converge("gitlab::ruby") }
 
       before do
         stub_command("git --version >/dev/null").and_return(true)

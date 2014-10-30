@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe "gitlab::start" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::start") }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::start") }
 
 
   describe "under ubuntu" do
-    ["14.04", "12.04", "10.04"].each do |version|
+    ["14.04", "12.04"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::start")
       end
@@ -26,7 +26,7 @@ describe "gitlab::start" do
   describe "under centos" do
     ["5.8", "6.4"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "centos", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.converge("gitlab::start")
       end

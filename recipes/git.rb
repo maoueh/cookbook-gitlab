@@ -12,7 +12,7 @@ end
 remote_file "#{Chef::Config['file_cache_path']}/git-#{git['version']}.zip" do
   source git['url']
   mode 0644
-  not_if "test -f #{Chef::Config['file_cache_path']}/git-#{git['version']}.zip"
+  action :create_if_missing
 end
 
 execute "Extracting and Building Git #{git['version']} from Source" do

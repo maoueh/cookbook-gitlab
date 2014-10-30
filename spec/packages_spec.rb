@@ -1,16 +1,15 @@
 require 'spec_helper'
 
 describe "gitlab::packages" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::packages") }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::packages") }
 
 
   describe "under ubuntu" do
-    ["14.04", "12.04", "10.04"].each do |version|
-      let(:chef_run) { ChefSpec::Runner.new(platform: "ubuntu", version: version).converge("gitlab::packages") }
+    ["14.04", "12.04"].each do |version|
+      let(:chef_run) { ChefSpec::SoloRunner.new(platform: "ubuntu", version: version).converge("gitlab::packages") }
 
       before do
         # stubbing git commands because packages recipe requires gitlab::git
-        stub_command("test -f #{Chef::Config['file_cache_path']}/git-2.0.0.zip").and_return(true)
         stub_command("git --version | grep 2.0.0").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
       end
@@ -19,8 +18,6 @@ describe "gitlab::packages" do
         expect(chef_run).to include_recipe("apt::default")
         expect(chef_run).to_not include_recipe("yum-epel::default")
         expect(chef_run).to include_recipe("gitlab::git")
-        expect(chef_run).to include_recipe("redisio::install")
-        expect(chef_run).to include_recipe("redisio::enable")
       end
 
       it "installs all default packages" do
@@ -38,11 +35,10 @@ describe "gitlab::packages" do
 
   describe "under centos" do
     ["5.8", "6.4"].each do |version|
-      let(:chef_run) { ChefSpec::Runner.new(platform: "centos", version: version).converge("gitlab::packages") }
+      let(:chef_run) { ChefSpec::SoloRunner.new(platform: "centos", version: version).converge("gitlab::packages") }
 
       before do
         # stubbing git commands because packages recipe requires gitlab::git
-        stub_command("test -f #{Chef::Config['file_cache_path']}/git-2.0.0.zip").and_return(true)
         stub_command("git --version | grep 2.0.0").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
       end
@@ -51,8 +47,6 @@ describe "gitlab::packages" do
         expect(chef_run).to_not include_recipe("apt::default")
         expect(chef_run).to include_recipe("yum-epel::default")
         expect(chef_run).to include_recipe("gitlab::git")
-        expect(chef_run).to include_recipe("redisio::install")
-        expect(chef_run).to include_recipe("redisio::enable")
       end
 
       it "installs all default packages" do

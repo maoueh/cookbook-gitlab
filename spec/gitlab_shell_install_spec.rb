@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe "gitlab::gitlab_shell_install" do
-  let(:chef_run) { ChefSpec::Runner.new.converge("gitlab::gitlab_shell_install") }
-
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::gitlab_shell_install") }
 
   describe "under ubuntu" do
-    ["14.04", "12.04", "10.04"].each do |version|
+    ["14.04", "12.04"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
+        runner.node.set['gitlab']['redis_unixsocket'] = "/var/lib/redis/redis.sock"
         runner.converge("gitlab::gitlab_shell_install")
       end
 
@@ -62,7 +62,7 @@ describe "gitlab::gitlab_shell_install" do
 
       describe "when customizing gitlab user home" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "ubuntu", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
           runner.node.set['gitlab']['redis_database'] = 2
@@ -107,7 +107,7 @@ describe "gitlab::gitlab_shell_install" do
   describe "under centos" do
     ["5.8", "6.4"].each do |version|
       let(:chef_run) do
-        runner = ChefSpec::Runner.new(platform: "centos", version: version)
+        runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['redis_database'] = 3
         runner.node.set['gitlab']['redis_unixsocket'] = "/var/lib/redis/redis.sock"
@@ -163,9 +163,10 @@ describe "gitlab::gitlab_shell_install" do
 
       describe "when customizing gitlab user home" do
         let(:chef_run) do
-          runner = ChefSpec::Runner.new(platform: "centos", version: version)
+          runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
           runner.node.set['gitlab']['env'] = "production"
           runner.node.set['gitlab']['home'] = "/data/git"
+          runner.node.set['gitlab']['redis_unixsocket'] = "/var/lib/redis/redis.sock"
           runner.converge("gitlab::gitlab_shell_install")
         end
 
