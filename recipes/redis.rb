@@ -9,7 +9,7 @@ include_recipe "redisio::install"
 directory gitlab['redis_socket_directory'] do
   path gitlab['redis_socket_directory']
   owner node['redisio']['default_settings']['user']
-  group gitlab['group']
+  group node['redisio']['default_settings']['group']
   mode 0750
   action :create
 end

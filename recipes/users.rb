@@ -32,6 +32,7 @@ user gitlab['user'] do
   only_if { gitlab['env'] == 'production' }
 end
 
+# Add gitlab users to redis group
 group node['redisio']['default_settings']['group'] do
   action :modify
   members gitlab['user']

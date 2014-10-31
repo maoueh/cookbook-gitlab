@@ -13,12 +13,11 @@ include_recipe "gitlab::packages"
 # Compile ruby
 include_recipe "gitlab::ruby" if gitlab['compile_ruby']
 
-# Setup GitLab user
-include_recipe "gitlab::users"
-
 # Setup Redis
-
 include_recipe "gitlab::redis"
 
 # Setup chosen database
 include_recipe "gitlab::database_#{gitlab['database_adapter']}"
+
+# Setup GitLab user (must come last)
+include_recipe "gitlab::users"
