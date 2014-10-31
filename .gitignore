@@ -16,6 +16,7 @@ bin/*
 .kitchen/
 .kitchen.local.yml
 
+Gemfile.lock
 
 # OS files
 .DS_Store
