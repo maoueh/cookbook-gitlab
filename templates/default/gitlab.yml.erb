@@ -33,7 +33,14 @@ production: &base
     # Uncomment and customize if you can't use the default user to run GitLab (default: 'git')
     user: <%= @user %>
 
+    ## Date & Time settings
+    # Uncomment and customize if you want to change the default time zone of GitLab application.
+    # To see all available zones, run `bundle exec rake time:zones:all`
+    time_zone: '<%= @timezone %>'
+
     ## Email settings
+    # Uncomment and set to false if you need to disable email sending from GitLab (default: true)
+    email_enabled: <%= @email_enabled %>
     # Email address used in the "From" field in mails sent by GitLab
     email_from: <%= @email_from %>
 
