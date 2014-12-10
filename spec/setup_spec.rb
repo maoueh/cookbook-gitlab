@@ -23,6 +23,8 @@ describe "gitlab::setup" do
         stub_command("git --version >/dev/null").and_return(true)
         stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
         stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
+        stub_command("ls /var/lib/pgsql/data/recovery.conf").and_return(true)
+        stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do
@@ -92,6 +94,8 @@ describe "gitlab::setup" do
         stub_command("git --version >/dev/null").and_return(true)
         stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
         stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
+        stub_command("ls /var/lib/pgsql/data/recovery.conf").and_return(true)
+        stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do

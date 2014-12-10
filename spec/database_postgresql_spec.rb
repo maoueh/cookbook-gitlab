@@ -21,6 +21,12 @@ describe "gitlab::database_postgresql" do
         runner.converge("gitlab::database_postgresql")
       end
 
+      before do
+        # stubbing commands because real commands are disabled
+        stub_command("ls /var/lib/pgsql/data/recovery.conf").and_return(true)
+        stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(true)
+      end
+
       it "includes recipes from external cookbooks" do
         expect(chef_run).to include_recipe("postgresql::server")
         expect(chef_run).to include_recipe("database::postgresql")
@@ -36,7 +42,6 @@ describe "gitlab::database_postgresql" do
 
         it "skips database setup recipe" do
           expect(chef_run).to_not include_recipe("postgresql::server")
-          expect(chef_run).to_not include_recipe("database::postgresql")
         end
       end
     end
@@ -51,6 +56,12 @@ describe "gitlab::database_postgresql" do
         runner.node.set['gitlab']['database_password'] = "datapass"
         runner.node.set['postgresql']['password']['postgres'] = "psqlpass"
         runner.converge("gitlab::database_postgresql")
+      end
+
+      before do
+        # stubbing commands because real commands are disabled
+        stub_command("ls /var/lib/pgsql/data/recovery.conf").and_return(true)
+        stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(true)
       end
 
       it "includes recipes from external cookbooks" do
@@ -68,7 +79,6 @@ describe "gitlab::database_postgresql" do
 
         it "skips database setup recipe" do
           expect(chef_run).to_not include_recipe("postgresql::server")
-          expect(chef_run).to_not include_recipe("database::postgresql")
         end
       end
     end
