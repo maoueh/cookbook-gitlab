@@ -31,11 +31,3 @@ user gitlab['user'] do
   action :lock
   only_if { gitlab['env'] == 'production' }
 end
-
-# Add gitlab users to redis group
-group node['redisio']['default_settings']['group'] do
-  action :modify
-  members gitlab['user']
-  append true
-  not_if gitlab['redis_unixsocket'].nil?
-end
