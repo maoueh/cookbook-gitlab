@@ -1,0 +1,8 @@
+language: ruby
+
+rvm:
+- 2.1.4
+
+script:
+- bundle exec berks install
+- bundle exec rake test
