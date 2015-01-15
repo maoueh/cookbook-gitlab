@@ -3,6 +3,8 @@ language: ruby
 rvm:
 - 2.1.4
 
+bundler_args: --without doc guard --jobs 7 --retry 3
+
 script:
 - bundle exec berks install
 - bundle exec rake test
