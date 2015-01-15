@@ -6,6 +6,10 @@ DEPENDENCIES
     git: https://github.com/phlipper/chef-monit.git
     revision: 276c99ba08869ebd5117267d91a2ff6aa0d9fc6b
     tag: 1.4.0
+  windows
+    git: https://github.com/maoueh/windows.git
+    revision: 4aedae1f0af0b30d47a21450b81da9f4801ab775
+    branch: fix-expand-environment-strings-already-defined
 
 GRAPH
   apt (2.6.1)
