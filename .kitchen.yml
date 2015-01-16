@@ -1,0 +1,31 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  - name: centos-6.6
+    driver:
+      customize:
+        name: "kitchen-cookbook-gitlab-centos-6.6"
+        memory: 1024
+        natdnshostresolver1: "on"
+      network:
+        - ["private_network", {ip: "10.0.0.150"}]
+
+suites:
+  - name: mysql
+    run_list:
+      - recipe[gitlab::default]
+    attributes:
+      gitlab:
+        database_adapter: "mysql"
+
+  - name: postgresql
+    run_list:
+      - recipe[gitlab::default]
+    attributes:
+      gitlab:
+        database_adapter: "mysql"

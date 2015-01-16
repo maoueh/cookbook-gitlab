@@ -1,6 +1,6 @@
 # GitLab Cookbook
 
-[![Build Status](https://secure.travis-ci.org/maoueh/cookbook-gitlab.png?branch=master)][travis]
+[![Build Status](https://travis-ci.org/maoueh/cookbook-gitlab.svg?branch=master)](https://travis-ci.org/maoueh/cookbook-gitlab)
 
 Chef cookbook with recipes to install GitLab and its dependencies.
 
