@@ -1,5 +1,5 @@
 ## GitLab
-## Maintainer: @randx
+## Contributors: randx, yin8086, sashkab, orkoden, axilleas, bbodenmiller
 ##
 ## Lines starting with two hashes (##) are comments with information.
 ## Lines starting with one hash (#) are configuration parameters that can be uncommented.
@@ -53,6 +53,8 @@ server {
   ## Increase this if you want to upload large attachments
   ## Or if you want to accept large git objects over http
   client_max_body_size <%= @client_max_body_size %>;
+
+  ## See app/controllers/application_controller.rb for headers set
 
   <% if @port == '443' %>
   ## Strong SSL Security

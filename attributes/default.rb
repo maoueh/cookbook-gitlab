@@ -74,7 +74,7 @@ if node['gitlab']['env'] == "development"
   default['gitlab']['shell_revision'] = "master"
 else
   default['gitlab']['environments'] = %w{production}
-  default['gitlab']['revision'] = "7-5-stable" # Must be branch, otherwise GitLab update will run on each chef run
+  default['gitlab']['revision'] = "7-6-stable" # Must be branch, otherwise GitLab update will run on each chef run
   default['gitlab']['url'] = "http://localhost:80/"
   default['gitlab']['port'] = "80"
   default['gitlab']['ssh_port'] = "22"
@@ -203,7 +203,7 @@ when "rhel"
 end
 default['postgresql']['username']['postgres'] = "postgres"
 default['postgresql']['password']['postgres'] = "psqlpass"
-default['postgresql']['server_host'] = "localhost"
+default['postgresql']['server']['host'] = "localhost"
 
 # Postfix
 default['postfix']['mail_type'] = "client"
