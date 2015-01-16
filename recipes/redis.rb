@@ -4,7 +4,7 @@
 #
 gitlab = node['gitlab']
 
-include_recipe "redisio::install"
+include_recipe "redisio"
 
 # Add gitlab users to redis group
 group node['redisio']['default_settings']['group'] do
@@ -19,7 +19,7 @@ end
 ##       gitlab user later on, mixlib-shellout will not set supplementary
 ##       group which will make execution fail.
 ##
-##       Once resolved, we will be able to change logic a bit a be more
+##       Once resolved, we will be able to change logic a bit to be more
 ##       kosher.
 ##
 directory gitlab['redis_socket_directory'] do
