@@ -1,5 +1,6 @@
-GitLab Cookbook
-===============
+# GitLab Cookbook
+
+[![Build Status](https://secure.travis-ci.org/maoueh/cookbook-gitlab.png?branch=master)][travis]
 
 Chef cookbook with recipes to install GitLab and its dependencies.
 
