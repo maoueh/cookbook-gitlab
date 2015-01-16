@@ -11,26 +11,27 @@ describe "gitlab::database_mysql" do
 
 
   describe "under ubuntu" do
-    ["14.04", "12.04"].each do |version|
+    ["12.04", "14.04"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
         runner.node.set['gitlab']['database_password'] = "datapass"
-        runner.node.set['mysql']['server_root_password'] = "rootpass"
-        runner.node.set['mysql']['server_repl_password'] = "replpass"
-        runner.node.set['mysql']['server_debian_password'] = "debpass"
+        runner.node.set['mysql']['initial_root_password'] = "rootpass"
         runner.converge("gitlab::database_mysql")
       end
 
-      before do
-        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
-        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
+#      before do
+#        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
+#        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
+#      end
+
+      it "creates gitlab mysql service" do
+        expect(chef_run).to create_mysql_service("gitlab")
       end
 
-      it "includes recipes from external cookbooks" do
-        expect(chef_run).to include_recipe("mysql::server")
-        expect(chef_run).to include_recipe("gitlab::database_mysql")
+      it "includes database::mysql recipe" do
+        expect(chef_run).to include_recipe("database::mysql")
       end
 
       describe "with external database" do
@@ -41,8 +42,11 @@ describe "gitlab::database_mysql" do
           runner.converge("gitlab::database_mysql")
         end
 
-        it "skips database setup recipe" do
-          expect(chef_run).to_not include_recipe("mysql::server")
+        it "skips creates gitlab mysql service" do
+          expect(chef_run).to_not create_mysql_service("gitlab")
+        end
+
+        it "still includes database::mysql recipe" do
           expect(chef_run).to include_recipe("database::mysql")
         end
       end
@@ -56,20 +60,17 @@ describe "gitlab::database_mysql" do
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
         runner.node.set['gitlab']['database_password'] = "datapass"
-        runner.node.set['mysql']['server_root_password'] = "rootpass"
-        runner.node.set['mysql']['server_repl_password'] = "replpass"
-        runner.node.set['mysql']['server_debian_password'] = "debpass"
+        runner.node.set['mysql']['initial_root_password'] = "rootpass"
         runner.converge("gitlab::database_mysql")
       end
 
-      before do
-        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
-        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
-      end
+#      before do
+#        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
+#        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
+#      end
 
-      it "includes recipes from external cookbooks" do
-        expect(chef_run).to include_recipe("mysql::server")
-        expect(chef_run).to include_recipe("gitlab::database_mysql")
+      it "creates gitlab mysql service" do
+        expect(chef_run).to create_mysql_service("gitlab")
       end
 
       describe "with external database" do
@@ -80,8 +81,11 @@ describe "gitlab::database_mysql" do
           runner.converge("gitlab::database_mysql")
         end
 
-        it "skips database setup recipe" do
-          expect(chef_run).to_not include_recipe("mysql::server")
+        it "skips creates gitlab mysql service" do
+          expect(chef_run).to_not create_mysql_service("gitlab")
+        end
+
+        it "still includes database::mysql recipe" do
           expect(chef_run).to include_recipe("database::mysql")
         end
       end

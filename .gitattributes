@@ -6,6 +6,7 @@
 
 # Declare files that will always have native line endings on checkout.
 .buildpath textfile
+.rspec textfile
 chefignore textfile
 Berksfile textfile
 Berksfile.lock textfile
