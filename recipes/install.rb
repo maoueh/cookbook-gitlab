@@ -136,7 +136,7 @@ template File.join(gitlab['path'], "config", "database.yml") do
   variables({
     :user => gitlab['database_user'],
     :password => gitlab['database_password'],
-    :host => node[gitlab['database_adapter']]['server_host'],
+    :host => node[gitlab['database_adapter']]['server']['host'],
     :socket => gitlab['database_adapter'] == "mysql" ? node['mysql']['server']['socket'] : nil
   })
   notifies :reload, "service[gitlab]"

@@ -203,7 +203,7 @@ when "rhel"
 end
 default['postgresql']['username']['postgres'] = "postgres"
 default['postgresql']['password']['postgres'] = "psqlpass"
-default['postgresql']['server_host'] = "localhost"
+default['postgresql']['server']['host'] = "localhost"
 
 # Postfix
 default['postfix']['mail_type'] = "client"

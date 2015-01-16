@@ -15,7 +15,7 @@ include_recipe "database::postgresql"
 include_recipe "postgresql::ruby"
 
 postgresql_connection = {
-  :host => postgresql['server_host'],
+  :host => postgresql['server']['host'],
   :username => postgresql['username']['postgres'],
   :password => postgresql['password']['postgres']
 }
