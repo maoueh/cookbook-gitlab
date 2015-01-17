@@ -11,6 +11,7 @@ recipe "gitlab::default", "Installation"
 depends 'apt', '~> 2.6'
 depends 'build-essential', '~> 2.1'
 depends 'database', '~> 3.0'
+depends 'git', '~> 4.0'
 depends 'magic_shell', '~> 1.0'
 depends 'monit', '~> 1.4'
 depends 'mysql', '~> 6.0'

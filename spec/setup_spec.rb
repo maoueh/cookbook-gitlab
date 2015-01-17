@@ -1,11 +1,8 @@
 require 'spec_helper'
 
 describe "gitlab::setup" do
-  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::setup") }
-
-
   describe "under ubuntu" do
-    ["14.04", "12.04"].each do |version|
+    ["14.04"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
@@ -19,10 +16,9 @@ describe "gitlab::setup" do
 
       before do
         # stubbing commands because real commands are disabled
-        stub_command("git --version | grep 2.0.0").and_return(true)
+        stub_command("test -f /var/chef/cache/git-2.1.4.tar.gz").and_return(true)
+        stub_command("git --version | grep 2.1.4").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
-        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
-        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
         stub_command("ls /var/lib/pgsql/data/recovery.conf").and_return(true)
         stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(true)
       end
@@ -76,7 +72,7 @@ describe "gitlab::setup" do
   end
 
   describe "under centos" do
-    ["5.8", "6.4"].each do |version|
+    ["6.4"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
@@ -90,10 +86,9 @@ describe "gitlab::setup" do
 
       before do
         # stubbing commands because real commands are disabled
-        stub_command("git --version | grep 2.0.0").and_return(true)
+        stub_command("test -f /var/chef/cache/git-2.1.4.tar.gz").and_return(true)
+        stub_command("git --version | grep 2.1.4").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
-        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
-        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
         stub_command("ls /var/lib/pgsql/data/recovery.conf").and_return(true)
         stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(true)
       end

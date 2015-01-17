@@ -7,11 +7,8 @@
 require 'spec_helper'
 
 describe "gitlab::database_mysql" do
-  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::database_mysql") }
-
-
   describe "under ubuntu" do
-    ["12.04", "14.04"].each do |version|
+    ["14.04"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
@@ -20,11 +17,6 @@ describe "gitlab::database_mysql" do
         runner.node.set['mysql']['initial_root_password'] = "rootpass"
         runner.converge("gitlab::database_mysql")
       end
-
-#      before do
-#        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
-#        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
-#      end
 
       it "creates gitlab mysql service" do
         expect(chef_run).to create_mysql_service("gitlab")
@@ -54,7 +46,7 @@ describe "gitlab::database_mysql" do
   end
 
     describe "under centos" do
-    ["5.8", "6.4"].each do |version|
+    ["6.4"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::SoloRunner.new(platform: "centos", version: version)
         runner.node.set['gitlab']['env'] = "production"
@@ -63,11 +55,6 @@ describe "gitlab::database_mysql" do
         runner.node.set['mysql']['initial_root_password'] = "rootpass"
         runner.converge("gitlab::database_mysql")
       end
-
-#      before do
-#        stub_command("/usr/bin/mysql -u root -e 'show databases;'").and_return(true)
-#        stub_command("\"/usr/bin/mysql\" -u root -e 'show databases;'").and_return(true)
-#      end
 
       it "creates gitlab mysql service" do
         expect(chef_run).to create_mysql_service("gitlab")
