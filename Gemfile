@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'berkshelf', '~> 3.2'
 gem 'chef', '~> 11.18'
-gem 'chefspec', '~> 4.2'
+gem 'chefspec', '~> 4.2', :git => 'https://github.com/maoueh/chefspec.git', :branch => 'feature-global-file-cache-path'
 gem 'foodcritic', '~> 4.0'
 gem 'kitchen-vagrant', '~> 0.15'
 gem 'rake', '~> 10.4'

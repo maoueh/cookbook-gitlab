@@ -154,6 +154,12 @@ default['gitlab']['database_password'] = "datapass"
 default['gitlab']['database_user'] = "git"
 default['gitlab']['env'] = "production"
 
+# Git attributes
+default['git']['prefix'] = '/usr/local'
+default['git']['version'] = '2.1.4'
+default['git']['url'] = "https://github.com/git/git/archive/v#{node['git']['version']}.tar.gz"
+default['git']['checksum'] = '87ee4f10a64646daeaa4fed38da8afd48d60af18da51b59b6beea05345b06764'
+
 # MySQL attributes
 default['mysql']['port'] = "3306"
 default['mysql']['version'] = "5.5"

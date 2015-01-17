@@ -1,11 +1,8 @@
 require 'spec_helper'
 
 describe "gitlab::install" do
-  let(:chef_run) { ChefSpec::SoloRunner.new.converge("gitlab::start","gitlab::install") }
-
-
   describe "under ubuntu" do
-    ["14.04", "12.04"].each do |version|
+    ["14.04"].each do |version|
       let(:chef_run) do
         runner = ChefSpec::SoloRunner.new(platform: "ubuntu", version: version)
         runner.node.set['gitlab']['env'] = "production"
