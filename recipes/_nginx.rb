@@ -19,7 +19,7 @@ template path do
   variables({
     :path => gitlab['path'],
     :host => gitlab['host'],
-    :ip   => gitlab['ip'],
+    :ip => gitlab['ip'],
     :port => gitlab['port'],
     :ssl_certificate_path => gitlab['ssl_certificate_path'],
     :ssl_certificate_key_path => gitlab['ssl_certificate_key_path'],
@@ -32,7 +32,7 @@ if platform_family?("rhel")
     mode 0755
   end
 
-  %w( default.conf ssl.conf virtual.conf ).each do |conf|
+  %w(default.conf ssl.conf virtual.conf).each do |conf|
     file "/etc/nginx/conf.d/#{conf}" do
       action :delete
     end
@@ -68,7 +68,6 @@ if gitlab['port'] == "443"
     mode 0600
   end
 end
-## Restart
 
 service "nginx" do
   action :enable

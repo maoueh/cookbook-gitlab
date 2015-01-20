@@ -20,4 +20,16 @@ package "openssl" do
   action :upgrade
 end
 
+# Git source before ruby_build to avoid installing a default git package
 include_recipe "git::source"
+
+include_recipe "ruby_build::default"
+
+ruby_build_ruby gitlab['ruby'] do
+  prefix_path "/usr/local/"
+end
+
+gem_package "bundler" do
+  gem_binary "/usr/local/bin/gem"
+  options "--no-ri --no-rdoc"
+end

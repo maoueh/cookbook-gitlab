@@ -1,18 +1,14 @@
 #
 # Cookbook Name:: gitlab
-# Recipe:: users
+# Recipe:: _users
 #
 
 gitlab = node['gitlab']
 
-# 3. System Users
-
-## Create group for GitLab user
 group gitlab['group'] do
   gid gitlab['user_gid']
 end
 
-## Create user for Gitlab.
 user gitlab['user'] do
   comment "GitLab user"
   home gitlab['home']
@@ -26,8 +22,6 @@ user gitlab['user'] do
   supports :manage_home => true
 end
 
-# Locking user is not needed in development
 user gitlab['user'] do
   action :lock
-  only_if { gitlab['env'] == 'production' }
 end

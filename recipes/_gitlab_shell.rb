@@ -1,12 +1,19 @@
 #
 # Cookbook Name:: gitlab
-# Recipe:: gitlab_shell_install
+# Recipe:: gitlab_shell_clone
 #
 
 gitlab = node['gitlab']
 
-## Edit config and replace gitlab_url
-template File.join(gitlab['shell_path'], "config.yml") do
+git gitlab['shell_path'] do
+  repository gitlab['shell_repository']
+  revision gitlab['shell_revision']
+  user gitlab['user']
+  group gitlab['group']
+  action :sync
+end
+
+template "#{gitlab['shell_path']}/config.yml" do
   source "gitlab_shell.yml.erb"
   user gitlab['user']
   group gitlab['group']
@@ -25,7 +32,6 @@ template File.join(gitlab['shell_path'], "config.yml") do
   })
 end
 
-## Do setup
 directory "Repositories path" do
   path gitlab['repos_path']
   owner gitlab['user']
@@ -34,14 +40,14 @@ directory "Repositories path" do
 end
 
 directory "SSH key directory" do
-  path File.join(gitlab['home'], "/", ".ssh")
+  path "#{gitlab['home']}/.ssh"
   owner gitlab['user']
   group gitlab['group']
   mode 0700
 end
 
 file "authorized keys file" do
-  path File.join(gitlab['home'], "/", ".ssh", "/", "authorized_keys")
+  path "#{gitlab['home']}/.ssh/authorized_keys"
   owner gitlab['user']
   group gitlab['group']
   mode 0600
