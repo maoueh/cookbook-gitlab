@@ -14,12 +14,19 @@ describe "gitlab::database_mysql" do
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
         runner.node.set['gitlab']['database_password'] = "datapass"
-        runner.node.set['mysql']['initial_root_password'] = "rootpass"
         runner.converge("gitlab::database_mysql")
+      end
+
+      it "does not include selinux::disabled recipe" do
+        expect(chef_run).to_not include_recipe("selinux::disabled")
       end
 
       it "creates gitlab mysql service" do
         expect(chef_run).to create_mysql_service("gitlab")
+      end
+
+      it "configures gitlab mysql config" do
+        expect(chef_run).to create_mysql_config("gitlab")
       end
 
       it "includes database::mysql recipe" do
@@ -34,8 +41,16 @@ describe "gitlab::database_mysql" do
           runner.converge("gitlab::database_mysql")
         end
 
+        it "does not include selinux::disabled recipe" do
+          expect(chef_run).to_not include_recipe("selinux::disabled")
+        end
+
         it "skips creates gitlab mysql service" do
           expect(chef_run).to_not create_mysql_service("gitlab")
+        end
+
+        it "skips configure gitlab mysql config" do
+          expect(chef_run).to_not create_mysql_config("gitlab")
         end
 
         it "still includes database::mysql recipe" do
@@ -52,12 +67,19 @@ describe "gitlab::database_mysql" do
         runner.node.set['gitlab']['env'] = "production"
         runner.node.set['gitlab']['database_adapter'] = "mysql"
         runner.node.set['gitlab']['database_password'] = "datapass"
-        runner.node.set['mysql']['initial_root_password'] = "rootpass"
         runner.converge("gitlab::database_mysql")
+      end
+
+      it "includes selinux::disabled recipe" do
+        expect(chef_run).to include_recipe("selinux::disabled")
       end
 
       it "creates gitlab mysql service" do
         expect(chef_run).to create_mysql_service("gitlab")
+      end
+
+      it "configures gitlab mysql config" do
+        expect(chef_run).to create_mysql_config("gitlab")
       end
 
       describe "with external database" do
@@ -68,8 +90,16 @@ describe "gitlab::database_mysql" do
           runner.converge("gitlab::database_mysql")
         end
 
-        it "skips creates gitlab mysql service" do
+        it "does not include selinux::disabled recipe" do
+          expect(chef_run).to_not include_recipe("selinux::disabled")
+        end
+
+        it "skips create gitlab mysql service" do
           expect(chef_run).to_not create_mysql_service("gitlab")
+        end
+
+        it "skips configure gitlab mysql config" do
+          expect(chef_run).to_not create_mysql_config("gitlab")
         end
 
         it "still includes database::mysql recipe" do

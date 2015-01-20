@@ -152,7 +152,11 @@ default['gitlab']['external_database'] = false
 default['gitlab']['database_adapter'] = "postgresql"
 default['gitlab']['database_password'] = "datapass"
 default['gitlab']['database_user'] = "git"
+default['gitlab']['database_allowed_host'] = "localhost" # Used by MySQL only
 default['gitlab']['env'] = "production"
+
+# SELinux attributes
+default['selinux']['state'] = "disabled"
 
 # Git attributes
 default['git']['prefix'] = '/usr/local'
@@ -160,24 +164,16 @@ default['git']['version'] = '2.1.4'
 default['git']['url'] = "https://github.com/git/git/archive/v#{node['git']['version']}.tar.gz"
 default['git']['checksum'] = '87ee4f10a64646daeaa4fed38da8afd48d60af18da51b59b6beea05345b06764'
 
-# MySQL attributes
-default['mysql']['port'] = "3306"
-default['mysql']['version'] = "5.5"
-default['mysql']['initial_root_password'] = "rootpass"
-
-default['mysql']['client']['host'] = "localhost" # Host where user connections are allowed from.
-
-default['mysql']['server']['host'] = "localhost" # Host of the server that hosts the database.
+# MySQL attributes (server)
+default['mysql']['server']['instance'] = "gitlab"
+default['mysql']['server']['host'] = "127.0.0.1"
+default['mysql']['server']['data_dir'] = nil
+default['mysql']['server']['charset'] = "utf8"
+default['mysql']['server']['port'] = "3306"
+default['mysql']['server']['socket'] = nil
+default['mysql']['server']['version'] = "5.5"
 default['mysql']['server']['username'] = "root"
-default['mysql']['server']['password'] = node['mysql']['server']['password']
-
- # Here for legacy reasons. mysql cookbook removed support for configurable sockets. See: https://github.com/opscode-cookbooks/mysql#mysql-cookbook
-case node["platform_family"]
-when "debian"
-  default['mysql']['server']['socket'] = "/var/run/mysqld/mysqld.sock"
-when "rhel"
-  default['mysql']['server']['socket'] = "/var/lib/mysql/mysql.sock"
-end
+default['mysql']['server']['password'] = "rootpass"
 
 # PostgreSQL attributes
 include_attribute 'postgresql'

@@ -8,11 +8,26 @@ gitlab = node['gitlab']
 
 # 5.Database
 unless gitlab['external_database']
-  mysql_service 'gitlab' do
-    port mysql['port']
-    version mysql['version']
-    initial_root_password mysql['initial_root_password']
+  if node["platform_family"] == 'rhel'
+    include_recipe "selinux::#{node['selinux']['state'].downcase}"
+  end
+
+  mysql_service mysql['server']['instance'] do
+    port mysql['server']['port']
+    version mysql['server']['version']
+    data_dir mysql['server']['data_dir']
+    charset mysql['server']['charset']
+    initial_root_password mysql['server']['password']
     action [:create, :start]
+  end
+
+  mysql_config "gitlab" do
+    instance mysql['server']['instance']
+    config_name 'gitlab'
+    source 'gitlab.cnf.erb'
+    action :create
+
+    notifies :restart, "mysql_service[#{mysql['server']['instance']}]", :immediately
   end
 end
 
@@ -29,7 +44,7 @@ mysql_connection = {
 mysql_database_user gitlab['database_user'] do
   connection mysql_connection
   password gitlab['database_password']
-  host mysql['client']['host']
+  host mysql['database_allowed_host']
   action :create
 end
 
@@ -47,7 +62,7 @@ gitlab['environments'].each do |environment|
     connection mysql_connection
     password gitlab['database_password']
     database_name "gitlabhq_#{environment}"
-    host mysql['client']['host']
+    host mysql['database_allowed_host']
     privileges ["SELECT", "UPDATE", "INSERT", "DELETE", "CREATE", "DROP", "INDEX", "ALTER", "LOCK TABLES"]
     action :grant
   end

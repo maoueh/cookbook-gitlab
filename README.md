@@ -37,6 +37,30 @@ only CentOS is fully tested right now.
 * Ubuntu (12.04, 12.10, 14.04)
 * RHEL/CentOS (6.5)
 
+### Security
+
+On RHEL platforms,`selinux` is disabled when using the recipe to
+install MySQL database. The main reasons for this is that the `mysql`
+cookbook is not built to work out of the box with `selinux` enabled.
+
+For simplicity, instead of implementing it in the cookbook, I decided
+to disable `selinux` completely. If you do not want this behavior,
+you have two options.
+
+First, you can install yourself MySQL by setting the attribute
+`node['gitlab']['external_database']` to `true`. This will not
+configure internally `mysql` and hence, it will not disable
+`selinux`.
+
+Second, you can set the attribute `node['selinux']['state']` to
+`:enforcing` (or `:permissive`) and ensure the right SELinux context
+are set on the different folders MySQL should have access to. Here
+some commands that were used to make it work on CentOS 6.6:
+
+    semanage fcontext -a -t mysqld_db_t "/var/lib/mysql-gitlab(/.*)?"
+    semanage fcontext -a -t mysqld_db_t "/var/run/mysql-gitlab(/.*)?"
+    semanage fcontext -a -t mysqld_db_t "/var/log/mysql-gitlab(/.*)?"
+
 ## Recipes
 
 ### default
