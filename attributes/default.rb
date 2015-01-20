@@ -77,7 +77,6 @@ default['gitlab']['ssh_port'] = "22"
 default['gitlab']['ip'] = "*"
 
 # GitLab configuration
-default['gitlab']['git_path'] = "/usr/local/bin/git"
 default['gitlab']['host'] = "localhost"
 default['gitlab']['email_enabled'] = true
 default['gitlab']['email_from'] = "gitlab@localhost"

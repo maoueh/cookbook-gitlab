@@ -262,9 +262,9 @@ supported_platforms.each do |platform, versions|
 
       describe "when supplying root password" do
         let(:chef_run) do
-           ChefSpec::SoloRunner.new(platform: platform, version: version)
-          runner.node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
-          runner.converge("gitlab::_install")
+          ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
+            node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
+          end.converge("gitlab::_install")
         end
 
         it 'runs db seed' do
