@@ -20,6 +20,7 @@ depends 'postfix', '~> 3.6'
 depends 'postgresql', '~> 3.4'
 depends 'redisio', '~> 2.2'
 depends 'ruby_build', '~> 0.8'
+depends 'selinux', '~> 0.8'
 depends 'yum-epel', '~> 0.6'
 
 %w{ debian ubuntu centos }.each do |os|

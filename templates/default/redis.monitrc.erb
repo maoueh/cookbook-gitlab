@@ -1,6 +1,0 @@
-check process redis-server with pidfile <%= @redis_pid_path %>
-  start program = "<%= @service_name %> start"
-  stop program = "<%= @service_name %> stop"
-  if failed host <%= @host %> port <%= @port %>
-    send "PING\r\n" expect "\+PONG\r\n"
-  then alert
