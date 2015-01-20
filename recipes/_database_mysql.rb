@@ -40,7 +40,6 @@ mysql_connection = {
   :socket => mysql['server']['socket']
 }
 
-## Create a user for GitLab.
 mysql_database_user gitlab['database_user'] do
   connection mysql_connection
   password gitlab['database_password']
@@ -48,22 +47,19 @@ mysql_database_user gitlab['database_user'] do
   action :create
 end
 
-## Create the GitLab database & grant all privileges on database
-gitlab['environments'].each do |environment|
-  mysql_database "gitlabhq_#{environment}" do
-    database_name "gitlabhq_#{environment}"
-    encoding "utf8"
-    collation "utf8_unicode_ci"
-    connection mysql_connection
-    action :create
-  end
+mysql_database "gitlabhq_production" do
+  database_name "gitlabhq_production"
+  encoding "utf8"
+  collation "utf8_unicode_ci"
+  connection mysql_connection
+  action :create
+end
 
-  mysql_database_user gitlab['database_user'] do
-    connection mysql_connection
-    password gitlab['database_password']
-    database_name "gitlabhq_#{environment}"
-    host mysql['database_allowed_host']
-    privileges ["SELECT", "UPDATE", "INSERT", "DELETE", "CREATE", "DROP", "INDEX", "ALTER", "LOCK TABLES"]
-    action :grant
-  end
+mysql_database_user gitlab['database_user'] do
+  connection mysql_connection
+  password gitlab['database_password']
+  database_name "gitlabhq_production"
+  host mysql['database_allowed_host']
+  privileges ["SELECT", "UPDATE", "INSERT", "DELETE", "CREATE", "DROP", "INDEX", "ALTER", "LOCK TABLES"]
+  action :grant
 end

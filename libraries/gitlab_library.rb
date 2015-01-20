@@ -31,12 +31,10 @@ class Chef
         segments << "bundle install"
         segments << "--path=.bundle"
         segments << "--deployment"
-        segments << "--no-ri"
-        segments << "--no-rdoc"
 
         case node['gitlab']['database_adapter']
         when "mysql"
-          segments << "--without development test postgresql"
+          segments << "--without development test postgres"
         when "postgresql"
           segments << "--without development test mysql"
         end

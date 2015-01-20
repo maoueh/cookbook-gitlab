@@ -5,15 +5,6 @@
 
 gitlab = node['gitlab']
 
-service "gitlab" do
-  supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
-  action :enable
-
-  subscribes :start, "execute[rake db:migrate]"
-  subscribes :reload, "execute[rake assets:precompile]"
-  subscribes :restart, "directory[#{gitlab['redis_socket_directory']}]"
-end
-
 template "#{gitlab['path']}/config/gitlab.yml" do
   source "gitlab.yml.erb"
   user gitlab['user']
@@ -135,8 +126,8 @@ execute "rake db:schema:load" do
   group gitlab['group']
   action :nothing
 
-  subscribes :run, "mysql_database[gitlabhq_database]"
-  subscribes :run, "postgresql_database[gitlabhq_database]"
+  subscribes :run, "mysql_database[gitlabhq_production]"
+  subscribes :run, "postgresql_database[gitlabhq_production]"
 end
 
 execute "rake db:migrate" do
@@ -232,3 +223,13 @@ execute "rake cache:clear" do
   action :nothing
   subscribes :run, "execute[rake db:migrate]", :immediately
 end
+
+service "gitlab" do
+  supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
+  action :enable
+
+  subscribes :start, "execute[rake db:migrate]"
+  subscribes :reload, "execute[rake assets:precompile]"
+  subscribes :restart, "directory[#{gitlab['redis_socket_directory']}]"
+end
+

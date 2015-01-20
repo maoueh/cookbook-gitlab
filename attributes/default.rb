@@ -67,7 +67,6 @@ default['gitlab']['deploy_key'] = "" # Optional. Private key used to connect to 
 
 # Setup environments
 
-default['gitlab']['environments'] = %w{production}
 default['gitlab']['revision'] = "7-6-stable" # Must be branch, otherwise GitLab update will run on each chef run
 default['gitlab']['url'] = "http://localhost:80/"
 default['gitlab']['port'] = "80"
@@ -133,11 +132,8 @@ default['gitlab']['webhook_timeout'] = 10
 default['gitlab']['admin_root_password'] = nil
 
 # Databases
-# Assumed defaults
-# database: postgresql (option: mysql)
-# environment: production (option: development)
 default['gitlab']['external_database'] = false
-default['gitlab']['database_adapter'] = "postgresql"
+default['gitlab']['database_adapter'] = "postgresql" # Or "mysql"
 default['gitlab']['database_password'] = "datapass"
 default['gitlab']['database_user'] = "git"
 default['gitlab']['database_allowed_host'] = "localhost" # Used by MySQL only

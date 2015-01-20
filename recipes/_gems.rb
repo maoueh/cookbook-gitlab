@@ -23,6 +23,13 @@ remote_file "Fetch the latest ca-bundle" do
   action :create
 end
 
+template "#{gitlab['home']}/.gemrc" do
+  source "gemrc.erb"
+  user gitlab['user']
+  group gitlab['group']
+  action :create
+end
+
 execute "Update rubygems" do
   command "gem update --system"
 end

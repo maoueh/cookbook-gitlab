@@ -11,6 +11,15 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to create_remote_file("Fetch the latest ca-bundle").with(owner: "git", group: "git", source: "http://curl.haxx.se/ca/cacert.pem", path: "/opt/local/etc/certs/cacert.pem")
       end
 
+      it 'creates a gemrc in git home directory' do
+        expect(chef_run).to create_template('/home/git/.gemrc').with(
+          source: "gemrc.erb",
+          user: "git",
+          group: "git"
+        )
+        expect(chef_run).to render_file('/home/git/.gemrc').with_content('gem: --no-ri --no-rdoc')
+      end
+
       it 'updates rubygems on system' do
         expect(chef_run).to run_execute('Update rubygems').with(command: "gem update --system")
       end
@@ -18,7 +27,7 @@ supported_platforms.each do |platform, versions|
       it 'executes bundle install with correct arguments' do
         resource = chef_run.find_resource(:execute, 'bundle install')
 
-        expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --no-ri --no-rdoc --without development test mysql")
+        expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test mysql")
         expect(resource.user).to eq("git")
         expect(resource.group).to eq("git")
         expect(resource.cwd).to eq("/home/git/gitlab")
@@ -34,7 +43,7 @@ supported_platforms.each do |platform, versions|
         it 'executes bundle install with correct arguments' do
           resource = chef_run.find_resource(:execute, 'bundle install')
 
-          expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --no-ri --no-rdoc --without development test postgresql")
+          expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test postgres")
           expect(resource.user).to eq("git")
           expect(resource.group).to eq("git")
           expect(resource.cwd).to eq("/home/git/gitlab")
@@ -46,6 +55,15 @@ supported_platforms.each do |platform, versions|
            ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['home'] = "/data/git"
           end.converge("gitlab::_gems")
+        end
+
+        it 'creates a gemrc in customized git home directory' do
+          expect(chef_run).to create_template('/data/git/.gemrc').with(
+            source: "gemrc.erb",
+            user: "git",
+            group: "git"
+          )
+          expect(chef_run).to render_file('/data/git/.gemrc').with_content('gem: --no-ri --no-rdoc')
         end
 
         it 'executes bundle install in customized working directory' do
