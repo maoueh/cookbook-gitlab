@@ -40,7 +40,7 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to create_directory("/home/git/repositories").with(
           user: 'git',
           group: 'git',
-          mode: 02770
+          mode: 0770
         )
       end
 

@@ -36,7 +36,7 @@ directory "Repositories path" do
   path gitlab['repos_path']
   owner gitlab['user']
   group gitlab['group']
-  mode 02770
+  mode 0770
 end
 
 directory "SSH key directory" do
