@@ -5,4 +5,5 @@
 	<buildpathentry kind="src" path="spec"/>
 	<buildpathentry kind="src" path="attributes"/>
 	<buildpathentry kind="con" path="org.eclipse.dltk.launching.INTERPRETER_CONTAINER"/>
+	<buildpathentry kind="src" path="test"/>
 </buildpath>

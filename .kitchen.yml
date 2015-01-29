@@ -14,6 +14,14 @@ platforms:
         natdnshostresolver1: "on"
       network:
         - ["private_network", {ip: "10.0.0.150"}]
+  - name: ubuntu-14.04
+    driver:
+      customize:
+        name: "kitchen-cookbook-gitlab-ubuntu-14.04"
+        memory: 1024
+        natdnshostresolver1: "on"
+      network:
+        - ["private_network", {ip: "10.0.0.151"}]
 
 suites:
   - name: mysql
@@ -28,4 +36,4 @@ suites:
       - recipe[gitlab::default]
     attributes:
       gitlab:
-        database_adapter: "mysql"
+        database_adapter: "postgresql"
