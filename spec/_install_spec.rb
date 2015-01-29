@@ -7,12 +7,21 @@ supported_platforms.each do |platform, versions|
         ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_install")
       end
 
-      it 'enables gitlab service' do
-        expect(chef_run).to enable_service('gitlab')
+      it 'creates required directories in the rails root' do
+        %w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
+          expect(chef_run).to create_directory("/home/git/gitlab/#{path}").with(
+            user: 'git',
+            group: 'git',
+            mode: 0755
+          )
+        end
       end
 
-      it 'does not run gitlab service unless subscribed' do
-        expect(chef_run).not_to start_service('gitlab')
+      it 'creates satellites directory' do
+       expect(chef_run).to create_directory("/home/git/gitlab-satellites").with(
+          user: 'git',
+          group: 'git'
+        )
       end
 
       it 'creates a gitlab config' do
@@ -100,23 +109,6 @@ supported_platforms.each do |platform, versions|
         expect(resource.environment).to eq('HOME' => "/home/git")
       end
 
-      it 'creates required directories in the rails root' do
-        %w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
-          expect(chef_run).to create_directory("/home/git/gitlab/#{path}").with(
-            user: 'git',
-            group: 'git',
-            mode: 0755
-          )
-        end
-      end
-
-      it 'creates satellites directory' do
-       expect(chef_run).to create_directory("/home/git/gitlab-satellites").with(
-          user: 'git',
-          group: 'git'
-        )
-      end
-
       it 'creates a unicorn config' do
         expect(chef_run).to create_template('/home/git/gitlab/config/unicorn.rb').with(
           source: 'unicorn.rb.erb',
@@ -128,39 +120,10 @@ supported_platforms.each do |platform, versions|
         )
       end
 
-      it 'creates gitlab init.d script' do
-        expect(chef_run).to create_template('/etc/init.d/gitlab').with(
-          source: 'gitlab.init.d.erb',
-          mode: 0755
-        )
-      end
-
-      it 'creates gitlab default configuration file' do
-        expect(chef_run).to create_template('/etc/default/gitlab').with(
-          source: 'gitlab.default.erb',
-          mode: 0755,
-          variables: {
-            app_user: 'git',
-            app_root: '/home/git/gitlab'
-          }
-        )
-      end
-
       it 'creates rack_attack.rb file' do
         expect(chef_run).to create_template('/home/git/gitlab/config/initializers/rack_attack.rb').with(
           source: 'rack_attack.rb.erb',
           mode: 0644
-        )
-      end
-
-      it 'creates logrotate config' do
-        expect(chef_run).to create_template('/etc/logrotate.d/gitlab').with(
-          source: 'logrotate.erb',
-          mode: 0644,
-          variables: {
-            gitlab_path: '/home/git/gitlab',
-            gitlab_shell_path: '/home/git/gitlab-shell',
-          }
         )
       end
 
@@ -178,13 +141,22 @@ supported_platforms.each do |platform, versions|
         )
       end
 
-      it 'runs an execute to rake db:schema:load' do
-        expect(chef_run).not_to run_execute('rake db:schema:load')
+      it 'executes bundle install with correct arguments' do
+        resource = chef_run.find_resource(:execute, 'bundle install')
+
+        expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test mysql")
+        expect(resource.user).to eq("git")
+        expect(resource.group).to eq("git")
+        expect(resource.cwd).to eq("/home/git/gitlab")
+      end
+
+      it 'runs an execute to rake db:setup' do
+        expect(chef_run).not_to run_execute('rake db:setup')
       end
 
       it 'runs db setup' do
-        resource = chef_run.find_resource(:execute, 'rake db:schema:load')
-        expect(resource.command).to eq("PATH=#{env_path(chef_run.node)} RAILS_ENV=production bundle exec rake db:schema:load")
+        resource = chef_run.find_resource(:execute, 'rake db:setup')
+        expect(resource.command).to eq("PATH=#{env_path(chef_run.node)} RAILS_ENV=production bundle exec rake db:setup")
         expect(resource.user).to eq("git")
         expect(resource.group).to eq("git")
         expect(resource.cwd).to eq("/home/git/gitlab")
@@ -215,6 +187,55 @@ supported_platforms.each do |platform, versions|
         expect(resource.environment).to eq("GITLAB_ROOT_PASSWORD" => nil)
       end
 
+      it 'creates logrotate config' do
+        expect(chef_run).to create_template('/etc/logrotate.d/gitlab').with(
+          source: 'logrotate.erb',
+          mode: 0644,
+          variables: {
+            gitlab_path: '/home/git/gitlab',
+            gitlab_shell_path: '/home/git/gitlab-shell',
+          }
+        )
+      end
+
+      it 'creates gitlab init.d script' do
+        case
+        when platform == 'centos'
+          services = ["redis0", "postgresql-9.3"]
+        when platform == 'ubuntu'
+          services = ["redis0", "postgresql"]
+        end
+
+        expect(chef_run).to create_template('/etc/init.d/gitlab').with(
+          source: 'gitlab.init.d.erb',
+          mode: 0755,
+          variables: {
+            required_services: services
+          }
+        )
+
+        expect(chef_run).to render_file('/etc/init.d/gitlab').with_content('# Required-Start:    $local_fs $remote_fs $network $syslog redis0 postgresql')
+      end
+
+      it 'creates gitlab default configuration file' do
+        expect(chef_run).to create_template('/etc/default/gitlab').with(
+          source: 'gitlab.default.erb',
+          mode: 0755,
+          variables: {
+            app_user: 'git',
+            app_root: '/home/git/gitlab'
+          }
+        )
+      end
+
+      it 'enables gitlab service' do
+        expect(chef_run).to enable_service('gitlab')
+      end
+
+      it 'starts gitlab service' do
+        expect(chef_run).to start_service('gitlab')
+      end
+
       describe "when using mysql" do
         let(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
@@ -234,6 +255,25 @@ supported_platforms.each do |platform, versions|
               socket: nil,
             }
           )
+        end
+
+        it 'executes bundle install with correct arguments' do
+          resource = chef_run.find_resource(:execute, 'bundle install')
+
+          expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test postgres")
+          expect(resource.user).to eq("git")
+          expect(resource.group).to eq("git")
+          expect(resource.cwd).to eq("/home/git/gitlab")
+        end
+
+        it 'creates gitlab init.d script' do
+          expect(chef_run).to create_template('/etc/init.d/gitlab').with(
+            variables: {
+              required_services: ["redis0", "mysql-gitlab"]
+            }
+          )
+
+          expect(chef_run).to render_file('/etc/init.d/gitlab').with_content('# Required-Start:    $local_fs $remote_fs $network $syslog redis0 mysql-gitlab')
         end
       end
 
@@ -285,15 +325,6 @@ supported_platforms.each do |platform, versions|
           end.converge("gitlab::_install")
         end
 
-        it 'creates a gitlab config' do
-          expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
-        end
-
-        it 'updates git config' do
-          resource = chef_run.find_resource(:bash, 'git config')
-          expect(resource.environment).to eq('HOME' =>"/data/git")
-        end
-
         it 'creates required directories in the rails root' do
           %w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
             expect(chef_run).to create_directory("/data/git/gitlab/#{path}").with(
@@ -306,6 +337,15 @@ supported_platforms.each do |platform, versions|
 
         it 'creates satellites directory' do
          expect(chef_run).to create_directory("/data/git/gitlab-satellites")
+        end
+
+        it 'creates a gitlab config' do
+          expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+        end
+
+        it 'updates git config' do
+          resource = chef_run.find_resource(:bash, 'git config')
+          expect(resource.environment).to eq('HOME' =>"/data/git")
         end
 
         it 'creates a unicorn config' do
@@ -321,6 +361,10 @@ supported_platforms.each do |platform, versions|
           )
         end
 
+        it 'creates a database config' do
+          expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+        end
+
         it 'creates logrotate config' do
           expect(chef_run).to create_template('/etc/logrotate.d/gitlab').with(
             variables: {
@@ -330,12 +374,14 @@ supported_platforms.each do |platform, versions|
           )
         end
 
-        it 'creates a database config' do
-          expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
+        it 'executes bundle install in customized working directory' do
+          resource = chef_run.find_resource(:execute, 'bundle install')
+
+          expect(resource.cwd).to eq("/data/git/gitlab")
         end
 
         it 'runs db setup' do
-          resource = chef_run.find_resource(:execute, 'rake db:schema:load')
+          resource = chef_run.find_resource(:execute, 'rake db:setup')
           expect(resource.cwd).to eq("/data/git/gitlab")
         end
 

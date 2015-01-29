@@ -33,5 +33,6 @@ git "clone gitlabhq source" do
   user gitlab['user']
   group gitlab['group']
   ssh_wrapper "#{gitlab['home']}/.ssh/deploy-ssh-wrapper.sh" unless gitlab['deploy_key'].empty?
+
   action :sync
 end

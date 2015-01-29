@@ -24,32 +24,6 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to run_execute('Update rubygems').with(command: "gem update --system")
       end
 
-      it 'executes bundle install with correct arguments' do
-        resource = chef_run.find_resource(:execute, 'bundle install')
-
-        expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test mysql")
-        expect(resource.user).to eq("git")
-        expect(resource.group).to eq("git")
-        expect(resource.cwd).to eq("/home/git/gitlab")
-      end
-
-      describe "when using mysql" do
-        let(:chef_run) do
-           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
-            node.set['gitlab']['database_adapter'] = "mysql"
-          end.converge("gitlab::_gems")
-        end
-
-        it 'executes bundle install with correct arguments' do
-          resource = chef_run.find_resource(:execute, 'bundle install')
-
-          expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test postgres")
-          expect(resource.user).to eq("git")
-          expect(resource.group).to eq("git")
-          expect(resource.cwd).to eq("/home/git/gitlab")
-        end
-      end
-
       describe "when customizing gitlab user home" do
         let(:chef_run) do
            ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
@@ -64,12 +38,6 @@ supported_platforms.each do |platform, versions|
             group: "git"
           )
           expect(chef_run).to render_file('/data/git/.gemrc').with_content('gem: --no-ri --no-rdoc')
-        end
-
-        it 'executes bundle install in customized working directory' do
-          resource = chef_run.find_resource(:execute, 'bundle install')
-
-          expect(resource.cwd).to eq("/data/git/gitlab")
         end
       end
     end

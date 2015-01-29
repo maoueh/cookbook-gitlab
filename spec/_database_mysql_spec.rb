@@ -9,6 +9,10 @@ supported_platforms.each do |platform, versions|
         end.converge("gitlab::_database_mysql")
       end
 
+      it "does not set build-essential at compile time" do
+        expect(chef_run.node['build-essential']['compile_time']).to eq(false)
+      end
+
       it "configures correctly selinux::disabled recipe" do
         case platform
         when 'centos'

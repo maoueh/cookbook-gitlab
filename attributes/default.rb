@@ -1,5 +1,8 @@
 # GitLab Common Attributes
 
+default['gitlab']['force_install'] = false
+default['gitlab']['force_upgrade'] = false
+
 ## User
 
 default['gitlab']['user'] = "git"
@@ -194,6 +197,9 @@ when "rhel"
   default['postgresql']['server']['service_name'] = "postgresql-#{node['postgresql']['version']}"
   default['gitlab']['postgresql']['configuration_dir'] = "/usr/pgsql-#{node['postgresql']['version']}/bin"
 end
+
+# We need compile time build-essential if database_adapter is postgresql
+default['build-essential']['compile_time'] = true if node['gitlab']['database_adapter'] == 'postgresql'
 
 ## Redis
 include_attribute 'redisio'

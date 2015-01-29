@@ -12,6 +12,10 @@ supported_platforms.each do |platform, versions|
         stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(false)
       end
 
+      it "sets build-essential at compile time" do
+        expect(chef_run.node['build-essential']['compile_time']).to eq(true)
+      end
+
       it "includes recipes from external cookbooks" do
         expect(chef_run).to include_recipe("postgresql::server")
         expect(chef_run).to include_recipe("database::postgresql")

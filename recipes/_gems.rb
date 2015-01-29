@@ -33,12 +33,3 @@ end
 execute "Update rubygems" do
   command "gem update --system"
 end
-
-execute "bundle install" do
-  command GitLab.bundle_install(node)
-  cwd gitlab['path']
-  user gitlab['user']
-  group gitlab['group']
-  action File.exists?("#{gitlab['home']}/Gemfile.lock") ? :nothing : :run
-  subscribes :run, "git[clone gitlabhq source]", :immediately
-end

@@ -5,6 +5,38 @@
 
 gitlab = node['gitlab']
 
+##
+#  * Installation
+#     - bundle install (current: when gitlab clone resource ran)
+#     - rake db:setup (current: when database creation resource ran)
+#     - rake db:seed_fu (current: when db:setup resource ran)
+#     - rake db:migrate (current when either db:setup or gitlab clone resources ran)
+#     - rake assets:clean (current when db:migration resource ran)
+#     - rake assets:precompile (current when db:migration resource ran)
+#     - rake cache:clear (current when db:migration resource ran)
+#
+#  * Update
+#     - bundle install (current: when gitlab clone resource ran)
+#     - rake db:migrate (current when either db:setup or gitlab clone resources ran)
+#     - rake assets:clean (current when db:migration resource ran)
+#     - rake assets:precompile (current when db:migration resource ran)
+#     - rake cache:clear (current when db:migration resource ran)
+#
+
+%w{log tmp tmp/pids tmp/sockets public/uploads}.each do |folder|
+  directory "#{gitlab['path']}/#{folder}" do
+    owner gitlab['user']
+    group gitlab['group']
+    mode 0755
+  end
+end
+
+directory gitlab['satellites_path'] do
+  owner gitlab['user']
+  group gitlab['group']
+  mode 0750
+end
+
 template "#{gitlab['path']}/config/gitlab.yml" do
   source "gitlab.yml.erb"
   user gitlab['user']
@@ -47,43 +79,7 @@ template "#{gitlab['path']}/config/gitlab.yml" do
   })
 
   notifies :run, "bash[git config]", :immediately
-  notifies :reload, "service[gitlab]"
-end
-
-%w{log tmp tmp/pids tmp/sockets public/uploads}.each do |folder|
-  directory "#{gitlab['path']}/#{folder}" do
-    owner gitlab['user']
-    group gitlab['group']
-    mode 0755
-  end
-end
-
-directory gitlab['satellites_path'] do
-  owner gitlab['user']
-  group gitlab['group']
-  mode 0750
-end
-
-template "#{gitlab['path']}/config/unicorn.rb" do
-  source "unicorn.rb.erb"
-  user gitlab['user']
-  group gitlab['group']
-  variables({
-    :app_root => gitlab['path'],
-    :unicorn_workers_number => gitlab['unicorn_workers_number'],
-    :unicorn_timeout => gitlab['unicorn_timeout']
-  })
-
-  notifies :reload, "service[gitlab]"
-end
-
-template "#{gitlab['path']}/config/initializers/rack_attack.rb" do
-  source "rack_attack.rb.erb"
-  user gitlab['user']
-  group gitlab['group']
-  mode 0644
-
-  notifies :reload, "service[gitlab]"
+  notifies :restart, "service[gitlab]", :delayed
 end
 
 bash "git config" do
@@ -110,74 +106,39 @@ template "#{gitlab['path']}/config/database.yml" do
     :socket => gitlab['database_adapter'] == "mysql" ? node['mysql']['server']['socket'] : nil
   })
 
-  notifies :reload, "service[gitlab]"
+  notifies :restart, "service[gitlab]", :delayed
 end
 
 file "#{gitlab['path']}/config/resque.yml" do
   content "production: unix:#{gitlab['redis_unixsocket']}"
   user gitlab['user']
   group gitlab['group']
+
+  notifies :restart, "service[gitlab]", :delayed
 end
 
-execute "rake db:schema:load" do
-  command GitLab.bundle_exec_rake(node, "db:schema:load")
-  cwd gitlab['path']
+template "#{gitlab['path']}/config/unicorn.rb" do
+  source "unicorn.rb.erb"
   user gitlab['user']
   group gitlab['group']
-  action :nothing
+  variables({
+    :app_root => gitlab['path'],
+    :unicorn_workers_number => gitlab['unicorn_workers_number'],
+    :unicorn_timeout => gitlab['unicorn_timeout']
+  })
 
-  subscribes :run, "mysql_database[gitlabhq_production]"
-  subscribes :run, "postgresql_database[gitlabhq_production]"
+  notifies :restart, "service[gitlab]", :delayed
 end
 
-execute "rake db:migrate" do
-  command GitLab.bundle_exec_rake(node, "db:migrate")
-  cwd gitlab['path']
+template "#{gitlab['path']}/config/initializers/rack_attack.rb" do
+  source "rack_attack.rb.erb"
   user gitlab['user']
   group gitlab['group']
-  action :nothing
-
-  subscribes :run, "git[clone gitlabhq source]"
-  subscribes :run, "execute[rake db:schema:load]"
-end
-
-execute "rake db:seed_fu" do
-  command GitLab.bundle_exec_rake(node, "db:seed_fu")
-  cwd gitlab['path']
-  user gitlab['user']
-  group gitlab['group']
-  environment ({'GITLAB_ROOT_PASSWORD' => gitlab['admin_root_password']})
-  action :nothing
-
-  subscribes :run, "execute[rake db:schema:load]"
-end
-
-template "/etc/init.d/gitlab" do
-  source "gitlab.init.d.erb"
-  mode 0755
-end
-
-template "/etc/default/gitlab" do
-  source "gitlab.default.erb"
-  mode 0755
-
-  variables(
-    :app_user => gitlab['user'],
-    :app_root => gitlab['path']
-  )
-end
-
-template "/etc/logrotate.d/gitlab" do
-  source "logrotate.erb"
   mode 0644
 
-  variables(
-    :gitlab_path => gitlab['path'],
-    :gitlab_shell_path => gitlab['shell_path']
-  )
+  notifies :restart, "service[gitlab]", :delayed
 end
 
-# SMTP email settings
 if gitlab['smtp']['enabled']
   smtp = gitlab['smtp']
   template "#{gitlab['path']}/config/initializers/smtp_settings.rb" do
@@ -193,8 +154,48 @@ if gitlab['smtp']['enabled']
       :authentication => smtp['authentication'],
       :enable_starttls_auto => smtp['enable_starttls_auto']
     })
-    notifies :reload, "service[gitlab]"
+
+    notifies :restart, "service[gitlab]", :delayed
   end
+end
+
+execute "bundle install" do
+  command GitLab.bundle_install(node)
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+
+  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  notifies :restart, "service[gitlab]", :delayed
+end
+
+execute "rake db:setup" do
+  command GitLab.bundle_exec_rake(node, "db:setup")
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+
+  only_if { GitLab.install?(self) }
+end
+
+execute "rake db:seed_fu" do
+  command GitLab.bundle_exec_rake(node, "db:seed_fu")
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+  environment ({'GITLAB_ROOT_PASSWORD' => gitlab['admin_root_password']})
+
+  only_if { GitLab.install?(self) }
+end
+
+execute "rake db:migrate" do
+  command GitLab.bundle_exec_rake(node, "db:migrate")
+  cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
+
+  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  notifies :restart, "service[gitlab]", :delayed
 end
 
 execute "rake assets:clean" do
@@ -202,8 +203,9 @@ execute "rake assets:clean" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  action :nothing
-  subscribes :run, "execute[rake db:migrate]", :immediately
+
+  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  notifies :restart, "service[gitlab]", :delayed
 end
 
 execute "rake assets:precompile" do
@@ -211,8 +213,9 @@ execute "rake assets:precompile" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  action :nothing
-  subscribes :run, "execute[rake db:migrate]", :immediately
+
+  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  notifies :restart, "service[gitlab]", :delayed
 end
 
 execute "rake cache:clear" do
@@ -220,16 +223,42 @@ execute "rake cache:clear" do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  action :nothing
-  subscribes :run, "execute[rake db:migrate]", :immediately
+
+  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  notifies :restart, "service[gitlab]", :delayed
+end
+
+template "/etc/logrotate.d/gitlab" do
+  source "logrotate.erb"
+  mode 0644
+  variables(
+    :gitlab_path => gitlab['path'],
+    :gitlab_shell_path => gitlab['shell_path']
+  )
+end
+
+template "/etc/init.d/gitlab" do
+  source "gitlab.init.d.erb"
+  mode 0755
+  variables(
+    :required_services => GitLab.required_services(node)
+  )
+end
+
+template "/etc/default/gitlab" do
+  source "gitlab.default.erb"
+  mode 0755
+  variables(
+    :app_user => gitlab['user'],
+    :app_root => gitlab['path']
+  )
 end
 
 service "gitlab" do
   supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
-  action :enable
+  action [:enable, :start]
 
-  subscribes :start, "execute[rake db:migrate]"
-  subscribes :reload, "execute[rake assets:precompile]"
   subscribes :restart, "directory[#{gitlab['redis_socket_directory']}]"
+  subscribes :restart, "bash[update redis init.d script runuser group]"
 end
 
