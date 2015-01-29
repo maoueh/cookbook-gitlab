@@ -23,9 +23,9 @@ supported_platforms.each do |platform, versions|
       it "changes redis init.d exec command" do
         case platform
         when 'centos'
-          code = "sed -i s#'EXEC=\"runuser.*\"'#'EXEC=\"runuser redis -g git -c \\\\\"/usr/local/bin/redis-server /etc/redis/${REDISNAME}.conf\\\\\"\"'# /etc/init.d/redis0"
+          code = "sed -i s#'EXEC=\"runuser redis -c.*\"'#'EXEC=\"runuser redis -g git -c \\\\\"/usr/local/bin/redis-server /etc/redis/${REDISNAME}.conf\\\\\"\"'# /etc/init.d/redis0"
         when 'ubuntu'
-          code = "sed -i s#'EXEC=\"su.*\"'#'EXEC=\"sudo -u redis -g git /usr/local/bin/redis-server /etc/redis/${REDISNAME}.conf\"'# /etc/init.d/redis0"
+          code = "sed -i s#'EXEC=\"su -s.*\"'#'EXEC=\"sudo -u redis -g git /usr/local/bin/redis-server /etc/redis/${REDISNAME}.conf\"'# /etc/init.d/redis0"
         end
 
         expect(chef_run).to run_bash("change redis init.d exec command").with(
