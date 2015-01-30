@@ -51,6 +51,7 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     :issue_closing_pattern => gitlab['issue_closing_pattern'],
     :max_size => gitlab['max_size'],
     :git_timeout => gitlab['git_timeout'],
+    :git_bin_path => gitlab['git_bin_path'],
     :satellites_path => gitlab['satellites_path'],
     :satellites_timeout => gitlab['satellites_timeout'],
     :repos_path => gitlab['repos_path'],

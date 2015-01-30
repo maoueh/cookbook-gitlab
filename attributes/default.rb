@@ -51,6 +51,7 @@ default['gitlab']['timezone'] = "UTC"
 default['gitlab']['issue_closing_pattern'] = "([Cc]lose[sd]|[Ff]ixe[sd]) #(\d+)"
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
 default['gitlab']['git_timeout'] = 10
+default['gitlab']['git_bin_path'] = "/usr/local/bin/git"
 default['gitlab']['signup_enabled'] = false
 default['gitlab']['signin_enabled'] = true
 default['gitlab']['projects_limit'] = 10

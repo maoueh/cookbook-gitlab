@@ -37,6 +37,7 @@ supported_platforms.each do |platform, versions|
             issue_closing_pattern: "([Cc]lose[sd]|[Ff]ixe[sd]) #(\d+)",
             max_size: '20971520',
             git_timeout: 10,
+            git_bin_path: '/usr/local/bin/git',
             satellites_path: '/home/git/gitlab-satellites',
             satellites_timeout: 30,
             repos_path: '/home/git/repositories',
