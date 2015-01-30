@@ -18,9 +18,31 @@ Other than keeping the cookbook up to date with GitLab, I add little to no
 new features to this cookbook. I'm not investing a lot of time maintaining
 this cookbook.
 
+### Semantic Versioning
+
+For this cookbook, there is two major concerns about semantic versioning.
+We want an easy to match this cookbook and GitLab version installed and
+want also to ensure users upgrading between versions of this cookbook.
+
+As such, here the semantic versioning used by this cookbook.
+
+ * The major version is used to denote breaking changes within this cookbook.
+ * The minor and patch versions are used for version of GitLab installed.
+
+For example, current version is `1.7.7` meaning we are installing GitLab version
+`7.7`.
+
+Bug fixes and new features not breaking compatibility will be performed
+between GitLab releases so going to `1.7.8` or `1.8.0` for example.
+
+Breaking changes within the cookbook are made only on the major version,
+but will feel weird as minor and patch will still follow Gitlab version.
+
+For example, next breaking change version could be `2.7.9` for example.
+
 ### Versions
 
-* GitLab: 7.6.x
+* GitLab: 7.7.x
 * GitLab Shell: 2.4.0
 * Ruby: 2.1.2
 * Redis: 2.8.17

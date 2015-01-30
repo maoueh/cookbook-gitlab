@@ -10,7 +10,7 @@ supported_platforms.each do |platform, versions|
       it "clones the gitlab repository" do
         expect(chef_run).to sync_git('/home/git/gitlab').with(
           repository: 'https://github.com/gitlabhq/gitlabhq.git',
-          revision: '7-6-stable',
+          revision: '7-7-stable',
           user: 'git',
           group: 'git'
         )
@@ -24,12 +24,7 @@ supported_platforms.each do |platform, versions|
         end
 
         it "clones the gitlab repository" do
-          expect(chef_run).to sync_git('/data/git/gitlab').with(
-            repository: 'https://github.com/gitlabhq/gitlabhq.git',
-            revision: '7-6-stable',
-            user: 'git',
-            group: 'git'
-          )
+          expect(chef_run).to sync_git('/data/git/gitlab')
         end
       end
     end
