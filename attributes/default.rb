@@ -27,7 +27,7 @@ default['gitlab']['satellites_timeout'] = 30
 
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = "v2.4.1"
+default['gitlab']['shell_revision'] = "v2.4.2"
 
 ## Backup
 
