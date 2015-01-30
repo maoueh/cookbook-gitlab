@@ -8,10 +8,6 @@ gitlab = node['gitlab']
 
 # 5.Database
 unless gitlab['external_database']
-  if node["platform_family"] == 'rhel'
-    include_recipe "selinux::#{node['selinux']['state'].downcase}"
-  end
-
   mysql_service mysql['server']['instance'] do
     port mysql['server']['port']
     version mysql['server']['version']

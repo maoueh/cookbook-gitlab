@@ -13,17 +13,6 @@ supported_platforms.each do |platform, versions|
         expect(chef_run.node['build-essential']['compile_time']).to eq(false)
       end
 
-      it "configures correctly selinux::disabled recipe" do
-        case platform
-        when 'centos'
-          expect(chef_run).to include_recipe("selinux::disabled")
-        when 'ubuntu'
-          expect(chef_run).to_not include_recipe("selinux::disabled")
-        else
-          raise "Platform #{platform} is not tested"
-        end
-      end
-
       it "creates gitlab mysql service" do
         expect(chef_run).to create_mysql_service("gitlab")
       end
@@ -42,10 +31,6 @@ supported_platforms.each do |platform, versions|
             node.set['gitlab']['external_database'] = true
             node.set['gitlab']['database_adapter'] = "mysql"
           end.converge("gitlab::_database_mysql")
-        end
-
-        it "never includes selinux::disabled recipe" do
-          expect(chef_run).to_not include_recipe("selinux::disabled")
         end
 
         it "skips creates gitlab mysql service" do

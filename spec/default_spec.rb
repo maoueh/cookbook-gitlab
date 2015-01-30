@@ -34,6 +34,17 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to_not include_recipe("gitlab::_database_mysql")
       end
 
+      it "configures correctly selinux::disabled recipe" do
+        case platform
+        when 'centos'
+          expect(chef_run).to include_recipe("selinux::disabled")
+        when 'ubuntu'
+          expect(chef_run).to_not include_recipe("selinux::disabled")
+        else
+          raise "Platform #{platform} is not tested"
+        end
+      end
+
       describe "when database adapter is mysql" do
         let(:chef_run) do
            ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|

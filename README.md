@@ -23,8 +23,8 @@ this cookbook.
 * GitLab: 7.6.x
 * GitLab Shell: 2.4.0
 * Ruby: 2.1.2
-* Redis: 2.6.13
-* Git: 2.0.0
+* Redis: 2.8.17
+* Git: 2.1.4
 * Nginx: 1.1.19
 * PostgreSQL: 9.3
 * MySQL: 5.5.34
@@ -34,32 +34,39 @@ this cookbook.
 Cookbook should be compatible with the following operating systems,
 only CentOS is fully tested right now.
 
-* Ubuntu (12.04, 12.10, 14.04)
-* RHEL/CentOS (6.5)
+ * Ubuntu (12.04, 12.10, 14.04)
+ * RHEL/CentOS (6.5)
 
-### Security
+### SELinux
 
-On RHEL platforms,`selinux` is disabled when using the recipe to
-install MySQL database. The main reasons for this is that the `mysql`
-cookbook is not built to work out of the box with `selinux` enabled.
+On RHEL platforms,`selinux` is disabled by default in the cookbook.
+The main reason for this is because, well, because I'm lazy and I did not
+want to spend the time necessary for now to fix this.
 
-For simplicity, instead of implementing it in the cookbook, I decided
-to disable `selinux` completely. If you do not want this behavior,
-you have two options.
+The attributes and various access must be defined correctly for Nginx
+to access GitLab content in home directory. And when using MySQL, there
+is also some attributes that must be defined correctly.
 
-First, you can install yourself MySQL by setting the attribute
-`node['gitlab']['external_database']` to `true`. This will not
-configure internally `mysql` and hence, it will not disable
-`selinux`.
+Hence, for simplicity, instead of implementing it in the cookbook, I decided
+to disable `selinux` completely. If you do not want this behavior, you can
+do the following.
 
-Second, you can set the attribute `node['selinux']['state']` to
-`:enforcing` (or `:permissive`) and ensure the right SELinux context
-are set on the different folders MySQL should have access to. Here
-some commands that were used to make it work on CentOS 6.6:
+Wrap this cookbook using a wrapper cookbook. Set the attribute  `node['selinux']['state']`
+to `:enforcing` (or `:permissive`). Then, implement the necessary to make it
+work.
+
+Here some preliminary data information to make mysql work with SELinux
+(also a good remainder for me for later on):
 
     semanage fcontext -a -t mysqld_db_t "/var/lib/mysql-gitlab(/.*)?"
     semanage fcontext -a -t mysqld_db_t "/var/run/mysql-gitlab(/.*)?"
     semanage fcontext -a -t mysqld_db_t "/var/log/mysql-gitlab(/.*)?"
+
+On my side, I really want to make it work correctly at some point in
+time. I'm planning to use [chef-selinuxpolicy cookbook](https://github.com/BackSlasher/chef-selinuxpolicy).
+If you give it a shot, tell me how it was in the issues.
+
+Finally, sorry http://stopdisablingselinux.com/.
 
 ## Recipes
 

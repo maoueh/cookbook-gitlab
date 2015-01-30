@@ -5,6 +5,16 @@
 
 gitlab = node['gitlab']
 
+if node["platform_family"] == 'rhel'
+  # Too lazy for now to make SELinux work correctly (sorry http://stopdisablingselinux.com)
+  #  - MySQL database paths contexts must be defined
+  #  - Nginx paths contexts must be defined.
+  #
+  # Thinking about using https://github.com/BackSlasher/chef-selinuxpolicy
+  #
+  include_recipe "selinux::#{node['selinux']['state'].downcase}"
+end
+
 include_recipe "gitlab::_users"
 
 include_recipe "gitlab::_packages"
