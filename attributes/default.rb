@@ -2,7 +2,7 @@
 
 default['gitlab']['force_install'] = false
 default['gitlab']['force_upgrade'] = false
-default['gitlab']['prevent_install'] = true
+default['gitlab']['prevent_install'] = false
 
 ## User
 
