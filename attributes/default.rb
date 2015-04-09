@@ -2,6 +2,7 @@
 
 default['gitlab']['force_install'] = false
 default['gitlab']['force_upgrade'] = false
+default['gitlab']['prevent_install'] = true
 
 ## User
 
@@ -13,7 +14,7 @@ default['gitlab']['home'] = "/home/git"
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = "7-7-stable"
+default['gitlab']['revision'] = "7-9-stable"
 default['gitlab']['url'] = "http://localhost:80/"
 default['gitlab']['port'] = "80"
 
@@ -27,7 +28,7 @@ default['gitlab']['satellites_timeout'] = 30
 
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = "v2.4.2"
+default['gitlab']['shell_revision'] = "v2.6.0"
 
 ## Backup
 
@@ -44,17 +45,15 @@ default['gitlab']['backup']['backup_path'] = 'tmp/backups'
 
 default['gitlab']['host'] = "localhost"
 default['gitlab']['email_enabled'] = true
+default['gitlab']['email_display_name'] = "GitLab"
 default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['ssh_port'] = "22"
 
 default['gitlab']['timezone'] = "UTC"
-default['gitlab']['issue_closing_pattern'] = "([Cc]lose[sd]|[Ff]ixe[sd]) #(\d+)"
+default['gitlab']['issue_closing_pattern'] = "((?:[Cc]los(?:e[sd]|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)"
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
 default['gitlab']['git_timeout'] = 10
 default['gitlab']['git_bin_path'] = "/usr/local/bin/git"
-default['gitlab']['signup_enabled'] = false
-default['gitlab']['signin_enabled'] = true
-default['gitlab']['projects_limit'] = 10
 default['gitlab']['user_can_create_group'] = true
 default['gitlab']['user_can_change_username'] = true
 default['gitlab']['default_theme'] = 2
@@ -65,15 +64,14 @@ default['gitlab']['oauth_allow_single_sign_on'] = false
 default['gitlab']['oauth_providers'] = []
 
 default['gitlab']['extra']['google_analytics_id'] = ""
-default['gitlab']['extra']['sign_in_text'] = ""
 
 default['gitlab']['ldap']['enabled'] = false
 default['gitlab']['ldap']['label'] = "LDAP"
 default['gitlab']['ldap']['host'] = "_your_ldap_server"
 default['gitlab']['ldap']['base'] = "_the_base_where_you_search_for_users"
-default['gitlab']['ldap']['port'] = 636
+default['gitlab']['ldap']['port'] = 389
 default['gitlab']['ldap']['uid'] = "sAMAccountName"
-default['gitlab']['ldap']['method'] = "ssl"
+default['gitlab']['ldap']['method'] = "plain"
 default['gitlab']['ldap']['bind_dn'] = "_the_full_dn_of_the_user_you_will_bind_with"
 default['gitlab']['ldap']['password'] = "_the_password_of_the_bind_user"
 default['gitlab']['ldap']['allow_username_or_email_login'] = true
@@ -93,7 +91,7 @@ default['gitlab']['default_projects_features']['visibility_level'] = "private"
 
 default['gitlab']['webhook_timeout'] = 10
 default['gitlab']['admin_root_password'] = nil
-default['gitlab']['unicorn_workers_number'] = 2
+default['gitlab']['unicorn_workers_number'] = 3
 default['gitlab']['unicorn_timeout'] = 60
 
 ## Git
@@ -129,13 +127,13 @@ when "debian"
   default['gitlab']['packages'] = %w{
     build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
     curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev python-docutils
-    logrotate vim curl wget checkinstall cmake
+    libkrb5-dev logrotate vim curl wget checkinstall cmake nodejs
   }
 when "rhel"
   default['gitlab']['packages'] = %w{
     libicu-devel libxslt-devel libyaml-devel libxml2-devel gdbm-devel libffi-devel zlib-devel openssl-devel
     libyaml-devel readline-devel curl-devel openssl-devel pcre-devel mysql-devel gcc-c++
-    ImageMagick-devel ImageMagick cmake
+    krb5-devel ImageMagick-devel ImageMagick cmake nodejs
   }
 end
 
