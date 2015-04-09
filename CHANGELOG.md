@@ -1,4 +1,5 @@
 # 2.7.9 (In progress)
+# 2.7.9 (April 08, 2015)
 
  * Updated `gitlab` to `7.9.x`.
 
