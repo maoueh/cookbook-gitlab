@@ -28,70 +28,67 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to create_template('/home/git/gitlab/config/gitlab.yml').with(
           source: 'gitlab.yml.erb',
           variables: {
-            host: 'localhost',
-            port: '80',
-            user: 'git',
-            email_enabled: true,
-            email_from: 'gitlab@localhost',
-            timezone: 'UTC',
-            issue_closing_pattern: "([Cc]lose[sd]|[Ff]ixe[sd]) #(\d+)",
-            max_size: '20971520',
-            git_timeout: 10,
-            git_bin_path: '/usr/local/bin/git',
-            satellites_path: '/home/git/gitlab-satellites',
-            satellites_timeout: 30,
-            repos_path: '/home/git/repositories',
-            shell_path: '/home/git/gitlab-shell',
-            signup_enabled: false,
-            signin_enabled: true,
-            projects_limit: 10,
-            user_can_create_group: true,
-            user_can_change_username: true,
-            default_theme: 2,
-            repository_downloads_path: 'tmp/repositories',
-            oauth_enabled: false,
-            oauth_block_auto_created_users: true,
-            oauth_allow_single_sign_on: false,
-            oauth_providers: [],
-            google_analytics_id: "",
-            sign_in_text: "",
-            ssh_port: "22",
-            default_projects_features: {
-              "issues"=>true,
-              "merge_requests"=>true,
-              "wiki"=>true,
-              "snippets"=>false,
-              "visibility_level"=>"private"
-              },
-            webhook_timeout: 10,
-            gravatar: true,
-            gravatar_plain_url: "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
-            gravatar_ssl_url: "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
-            ldap_config: {
-              "enabled"=>false,
-              "label"=>"LDAP",
-              "host"=>"_your_ldap_server",
-              "base"=>"_the_base_where_you_search_for_users",
-              "port"=>636,
-              "uid"=>"sAMAccountName",
-              "method"=>"ssl",
-              "bind_dn"=>"_the_full_dn_of_the_user_you_will_bind_with",
-              "password"=>"_the_password_of_the_bind_user",
-              "user_filter"=>"",
-              "active_directory"=>true,
-              "allow_username_or_email_login"=>true
+            "host" => 'localhost',
+            "port" => '80',
+            "user" => 'git',
+            "email_enabled" => true,
+            "email_display_name" => 'GitLab',
+            "email_from" => 'gitlab@localhost',
+            "timezone" => 'UTC',
+            "issue_closing_pattern" => "((?:[Cc]los(?:e[sd]|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)",
+            "max_size" => '20971520',
+            "git_timeout" => 10,
+            "git_bin_path" => '/usr/local/bin/git',
+            "satellites_path" => '/home/git/gitlab-satellites',
+            "satellites_timeout" => 30,
+            "repos_path" => '/home/git/repositories',
+            "shell_path" => '/home/git/gitlab-shell',
+            "user_can_create_group" => true,
+            "user_can_change_username" => true,
+            "default_theme" => 2,
+            "repository_downloads_path" => 'tmp/repositories',
+            "oauth_enabled" => false,
+            "oauth_block_auto_created_users" => true,
+            "oauth_allow_single_sign_on" => false,
+            "oauth_providers" => [],
+            "google_analytics_id" => "",
+            "ssh_port" => "22",
+            "default_projects_features" => {
+              "issues" => true,
+              "merge_requests" => true,
+              "wiki" => true,
+              "snippets" => false,
+              "visibility_level" => "private",
             },
-            backup: {
-              "enable"=>true,
-              "cron"=>{
-                "action"=>:create,
-                "minute"=>0,
-                "hour"=>2,
-                "mailto"=>"gitlab@localhost",
-                "path"=>"/usr/local/bin:/usr/bin:/bin"
+            "webhook_timeout" => 10,
+            "gravatar" => true,
+            "gravatar_plain_url" => "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
+            "gravatar_ssl_url" => "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
+            "ldap_config" => {
+              "enabled" => false,
+              "label" => "LDAP",
+              "host" => "_your_ldap_server",
+              "base" => "_the_base_where_you_search_for_users",
+              "port" => 389,
+              "uid" => "sAMAccountName",
+              "method" => "plain",
+              "bind_dn" => "_the_full_dn_of_the_user_you_will_bind_with",
+              "password" => "_the_password_of_the_bind_user",
+              "user_filter" => "",
+              "active_directory" => true,
+              "allow_username_or_email_login" => true,
+            },
+            "backup" => {
+              "enable" => true,
+              "cron" => {
+                "action" => :create,
+                "minute" => 0,
+                "hour" => 2,
+                "mailto" => "gitlab@localhost",
+                "path" => "/usr/local/bin:/usr/bin:/bin",
               },
-              "backup_keep_time"=>0,
-              "backup_path"=>"tmp/backups"
+              "backup_keep_time" => 0,
+              "backup_path" => "tmp/backups",
             }
           }
         )
@@ -114,9 +111,9 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to create_template('/home/git/gitlab/config/unicorn.rb').with(
           source: 'unicorn.rb.erb',
           variables: {
-            app_root: "/home/git/gitlab",
-            unicorn_workers_number: 2,
-            unicorn_timeout: 60
+            "app_root" => "/home/git/gitlab",
+            "unicorn_workers_number" => 3,
+            "unicorn_timeout" => 60
           }
         )
       end
@@ -134,10 +131,10 @@ supported_platforms.each do |platform, versions|
           user: 'git',
           group: 'git',
           variables: {
-            user: 'git',
-            password: 'datapass',
-            host: "localhost",
-            socket: nil
+            "user" => 'git',
+            "password" => 'datapass',
+            "host" => "localhost",
+            "socket" => nil
           }
         )
       end
@@ -193,8 +190,8 @@ supported_platforms.each do |platform, versions|
           source: 'logrotate.erb',
           mode: 0644,
           variables: {
-            gitlab_path: '/home/git/gitlab',
-            gitlab_shell_path: '/home/git/gitlab-shell',
+            "gitlab_path" => '/home/git/gitlab',
+            "gitlab_shell_path" => '/home/git/gitlab-shell',
           }
         )
       end
@@ -211,7 +208,7 @@ supported_platforms.each do |platform, versions|
           source: 'gitlab.init.d.erb',
           mode: 0755,
           variables: {
-            required_services: services
+            "required_services" => services
           }
         )
 
@@ -223,8 +220,8 @@ supported_platforms.each do |platform, versions|
           source: 'gitlab.default.erb',
           mode: 0755,
           variables: {
-            app_user: 'git',
-            app_root: '/home/git/gitlab'
+            "app_user" => 'git',
+            "app_root" => '/home/git/gitlab'
           }
         )
       end
@@ -250,10 +247,10 @@ supported_platforms.each do |platform, versions|
             user: 'git',
             group: 'git',
             variables: {
-              user: 'git',
-              password: 'datapass',
-              host: "127.0.0.1",
-              socket: nil,
+              "user" => 'git',
+              "password" => 'datapass',
+              "host" => "127.0.0.1",
+              "socket" => nil,
             }
           )
         end
@@ -270,7 +267,7 @@ supported_platforms.each do |platform, versions|
         it 'creates gitlab init.d script' do
           expect(chef_run).to create_template('/etc/init.d/gitlab').with(
             variables: {
-              required_services: ["redis0", "mysql-gitlab"]
+              "required_services" => ["redis0", "mysql-gitlab"]
             }
           )
 
@@ -292,10 +289,10 @@ supported_platforms.each do |platform, versions|
             user: 'git',
             group: 'git',
             variables: {
-              user: 'git',
-              password: 'datapass',
-              host: "127.0.0.1",
-              socket: "/tmp/mysql.sock"
+              "user" => 'git',
+              "password" => 'datapass',
+              "host" => "127.0.0.1",
+              "socket" => "/tmp/mysql.sock"
             }
           )
         end
@@ -356,8 +353,8 @@ supported_platforms.each do |platform, versions|
         it 'creates gitlab default configuration file' do
           expect(chef_run).to create_template('/etc/default/gitlab').with(
             variables: {
-              app_user: 'git',
-              app_root: '/data/git/gitlab'
+              "app_user" => 'git',
+              "app_root" => '/data/git/gitlab'
             }
           )
         end
@@ -369,8 +366,8 @@ supported_platforms.each do |platform, versions|
         it 'creates logrotate config' do
           expect(chef_run).to create_template('/etc/logrotate.d/gitlab').with(
             variables: {
-              gitlab_path: '/data/git/gitlab',
-              gitlab_shell_path: '/data/git/gitlab-shell',
+              "gitlab_path" => '/data/git/gitlab',
+              "gitlab_shell_path" => '/data/git/gitlab-shell',
             }
           )
         end

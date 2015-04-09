@@ -55,6 +55,8 @@ class Chef
       end
 
       def self.install?(recipe)
+        return false if recipe.node['gitlab']['prevent_install']
+
         resource_ran?(recipe, "mysql_database[gitlabhq_production]") ||
         resource_ran?(recipe, "postgresql_database[gitlabhq_production]") ||
         recipe.node['gitlab']['force_install'] == true
