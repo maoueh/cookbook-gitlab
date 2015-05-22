@@ -34,8 +34,9 @@ supported_platforms.each do |platform, versions|
             "email_enabled" => true,
             "email_display_name" => 'GitLab',
             "email_from" => 'gitlab@localhost',
+            "email_reply_to" => 'noreply@localhost',
             "timezone" => 'UTC',
-            "issue_closing_pattern" => "((?:[Cc]los(?:e[sd]|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)",
+            "issue_closing_pattern" => "((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)",
             "max_size" => '20971520',
             "git_timeout" => 10,
             "git_bin_path" => '/usr/local/bin/git',
@@ -77,6 +78,7 @@ supported_platforms.each do |platform, versions|
               "user_filter" => "",
               "active_directory" => true,
               "allow_username_or_email_login" => true,
+              "block_auto_created_users" => false,
             },
             "backup" => {
               "enable" => true,

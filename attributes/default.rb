@@ -14,7 +14,7 @@ default['gitlab']['home'] = "/home/git"
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = "7-9-stable"
+default['gitlab']['revision'] = "7-10-stable"
 default['gitlab']['url'] = "http://localhost:80/"
 default['gitlab']['port'] = "80"
 
@@ -28,7 +28,7 @@ default['gitlab']['satellites_timeout'] = 30
 
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = "v2.6.0"
+default['gitlab']['shell_revision'] = "v2.6.2"
 
 ## Backup
 
@@ -47,10 +47,11 @@ default['gitlab']['host'] = "localhost"
 default['gitlab']['email_enabled'] = true
 default['gitlab']['email_display_name'] = "GitLab"
 default['gitlab']['email_from'] = "gitlab@localhost"
+default['gitlab']['email_reply_to'] = "noreply@localhost"
 default['gitlab']['ssh_port'] = "22"
 
 default['gitlab']['timezone'] = "UTC"
-default['gitlab']['issue_closing_pattern'] = "((?:[Cc]los(?:e[sd]|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)"
+default['gitlab']['issue_closing_pattern'] = "((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)"
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
 default['gitlab']['git_timeout'] = 10
 default['gitlab']['git_bin_path'] = "/usr/local/bin/git"
@@ -77,6 +78,7 @@ default['gitlab']['ldap']['password'] = "_the_password_of_the_bind_user"
 default['gitlab']['ldap']['allow_username_or_email_login'] = true
 default['gitlab']['ldap']['active_directory'] = true
 default['gitlab']['ldap']['allow_username_or_email_login'] = true
+default['gitlab']['ldap']['block_auto_created_users'] = false
 default['gitlab']['ldap']['user_filter'] = ''
 
 default['gitlab']['gravatar'] = true

@@ -48,6 +48,7 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     "email_enabled" => gitlab['email_enabled'],
     "email_display_name" => gitlab['email_display_name'],
     "email_from" => gitlab['email_from'],
+    "email_reply_to" => gitlab['email_reply_to'],
     "timezone" => gitlab['timezone'],
     "issue_closing_pattern" => gitlab['issue_closing_pattern'],
     "max_size" => gitlab['max_size'],
