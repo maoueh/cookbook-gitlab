@@ -1,4 +1,4 @@
-# 2.7.11 (In progress)
+# 2.7.11 (June 15, 2015)
 
  * Updated `gitlab` to `7.11.x`.
 
