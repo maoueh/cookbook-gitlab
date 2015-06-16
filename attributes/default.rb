@@ -14,7 +14,7 @@ default['gitlab']['home'] = "/home/git"
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = "7-10-stable"
+default['gitlab']['revision'] = "7-11-stable"
 default['gitlab']['url'] = "http://localhost:80/"
 default['gitlab']['port'] = "80"
 
@@ -28,7 +28,7 @@ default['gitlab']['satellites_timeout'] = 30
 
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = "v2.6.2"
+default['gitlab']['shell_revision'] = "v2.6.3"
 
 ## Backup
 
@@ -89,7 +89,6 @@ default['gitlab']['default_projects_features']['issues'] = true
 default['gitlab']['default_projects_features']['merge_requests'] = true
 default['gitlab']['default_projects_features']['wiki'] = true
 default['gitlab']['default_projects_features']['snippets'] = false
-default['gitlab']['default_projects_features']['visibility_level'] = "private"
 
 default['gitlab']['webhook_timeout'] = 10
 default['gitlab']['admin_root_password'] = nil

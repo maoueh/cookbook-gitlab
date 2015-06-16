@@ -1,5 +1,9 @@
 # 2.7.11 (In progress)
 
+ * Updated `gitlab` to `7.11.x`.
+
+ * Updated `gitlab-shell` to `2.6.3`.
+
 # 2.7.10 (May 21, 2015)
 
  * Updated `gitlab` to `7.10.x`.

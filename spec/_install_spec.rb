@@ -59,7 +59,6 @@ supported_platforms.each do |platform, versions|
               "merge_requests" => true,
               "wiki" => true,
               "snippets" => false,
-              "visibility_level" => "private",
             },
             "webhook_timeout" => 10,
             "gravatar" => true,
