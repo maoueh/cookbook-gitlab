@@ -3,7 +3,7 @@ require 'spec_helper'
 supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_gitlab_shell under #{platform} @ #{version}" do
-      let(:chef_run) do
+      cached(:chef_run) do
          ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_gitlab_shell")
       end
 
@@ -65,7 +65,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "when customizing gitlab user home" do
-        let(:chef_run) do
+        cached(:chef_run) do
            ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['home'] = "/data/git"
           end.converge("gitlab::_gitlab_shell")

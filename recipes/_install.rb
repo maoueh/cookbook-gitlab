@@ -58,12 +58,14 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     "satellites_timeout" => gitlab['satellites_timeout'],
     "repos_path" => gitlab['repos_path'],
     "shell_path" => gitlab['shell_path'],
+    "shell_secret_file" => gitlab['shell_secret_file'],
     "user_can_create_group" => gitlab['user_can_create_group'],
     "user_can_change_username" => gitlab['user_can_change_username'],
     "default_theme" => gitlab['default_theme'],
     "repository_downloads_path" => gitlab['repository_downloads_path'],
     "oauth_enabled" => gitlab['oauth_enabled'],
     "oauth_block_auto_created_users" => gitlab['oauth_block_auto_created_users'],
+    "oauth_auto_link_ldap_user" => gitlab['oauth_auto_link_ldap_user'],
     "oauth_allow_single_sign_on" => gitlab['oauth_allow_single_sign_on'],
     "oauth_providers" => gitlab['oauth_providers'],
     "google_analytics_id" => gitlab['extra']['google_analytics_id'],
@@ -249,7 +251,8 @@ template "/etc/default/gitlab" do
   mode 0755
   variables(
     "app_user" => gitlab['user'],
-    "app_root" => gitlab['path']
+    "app_root" => gitlab['path'],
+    "shell_path" => gitlab['shell']
   )
 end
 

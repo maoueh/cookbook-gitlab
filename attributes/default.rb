@@ -11,10 +11,11 @@ default['gitlab']['group'] = "git"
 default['gitlab']['user_uid'] = nil # Use to specify user id.
 default['gitlab']['user_gid'] = nil # Use to specify group id.
 default['gitlab']['home'] = "/home/git"
+default['gitlab']['shell'] = "/bin/bash"
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = "7-11-stable"
+default['gitlab']['revision'] = "7-12-stable"
 default['gitlab']['url'] = "http://localhost:80/"
 default['gitlab']['port'] = "80"
 
@@ -29,6 +30,7 @@ default['gitlab']['satellites_timeout'] = 30
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
 default['gitlab']['shell_revision'] = "v2.6.3"
+default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
 
 ## Backup
 
@@ -61,6 +63,7 @@ default['gitlab']['default_theme'] = 2
 default['gitlab']['repository_downloads_path'] = "tmp/repositories"
 default['gitlab']['oauth_enabled'] = false
 default['gitlab']['oauth_block_auto_created_users'] = true
+default['gitlab']['oauth_auto_link_ldap_user'] = false
 default['gitlab']['oauth_allow_single_sign_on'] = false
 default['gitlab']['oauth_providers'] = []
 
@@ -98,9 +101,9 @@ default['gitlab']['unicorn_timeout'] = 60
 ## Git
 
 default['git']['prefix'] = '/usr/local'
-default['git']['version'] = '2.1.4'
+default['git']['version'] = '2.4.7'
 default['git']['url'] = "https://github.com/git/git/archive/v#{node['git']['version']}.tar.gz"
-default['git']['checksum'] = '87ee4f10a64646daeaa4fed38da8afd48d60af18da51b59b6beea05345b06764'
+default['git']['checksum'] = 'de2b14efa156aeb15d455cc0b23f08b3098c2212ef4d9d42b7e95bbaa0e67199'
 
 ## Mail
 

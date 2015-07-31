@@ -3,13 +3,13 @@ require 'spec_helper'
 supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::default under #{platform} @ #{version}" do
-      let(:chef_run) do
+      cached(:chef_run) do
          ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::default")
       end
 
       before do
-        stub_command("test -f /var/chef/cache/git-2.1.4.tar.gz").and_return(true)
-        stub_command("git --version | grep 2.1.4").and_return(true)
+        stub_command("test -f /var/chef/cache/git-2.4.7.tar.gz").and_return(true)
+        stub_command("git --version | grep 2.4.7").and_return(true)
         stub_command("git --version >/dev/null").and_return(true)
         stub_command("ls /var/lib/pgsql/data/recovery.conf").and_return(true)
         stub_command("ls /var/lib/postgresql/9.3/main/recovery.conf").and_return(true)
@@ -46,7 +46,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "when database adapter is mysql" do
-        let(:chef_run) do
+        cached(:chef_run) do
            ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['database_adapter'] = "mysql"
           end.converge("gitlab::default")

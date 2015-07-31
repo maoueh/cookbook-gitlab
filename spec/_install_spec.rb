@@ -3,7 +3,7 @@ require 'spec_helper'
 supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_install under #{platform} @ #{version}" do
-      let(:chef_run) do
+      cached(:chef_run) do
         ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_install")
       end
 
@@ -44,12 +44,14 @@ supported_platforms.each do |platform, versions|
             "satellites_timeout" => 30,
             "repos_path" => '/home/git/repositories',
             "shell_path" => '/home/git/gitlab-shell',
+            "shell_secret_file" => '/home/git/gitlab/.gitlab_shell_secret',
             "user_can_create_group" => true,
             "user_can_change_username" => true,
             "default_theme" => 2,
             "repository_downloads_path" => 'tmp/repositories',
             "oauth_enabled" => false,
             "oauth_block_auto_created_users" => true,
+            "oauth_auto_link_ldap_user" => false,
             "oauth_allow_single_sign_on" => false,
             "oauth_providers" => [],
             "google_analytics_id" => "",
@@ -222,7 +224,8 @@ supported_platforms.each do |platform, versions|
           mode: 0755,
           variables: {
             "app_user" => 'git',
-            "app_root" => '/home/git/gitlab'
+            "app_root" => '/home/git/gitlab',
+            "shell_path" => '/bin/bash'
           }
         )
       end
@@ -236,7 +239,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "when using mysql" do
-        let(:chef_run) do
+        cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['database_adapter'] = "mysql"
           end.converge("gitlab::_install")
@@ -277,7 +280,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "when using mysql with custom server socket" do
-        let(:chef_run) do
+        cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['database_adapter'] = "mysql"
             node.set['mysql']['server']['socket'] = "/tmp/mysql.sock"
@@ -300,7 +303,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "when supplying root password" do
-        let(:chef_run) do
+        cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
           end.converge("gitlab::_install")
@@ -318,7 +321,7 @@ supported_platforms.each do |platform, versions|
 
       describe "when customizing gitlab user home" do
         # Only test stuff that change when git user home is different
-        let(:chef_run) do
+        cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['home'] = "/data/git"
           end.converge("gitlab::_install")
@@ -335,10 +338,19 @@ supported_platforms.each do |platform, versions|
         end
 
         it 'creates satellites directory' do
-         expect(chef_run).to create_directory("/data/git/gitlab-satellites")
+          expect(chef_run).to create_directory("/data/git/gitlab-satellites")
         end
 
         it 'creates a gitlab config' do
+          resource = chef_run.find_resource(:template, '/data/git/gitlab/config/gitlab.yml')
+
+          expect(resource.variables["satellites_path"]).to eq('/data/git/gitlab-satellites')
+          expect(resource.variables["repos_path"]).to eq('/data/git/repositories')
+          expect(resource.variables["shell_path"]).to eq('/data/git/gitlab-shell')
+          expect(resource.variables["shell_secret_file"]).to eq('/data/git/gitlab/.gitlab_shell_secret')
+        end
+
+        it 'creates a gitlab database config' do
           expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
         end
 
@@ -355,7 +367,8 @@ supported_platforms.each do |platform, versions|
           expect(chef_run).to create_template('/etc/default/gitlab').with(
             variables: {
               "app_user" => 'git',
-              "app_root" => '/data/git/gitlab'
+              "app_root" => '/data/git/gitlab',
+              "shell_path" => '/bin/bash'
             }
           )
         end

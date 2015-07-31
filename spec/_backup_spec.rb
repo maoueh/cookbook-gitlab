@@ -4,7 +4,7 @@ require 'spec_helper'
 supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_backup under #{platform} @ #{version}" do
-      let(:chef_run) do
+      cached(:chef_run) do
         ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_backup")
       end
 
@@ -18,7 +18,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "when backup disabled" do
-        let(:chef_run) do
+        cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['backup']['enable'] = false
           end.converge("gitlab::_backup")

@@ -1,4 +1,8 @@
-# 2.7.12 (In progress)
+# 2.7.12 (July 30, 2015)
+
+ * Updated `gitlab` to `7.12.x`
+
+ * Updated default `git` installation to `2.4.7`.
 
 # 2.7.11 (June 15, 2015)
 

@@ -3,7 +3,7 @@ require 'spec_helper'
 supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_users under #{platform} @ #{version}" do
-      let(:chef_run) do
+      cached(:chef_run) do
          ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_users")
       end
 

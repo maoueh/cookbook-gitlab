@@ -110,7 +110,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "when customizing install_nginx" do
-        let(:chef_run) do
+        cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['install_nginx'] = false
           end.converge("gitlab::_nginx")

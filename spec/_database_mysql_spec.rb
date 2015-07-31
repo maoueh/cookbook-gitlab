@@ -3,7 +3,7 @@ require 'spec_helper'
 supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_database_mysql under #{platform} @ #{version}" do
-      let(:chef_run) do
+      cached(:chef_run) do
         ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
           node.set['gitlab']['database_adapter'] = "mysql"
         end.converge("gitlab::_database_mysql")
@@ -26,7 +26,7 @@ supported_platforms.each do |platform, versions|
       end
 
       describe "with external database" do
-        let(:chef_run) do
+        cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['external_database'] = true
             node.set['gitlab']['database_adapter'] = "mysql"

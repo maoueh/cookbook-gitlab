@@ -3,11 +3,11 @@ require 'spec_helper'
 supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_packages under #{platform} @ #{version}" do
-      let(:chef_run) { ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_packages") }
+      cached(:chef_run) { ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_packages") }
 
       before do
-        stub_command("test -f /var/chef/cache/git-2.1.4.tar.gz").and_return(false)
-        stub_command("git --version | grep 2.1.4").and_return(false)
+        stub_command("test -f /var/chef/cache/git-2.4.7.tar.gz").and_return(false)
+        stub_command("git --version | grep 2.4.7").and_return(false)
         stub_command("git --version >/dev/null").and_return(false)
       end
 
