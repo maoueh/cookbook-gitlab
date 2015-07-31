@@ -15,7 +15,7 @@ default['gitlab']['shell'] = "/bin/bash"
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = "7-12-stable"
+default['gitlab']['revision'] = "7-13-stable"
 default['gitlab']['url'] = "http://localhost:80/"
 default['gitlab']['port'] = "80"
 
