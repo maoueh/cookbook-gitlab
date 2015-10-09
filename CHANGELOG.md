@@ -1,3 +1,5 @@
+# 2.8.0 (In progress)
+
 # 2.7.14 (October 8, 2015)
 
  * Updated `gitlab` to `7.14.x`.
