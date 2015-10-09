@@ -1,12 +1,17 @@
-# 2.7.14 (In progress)
+# 2.7.14 (October 8, 2015)
+
+ * Updated `gitlab` to `7.14.x`.
+
+ * Fixed closing pattern regex. The digits group was not escaped correctly
+   and hence, pattern was not matched correctly.
 
 # 2.7.13 (July 30, 2015)
 
- * Updated `gitlab` to `7.13.x`
+ * Updated `gitlab` to `7.13.x`.
 
 # 2.7.12 (July 30, 2015)
 
- * Updated `gitlab` to `7.12.x`
+ * Updated `gitlab` to `7.12.x`.
 
  * Updated default `git` installation to `2.4.7`.
 

@@ -202,7 +202,12 @@ production: &base
     # Documentation for this is available at http://doc.gitlab.com/ce/integration/omniauth.html
     providers:
     <% @oauth_providers.each do |provider| %>
-      - { name: '<%= provider['name'] -%>', app_id: '<%= provider['app_id'] -%>', app_secret: '<%= provider['app_secret'] -%>' <%= ", args: { #{provider['args']} } " if provider['args'] %>}
+      - { name: '<%= provider['name'] -%>',
+          app_id: '<%= provider['app_id'] -%>',
+          app_secret: '<%= provider['app_secret'] -%>'
+          <%= ", label: #{provider['label']}" if provider['label'] %>
+          <%= ", args: { #{provider['args']} } " if provider['args'] %>
+        }
     <% end %>
 
   #
@@ -219,6 +224,7 @@ production: &base
   backup:
     path: "<%= @backup["backup_path"] %>"   # Relative paths are relative to Rails.root (default: tmp/backups/)
     keep_time: <%= @backup["backup_keep_time"] %>   # default: 0 (forever) (in seconds)
+    archive_permissions: <%= @backup["archive_permissions"] %> # Permissions for the resulting backup.tar file (default: 0600)
     # upload:
     #   # Fog storage connection settings, see http://fog.io/storage/ .
     #   connection:
@@ -309,6 +315,8 @@ test:
     # user: YOUR_USERNAME
   satellites:
     path: tmp/tests/gitlab-satellites/
+  backup:
+    path: tmp/tests/backups
   gitlab_shell:
     path: tmp/tests/gitlab-shell/
     repos_path: tmp/tests/repositories/

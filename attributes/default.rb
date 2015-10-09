@@ -15,7 +15,7 @@ default['gitlab']['shell'] = "/bin/bash"
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = "7-13-stable"
+default['gitlab']['revision'] = "7-14-stable"
 default['gitlab']['url'] = "http://localhost:80/"
 default['gitlab']['port'] = "80"
 
@@ -29,7 +29,7 @@ default['gitlab']['satellites_timeout'] = 30
 
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = "v2.6.3"
+default['gitlab']['shell_revision'] = "v2.6.5"
 default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
 
 ## Backup
@@ -42,6 +42,7 @@ default['gitlab']['backup']['cron']['mailto'] = 'gitlab@localhost'
 default['gitlab']['backup']['cron']['path'] = '/usr/local/bin:/usr/bin:/bin'
 default['gitlab']['backup']['backup_keep_time'] = 0
 default['gitlab']['backup']['backup_path'] = 'tmp/backups'
+default['gitlab']['backup']['archive_permissions'] = '0640'
 
 ## Config
 
@@ -53,7 +54,7 @@ default['gitlab']['email_reply_to'] = "noreply@localhost"
 default['gitlab']['ssh_port'] = "22"
 
 default['gitlab']['timezone'] = "UTC"
-default['gitlab']['issue_closing_pattern'] = "((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)"
+default['gitlab']['issue_closing_pattern'] = '((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)'
 default['gitlab']['max_size'] = "20971520" # 20.megabytes
 default['gitlab']['git_timeout'] = 10
 default['gitlab']['git_bin_path'] = "/usr/local/bin/git"

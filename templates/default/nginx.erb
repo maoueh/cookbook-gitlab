@@ -38,6 +38,11 @@ upstream gitlab {
   server unix:/<%= @path %>/tmp/sockets/gitlab.socket fail_timeout=0;
 }
 
+## Experimental: gitlab-git-http-server
+# upstream gitlab-git-http-server {
+#   server localhost:8181;
+# }
+
 <% if @port == '443' %>
 ## Redirects all traffic to the HTTPS host
 server {
@@ -165,6 +170,32 @@ server {
 
     proxy_pass http://gitlab;
   }
+
+  ## Experimental: send Git HTTP traffic to gitlab-git-http-server instead of Unicorn
+  # location ~ [-\/\w\.]+\.git\/ {
+  #   ## If you use HTTPS make sure you disable gzip compression
+  #   ## to be safe against BREACH attack.
+  #   <% if @port == '443' %>
+  #   gzip off;
+  #   <% else %>
+  #   gzip on;
+  #   <% end %>
+  #
+  #   ## https://github.com/gitlabhq/gitlabhq/issues/694
+  #   ## Some requests take more than 30 seconds.
+  #   proxy_read_timeout      300;
+  #   proxy_connect_timeout   300;
+  #   proxy_redirect          off;
+  #
+  #   proxy_set_header    Host                $http_host;
+  #   proxy_set_header    X-Real-IP           $remote_addr;
+  #   <% if @port == '443' %>
+  #   proxy_set_header    X-Forwarded-Ssl     on;
+  #   <% end %>
+  #   proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+  #   proxy_set_header    X-Forwarded-Proto   $scheme;
+  #   proxy_pass http://gitlab-git-http-server;
+  # }
 
   ## Enable gzip compression as per rails guide:
   ## http://guides.rubyonrails.org/asset_pipeline.html#gzip-compression

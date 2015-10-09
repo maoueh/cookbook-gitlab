@@ -4,7 +4,7 @@ supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_install under #{platform} @ #{version}" do
       cached(:chef_run) do
-        ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_install")
+        ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_install')
       end
 
       it 'creates required directories in the rails root' do
@@ -18,7 +18,7 @@ supported_platforms.each do |platform, versions|
       end
 
       it 'creates satellites directory' do
-       expect(chef_run).to create_directory("/home/git/gitlab-satellites").with(
+       expect(chef_run).to create_directory('/home/git/gitlab-satellites').with(
           user: 'git',
           group: 'git'
         )
@@ -28,70 +28,71 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to create_template('/home/git/gitlab/config/gitlab.yml').with(
           source: 'gitlab.yml.erb',
           variables: {
-            "host" => 'localhost',
-            "port" => '80',
-            "user" => 'git',
-            "email_enabled" => true,
-            "email_display_name" => 'GitLab',
-            "email_from" => 'gitlab@localhost',
-            "email_reply_to" => 'noreply@localhost',
-            "timezone" => 'UTC',
-            "issue_closing_pattern" => "((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)",
-            "max_size" => '20971520',
-            "git_timeout" => 10,
-            "git_bin_path" => '/usr/local/bin/git',
-            "satellites_path" => '/home/git/gitlab-satellites',
-            "satellites_timeout" => 30,
-            "repos_path" => '/home/git/repositories',
-            "shell_path" => '/home/git/gitlab-shell',
-            "shell_secret_file" => '/home/git/gitlab/.gitlab_shell_secret',
-            "user_can_create_group" => true,
-            "user_can_change_username" => true,
-            "default_theme" => 2,
-            "repository_downloads_path" => 'tmp/repositories',
-            "oauth_enabled" => false,
-            "oauth_block_auto_created_users" => true,
-            "oauth_auto_link_ldap_user" => false,
-            "oauth_allow_single_sign_on" => false,
-            "oauth_providers" => [],
-            "google_analytics_id" => "",
-            "ssh_port" => "22",
-            "default_projects_features" => {
-              "issues" => true,
-              "merge_requests" => true,
-              "wiki" => true,
-              "snippets" => false,
+            'host' => 'localhost',
+            'port' => '80',
+            'user' => 'git',
+            'email_enabled' => true,
+            'email_display_name' => 'GitLab',
+            'email_from' => 'gitlab@localhost',
+            'email_reply_to' => 'noreply@localhost',
+            'timezone' => 'UTC',
+            'issue_closing_pattern' => '((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)',
+            'max_size' => '20971520',
+            'git_timeout' => 10,
+            'git_bin_path' => '/usr/local/bin/git',
+            'satellites_path' => '/home/git/gitlab-satellites',
+            'satellites_timeout' => 30,
+            'repos_path' => '/home/git/repositories',
+            'shell_path' => '/home/git/gitlab-shell',
+            'shell_secret_file' => '/home/git/gitlab/.gitlab_shell_secret',
+            'user_can_create_group' => true,
+            'user_can_change_username' => true,
+            'default_theme' => 2,
+            'repository_downloads_path' => 'tmp/repositories',
+            'oauth_enabled' => false,
+            'oauth_block_auto_created_users' => true,
+            'oauth_auto_link_ldap_user' => false,
+            'oauth_allow_single_sign_on' => false,
+            'oauth_providers' => [],
+            'google_analytics_id' => '',
+            'ssh_port' => '22',
+            'default_projects_features' => {
+              'issues' => true,
+              'merge_requests' => true,
+              'wiki' => true,
+              'snippets' => false,
             },
-            "webhook_timeout" => 10,
-            "gravatar" => true,
-            "gravatar_plain_url" => "http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
-            "gravatar_ssl_url" => "https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon",
-            "ldap_config" => {
-              "enabled" => false,
-              "label" => "LDAP",
-              "host" => "_your_ldap_server",
-              "base" => "_the_base_where_you_search_for_users",
-              "port" => 389,
-              "uid" => "sAMAccountName",
-              "method" => "plain",
-              "bind_dn" => "_the_full_dn_of_the_user_you_will_bind_with",
-              "password" => "_the_password_of_the_bind_user",
-              "user_filter" => "",
-              "active_directory" => true,
-              "allow_username_or_email_login" => true,
-              "block_auto_created_users" => false,
+            'webhook_timeout' => 10,
+            'gravatar' => true,
+            'gravatar_plain_url' => 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon',
+            'gravatar_ssl_url' => 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon',
+            'ldap_config' => {
+              'enabled' => false,
+              'label' => 'LDAP',
+              'host' => '_your_ldap_server',
+              'base' => '_the_base_where_you_search_for_users',
+              'port' => 389,
+              'uid' => 'sAMAccountName',
+              'method' => 'plain',
+              'bind_dn' => '_the_full_dn_of_the_user_you_will_bind_with',
+              'password' => '_the_password_of_the_bind_user',
+              'user_filter' => '',
+              'active_directory' => true,
+              'allow_username_or_email_login' => true,
+              'block_auto_created_users' => false,
             },
-            "backup" => {
-              "enable" => true,
-              "cron" => {
-                "action" => :create,
-                "minute" => 0,
-                "hour" => 2,
-                "mailto" => "gitlab@localhost",
-                "path" => "/usr/local/bin:/usr/bin:/bin",
+            'backup' => {
+              'enable' => true,
+              'cron' => {
+                'action' => :create,
+                'minute' => 0,
+                'hour' => 2,
+                'mailto' => 'gitlab@localhost',
+                'path' => '/usr/local/bin:/usr/bin:/bin',
               },
-              "backup_keep_time" => 0,
-              "backup_path" => "tmp/backups",
+              'backup_keep_time' => 0,
+              'backup_path' => 'tmp/backups',
+              'archive_permissions' => '0640'
             }
           }
         )
@@ -105,18 +106,18 @@ supported_platforms.each do |platform, versions|
       it 'updates git config' do
         resource = chef_run.find_resource(:bash, 'git config')
         expect(resource.code).to eq("    git config --global user.name \"GitLab\"\n    git config --global user.email \"gitlab@localhost\"\n    git config --global core.autocrlf input\n")
-        expect(resource.user).to eq("git")
-        expect(resource.group).to eq("git")
-        expect(resource.environment).to eq('HOME' => "/home/git")
+        expect(resource.user).to eq('git')
+        expect(resource.group).to eq('git')
+        expect(resource.environment).to eq('HOME' => '/home/git')
       end
 
       it 'creates a unicorn config' do
         expect(chef_run).to create_template('/home/git/gitlab/config/unicorn.rb').with(
           source: 'unicorn.rb.erb',
           variables: {
-            "app_root" => "/home/git/gitlab",
-            "unicorn_workers_number" => 3,
-            "unicorn_timeout" => 60
+            'app_root' => '/home/git/gitlab',
+            'unicorn_workers_number' => 3,
+            'unicorn_timeout' => 60
           }
         )
       end
@@ -134,10 +135,10 @@ supported_platforms.each do |platform, versions|
           user: 'git',
           group: 'git',
           variables: {
-            "user" => 'git',
-            "password" => 'datapass',
-            "host" => "localhost",
-            "socket" => nil
+            'user' => 'git',
+            'password' => 'datapass',
+            'host' => 'localhost',
+            'socket' => nil
           }
         )
       end
@@ -146,9 +147,9 @@ supported_platforms.each do |platform, versions|
         resource = chef_run.find_resource(:execute, 'bundle install')
 
         expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test mysql")
-        expect(resource.user).to eq("git")
-        expect(resource.group).to eq("git")
-        expect(resource.cwd).to eq("/home/git/gitlab")
+        expect(resource.user).to eq('git')
+        expect(resource.group).to eq('git')
+        expect(resource.cwd).to eq('/home/git/gitlab')
       end
 
       it 'runs an execute to rake db:setup' do
@@ -158,9 +159,9 @@ supported_platforms.each do |platform, versions|
       it 'runs db setup' do
         resource = chef_run.find_resource(:execute, 'rake db:setup')
         expect(resource.command).to eq("PATH=#{env_path(chef_run.node)} RAILS_ENV=production bundle exec rake db:setup")
-        expect(resource.user).to eq("git")
-        expect(resource.group).to eq("git")
-        expect(resource.cwd).to eq("/home/git/gitlab")
+        expect(resource.user).to eq('git')
+        expect(resource.group).to eq('git')
+        expect(resource.cwd).to eq('/home/git/gitlab')
       end
 
       it 'runs an execute to rake db:migrate' do
@@ -170,9 +171,9 @@ supported_platforms.each do |platform, versions|
       it 'runs db migrate' do
         resource = chef_run.find_resource(:execute, 'rake db:migrate')
         expect(resource.command).to eq("PATH=#{env_path(chef_run.node)} RAILS_ENV=production bundle exec rake db:migrate")
-        expect(resource.user).to eq("git")
-        expect(resource.group).to eq("git")
-        expect(resource.cwd).to eq("/home/git/gitlab")
+        expect(resource.user).to eq('git')
+        expect(resource.group).to eq('git')
+        expect(resource.cwd).to eq('/home/git/gitlab')
       end
 
       it 'runs an execute to rake db:seed' do
@@ -182,10 +183,10 @@ supported_platforms.each do |platform, versions|
       it 'runs db seed' do
         resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
         expect(resource.command).to eq("PATH=#{env_path(chef_run.node)} RAILS_ENV=production bundle exec rake db:seed_fu")
-        expect(resource.user).to eq("git")
-        expect(resource.group).to eq("git")
-        expect(resource.cwd).to eq("/home/git/gitlab")
-        expect(resource.environment).to eq("GITLAB_ROOT_PASSWORD" => nil)
+        expect(resource.user).to eq('git')
+        expect(resource.group).to eq('git')
+        expect(resource.cwd).to eq('/home/git/gitlab')
+        expect(resource.environment).to eq('GITLAB_ROOT_PASSWORD' => nil)
       end
 
       it 'creates logrotate config' do
@@ -193,8 +194,8 @@ supported_platforms.each do |platform, versions|
           source: 'logrotate.erb',
           mode: 0644,
           variables: {
-            "gitlab_path" => '/home/git/gitlab',
-            "gitlab_shell_path" => '/home/git/gitlab-shell',
+            'gitlab_path' => '/home/git/gitlab',
+            'gitlab_shell_path' => '/home/git/gitlab-shell',
           }
         )
       end
@@ -202,16 +203,16 @@ supported_platforms.each do |platform, versions|
       it 'creates gitlab init.d script' do
         case
         when platform == 'centos'
-          services = ["redis0", "postgresql-9.3"]
+          services = ['redis0', 'postgresql-9.3']
         when platform == 'ubuntu'
-          services = ["redis0", "postgresql"]
+          services = ['redis0', 'postgresql']
         end
 
         expect(chef_run).to create_template('/etc/init.d/gitlab').with(
           source: 'gitlab.init.d.erb',
           mode: 0755,
           variables: {
-            "required_services" => services
+            'required_services' => services
           }
         )
 
@@ -223,9 +224,9 @@ supported_platforms.each do |platform, versions|
           source: 'gitlab.default.erb',
           mode: 0755,
           variables: {
-            "app_user" => 'git',
-            "app_root" => '/home/git/gitlab',
-            "shell_path" => '/bin/bash'
+            'app_user' => 'git',
+            'app_root' => '/home/git/gitlab',
+            'shell_path' => '/bin/bash'
           }
         )
       end
@@ -238,11 +239,11 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to start_service('gitlab')
       end
 
-      describe "when using mysql" do
+      describe 'when using mysql' do
         cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
-            node.set['gitlab']['database_adapter'] = "mysql"
-          end.converge("gitlab::_install")
+            node.set['gitlab']['database_adapter'] = 'mysql'
+          end.converge('gitlab::_install')
         end
 
         it 'creates a database mysql config' do
@@ -251,10 +252,10 @@ supported_platforms.each do |platform, versions|
             user: 'git',
             group: 'git',
             variables: {
-              "user" => 'git',
-              "password" => 'datapass',
-              "host" => "127.0.0.1",
-              "socket" => nil,
+              'user' => 'git',
+              'password' => 'datapass',
+              'host' => '127.0.0.1',
+              'socket' => nil,
             }
           )
         end
@@ -263,15 +264,15 @@ supported_platforms.each do |platform, versions|
           resource = chef_run.find_resource(:execute, 'bundle install')
 
           expect(resource.command).to eq("SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem PATH=#{env_path(chef_run.node)} bundle install --path=.bundle --deployment --without development test postgres")
-          expect(resource.user).to eq("git")
-          expect(resource.group).to eq("git")
-          expect(resource.cwd).to eq("/home/git/gitlab")
+          expect(resource.user).to eq('git')
+          expect(resource.group).to eq('git')
+          expect(resource.cwd).to eq('/home/git/gitlab')
         end
 
         it 'creates gitlab init.d script' do
           expect(chef_run).to create_template('/etc/init.d/gitlab').with(
             variables: {
-              "required_services" => ["redis0", "mysql-gitlab"]
+              'required_services' => ['redis0', 'mysql-gitlab']
             }
           )
 
@@ -279,12 +280,12 @@ supported_platforms.each do |platform, versions|
         end
       end
 
-      describe "when using mysql with custom server socket" do
+      describe 'when using mysql with custom server socket' do
         cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
-            node.set['gitlab']['database_adapter'] = "mysql"
-            node.set['mysql']['server']['socket'] = "/tmp/mysql.sock"
-          end.converge("gitlab::_install")
+            node.set['gitlab']['database_adapter'] = 'mysql'
+            node.set['mysql']['server']['socket'] = '/tmp/mysql.sock'
+          end.converge('gitlab::_install')
         end
 
         it 'creates a database mysql config connecting through socket' do
@@ -293,38 +294,38 @@ supported_platforms.each do |platform, versions|
             user: 'git',
             group: 'git',
             variables: {
-              "user" => 'git',
-              "password" => 'datapass',
-              "host" => "127.0.0.1",
-              "socket" => "/tmp/mysql.sock"
+              'user' => 'git',
+              'password' => 'datapass',
+              'host' => '127.0.0.1',
+              'socket' => '/tmp/mysql.sock'
             }
           )
         end
       end
 
-      describe "when supplying root password" do
+      describe 'when supplying root password' do
         cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
-            node.set['gitlab']['admin_root_password'] = "NEWPASSWORD"
-          end.converge("gitlab::_install")
+            node.set['gitlab']['admin_root_password'] = 'NEWPASSWORD'
+          end.converge('gitlab::_install')
         end
 
         it 'runs db seed' do
           resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
           expect(resource.command).to eq("PATH=#{env_path(chef_run.node)} RAILS_ENV=production bundle exec rake db:seed_fu")
-          expect(resource.user).to eq("git")
-          expect(resource.group).to eq("git")
-          expect(resource.cwd).to eq("/home/git/gitlab")
-          expect(resource.environment).to eq("GITLAB_ROOT_PASSWORD" => "NEWPASSWORD")
+          expect(resource.user).to eq('git')
+          expect(resource.group).to eq('git')
+          expect(resource.cwd).to eq('/home/git/gitlab')
+          expect(resource.environment).to eq('GITLAB_ROOT_PASSWORD' => 'NEWPASSWORD')
         end
       end
 
-      describe "when customizing gitlab user home" do
+      describe 'when customizing gitlab user home' do
         # Only test stuff that change when git user home is different
         cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
-            node.set['gitlab']['home'] = "/data/git"
-          end.converge("gitlab::_install")
+            node.set['gitlab']['home'] = '/data/git'
+          end.converge('gitlab::_install')
         end
 
         it 'creates required directories in the rails root' do
@@ -338,16 +339,16 @@ supported_platforms.each do |platform, versions|
         end
 
         it 'creates satellites directory' do
-          expect(chef_run).to create_directory("/data/git/gitlab-satellites")
+          expect(chef_run).to create_directory('/data/git/gitlab-satellites')
         end
 
         it 'creates a gitlab config' do
           resource = chef_run.find_resource(:template, '/data/git/gitlab/config/gitlab.yml')
 
-          expect(resource.variables["satellites_path"]).to eq('/data/git/gitlab-satellites')
-          expect(resource.variables["repos_path"]).to eq('/data/git/repositories')
-          expect(resource.variables["shell_path"]).to eq('/data/git/gitlab-shell')
-          expect(resource.variables["shell_secret_file"]).to eq('/data/git/gitlab/.gitlab_shell_secret')
+          expect(resource.variables['satellites_path']).to eq('/data/git/gitlab-satellites')
+          expect(resource.variables['repos_path']).to eq('/data/git/repositories')
+          expect(resource.variables['shell_path']).to eq('/data/git/gitlab-shell')
+          expect(resource.variables['shell_secret_file']).to eq('/data/git/gitlab/.gitlab_shell_secret')
         end
 
         it 'creates a gitlab database config' do
@@ -356,7 +357,7 @@ supported_platforms.each do |platform, versions|
 
         it 'updates git config' do
           resource = chef_run.find_resource(:bash, 'git config')
-          expect(resource.environment).to eq('HOME' =>"/data/git")
+          expect(resource.environment).to eq('HOME' =>'/data/git')
         end
 
         it 'creates a unicorn config' do
@@ -366,9 +367,9 @@ supported_platforms.each do |platform, versions|
         it 'creates gitlab default configuration file' do
           expect(chef_run).to create_template('/etc/default/gitlab').with(
             variables: {
-              "app_user" => 'git',
-              "app_root" => '/data/git/gitlab',
-              "shell_path" => '/bin/bash'
+              'app_user' => 'git',
+              'app_root' => '/data/git/gitlab',
+              'shell_path' => '/bin/bash'
             }
           )
         end
@@ -380,8 +381,8 @@ supported_platforms.each do |platform, versions|
         it 'creates logrotate config' do
           expect(chef_run).to create_template('/etc/logrotate.d/gitlab').with(
             variables: {
-              "gitlab_path" => '/data/git/gitlab',
-              "gitlab_shell_path" => '/data/git/gitlab-shell',
+              'gitlab_path' => '/data/git/gitlab',
+              'gitlab_shell_path' => '/data/git/gitlab-shell',
             }
           )
         end
@@ -389,22 +390,22 @@ supported_platforms.each do |platform, versions|
         it 'executes bundle install in customized working directory' do
           resource = chef_run.find_resource(:execute, 'bundle install')
 
-          expect(resource.cwd).to eq("/data/git/gitlab")
+          expect(resource.cwd).to eq('/data/git/gitlab')
         end
 
         it 'runs db setup' do
           resource = chef_run.find_resource(:execute, 'rake db:setup')
-          expect(resource.cwd).to eq("/data/git/gitlab")
+          expect(resource.cwd).to eq('/data/git/gitlab')
         end
 
         it 'runs db migrate' do
           resource = chef_run.find_resource(:execute, 'rake db:migrate')
-          expect(resource.cwd).to eq("/data/git/gitlab")
+          expect(resource.cwd).to eq('/data/git/gitlab')
         end
 
         it 'runs db seed' do
           resource = chef_run.find_resource(:execute, 'rake db:seed_fu')
-          expect(resource.cwd).to eq("/data/git/gitlab")
+          expect(resource.cwd).to eq('/data/git/gitlab')
         end
       end
     end
