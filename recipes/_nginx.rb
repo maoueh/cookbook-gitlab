@@ -7,14 +7,14 @@ gitlab = node['gitlab']
 
 # 7. Nginx
 ## Installation
-package "nginx" do
+package 'nginx' do
   action :install
 end if gitlab['install_nginx']
 
 ## Site Configuration
-path = platform_family?("rhel") ? "/etc/nginx/conf.d/gitlab.conf" : "/etc/nginx/sites-available/gitlab"
+path = platform_family?('rhel') ? '/etc/nginx/conf.d/gitlab.conf' : '/etc/nginx/sites-available/gitlab'
 template path do
-  source "nginx.erb"
+  source 'nginx.erb'
   mode 0644
   variables({
     :path => gitlab['path'],
@@ -27,7 +27,7 @@ template path do
   })
 end
 
-if platform_family?("rhel")
+if platform_family?('rhel')
   directory gitlab['home'] do
     mode 0755
   end
@@ -38,16 +38,16 @@ if platform_family?("rhel")
     end
   end
 else
-  link "/etc/nginx/sites-enabled/gitlab" do
-    to "/etc/nginx/sites-available/gitlab"
+  link '/etc/nginx/sites-enabled/gitlab' do
+    to '/etc/nginx/sites-available/gitlab'
   end
 
-  file "/etc/nginx/sites-enabled/default" do
+  file '/etc/nginx/sites-enabled/default' do
     action :delete
   end
 end
 
-if gitlab['port'] == "443"
+if gitlab['port'] == '443'
   directory gitlab['ssl_certificate_path'] do
     recursive true
     mode 0755
@@ -69,10 +69,10 @@ if gitlab['port'] == "443"
   end
 end
 
-service "nginx" do
+service 'nginx' do
   action :enable
 end
 
-service "nginx" do
+service 'nginx' do
   action :restart
 end

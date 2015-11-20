@@ -6,7 +6,7 @@
 gitlab = node['gitlab']
 redisio = node['redisio']
 
-include_recipe "redisio"
+include_recipe 'redisio'
 
 # Add gitlab users to redis group
 group redisio['default_settings']['group'] do
@@ -16,7 +16,7 @@ group redisio['default_settings']['group'] do
   not_if gitlab['redis_unixsocket'].nil?
 end
 
-include_recipe "redisio::enable"
+include_recipe 'redisio::enable'
 
 ###
 ## Note: Due to mixlib-shellout issue #68, we must use gitlab group
@@ -44,7 +44,7 @@ end
 ##       running uid and gid. Hence, we need to edit redis service definition
 ##       and force it to run in git group.
 
-bash "change redis init.d exec command" do
+bash 'change redis init.d exec command' do
   code GitLab.redis_sed_exec(node)
 
   notifies :restart, "service[redis#{gitlab['redis_port']}]", :immediately

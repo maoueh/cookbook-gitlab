@@ -62,10 +62,19 @@ supported_platforms.each do |platform, versions|
               'wiki' => true,
               'snippets' => false,
             },
+            'reply_by_email' => {
+              'enabled' => false,
+              'address' => 'incoming+%{key}@gitlab.example.com'
+            },
             'webhook_timeout' => 10,
             'gravatar' => true,
             'gravatar_plain_url' => 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon',
             'gravatar_ssl_url' => 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon',
+            'ci' => {
+              'all_broken_builds' => true,
+              'add_pusher' => true,
+              'builds_path' => 'builds/'
+            },
             'ldap_config' => {
               'enabled' => false,
               'label' => 'LDAP',
@@ -80,6 +89,13 @@ supported_platforms.each do |platform, versions|
               'active_directory' => true,
               'allow_username_or_email_login' => true,
               'block_auto_created_users' => false,
+              'attributes' => {
+                'username' => "['uid', 'userid', 'sAMAccountName']",
+                'email' => "['mail', 'email', 'userPrincipalName']",
+                'name' => 'cn',
+                'first_name' => 'givenName',
+                'last_name' => 'sn',
+              }
             },
             'backup' => {
               'enable' => true,
@@ -92,7 +108,8 @@ supported_platforms.each do |platform, versions|
               },
               'backup_keep_time' => 0,
               'backup_path' => 'tmp/backups',
-              'archive_permissions' => '0640'
+              'archive_permissions' => '0640',
+              'pg_schema' => nil
             }
           }
         )
@@ -101,6 +118,15 @@ supported_platforms.each do |platform, versions|
       it 'triggers updating of git config' do
         template = chef_run.template('/home/git/gitlab/config/gitlab.yml')
         expect(template).to notify('bash[git config]').to(:run).immediately
+      end
+
+      it 'creates a gitlab secrets config' do
+        expect(chef_run).to create_template('/home/git/gitlab/config/secrets.yml').with(
+          source: 'secrets.yml.erb',
+          variables: {
+            'secret_key' => 'not_random_change_me_now_with_random_30_characters_no_words'
+          }
+        )
       end
 
       it 'updates git config' do
@@ -226,6 +252,10 @@ supported_platforms.each do |platform, versions|
           variables: {
             'app_user' => 'git',
             'app_root' => '/home/git/gitlab',
+            'mail_room' => {
+              'enabled' => false
+            },
+            'repos_path' => '/home/git/repositories',
             'shell_path' => '/bin/bash'
           }
         )
@@ -351,6 +381,10 @@ supported_platforms.each do |platform, versions|
           expect(resource.variables['shell_secret_file']).to eq('/data/git/gitlab/.gitlab_shell_secret')
         end
 
+        it 'creates a gitlab secrets config' do
+          expect(chef_run).to create_template('/data/git/gitlab/config/secrets.yml')
+        end
+
         it 'creates a gitlab database config' do
           expect(chef_run).to create_template('/data/git/gitlab/config/database.yml')
         end
@@ -369,6 +403,10 @@ supported_platforms.each do |platform, versions|
             variables: {
               'app_user' => 'git',
               'app_root' => '/data/git/gitlab',
+              'mail_room' => {
+                'enabled' => false
+              },
+              'repos_path' => '/data/git/repositories',
               'shell_path' => '/bin/bash'
             }
           )

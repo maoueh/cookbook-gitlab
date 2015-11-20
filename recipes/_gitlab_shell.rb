@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: gitlab
-# Recipe:: gitlab_shell_clone
+# Recipe:: _gitlab_shell
 #
 
 gitlab = node['gitlab']
@@ -14,7 +14,7 @@ git gitlab['shell_path'] do
 end
 
 template "#{gitlab['shell_path']}/config.yml" do
-  source "gitlab_shell.yml.erb"
+  source 'gitlab_shell.yml.erb'
   user gitlab['user']
   group gitlab['group']
   variables({
@@ -32,21 +32,21 @@ template "#{gitlab['shell_path']}/config.yml" do
   })
 end
 
-directory "Repositories path" do
+directory 'Repositories path' do
   path gitlab['repos_path']
   owner gitlab['user']
   group gitlab['group']
   mode 02770
 end
 
-directory "SSH key directory" do
+directory 'SSH key directory' do
   path "#{gitlab['home']}/.ssh"
   owner gitlab['user']
   group gitlab['group']
   mode 0700
 end
 
-file "authorized keys file" do
+file 'authorized keys file' do
   path "#{gitlab['home']}/.ssh/authorized_keys"
   owner gitlab['user']
   group gitlab['group']

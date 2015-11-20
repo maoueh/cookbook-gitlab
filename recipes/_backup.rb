@@ -14,7 +14,7 @@ cron 'gitlab_backups' do
   user gitlab['user']
   mailto backup['cron']['mailto']
   path backup['cron']['path']
-  command "cd #{gitlab['home']}/gitlab && #{GitLab.bundle_exec_rake(node, "gitlab:backup:create")}"
+  command "cd #{gitlab['home']}/gitlab && #{GitLab.bundle_exec_rake(node, 'gitlab:backup:create')}"
 
   only_if { backup['enable'] }
 end

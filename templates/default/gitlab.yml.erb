@@ -4,7 +4,7 @@
 #
 ###########################  NOTE  #####################################
 # This file should not receive new settings. All configuration options #
-# that do not require application restart are being moved to           #
+# that do not require an application restart are being moved to        #
 # ApplicationSetting model!                                            #
 # If you change this file in a Merge Request, please also create       #
 # a MR on https://gitlab.com/gitlab-org/omnibus-gitlab/merge_requests  #
@@ -95,6 +95,13 @@ production: &base
     # The default is 'tmp/repositories' relative to the root of the Rails app.
     repository_downloads_path: <%= @repository_downloads_path %>
 
+  ## Reply by email
+  # Allow users to comment on issues and merge requests by replying to notification emails.
+  # For documentation on how to set this up, see http://doc.gitlab.com/ce/incoming_email/README.html
+  incoming_email:
+    enabled: <%= @reply_by_email['enabled'] %>
+    address: <%= @reply_by_email['address'] %>
+
   ## Gravatar
   ## For Libravatar see: http://doc.gitlab.com/ce/customization/libravatar.html
   gravatar:
@@ -104,7 +111,23 @@ production: &base
     ssl_url:   <%= @gravatar_ssl_url %>    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
 
   #
-  # 2. Auth settings
+  # 2. GitLab CI settings
+  # ==========================
+
+  gitlab_ci:
+    # Default project notifications settings:
+
+    # Send emails only on broken builds (default: true)
+    all_broken_builds: <%= @ci['all_broken_builds'] %>
+
+    # Add pusher to recipients list (default: false)
+    add_pusher: <%= @ci['add_pusher'] %>
+
+    # The location where build traces are stored (default: builds/). Relative paths are relative to Rails.root
+    builds_path: <%= @ci['builds_path'] %>
+
+  #
+  # 3. Auth settings
   # ==========================
 
   ## LDAP settings
@@ -165,6 +188,26 @@ production: &base
         #
         user_filter: '<%= @ldap_config["user_filter"] %>'
 
+        # LDAP attributes that GitLab will use to create an account for the LDAP user.
+        # The specified attribute can either be the attribute name as a string (e.g. 'mail'),
+        # or an array of attribute names to try in order (e.g. ['mail', 'email']).
+        # Note that the user's LDAP login will always be the attribute specified as `uid` above.
+        attributes:
+          # The username will be used in paths for the user's own projects
+          # (like `gitlab.example.com/username/project`) and when mentioning
+          # them in issues, merge request and comments (like `@username`).
+          # If the attribute specified for `username` contains an email address,
+          # the GitLab username will be the part of the email address before the '@'.
+          username: <%= @ldap_config["attributes"]["username"] %>
+          email: <%= @ldap_config["attributes"]["email"] %>
+
+          # If no full name could be found at the attribute specified for `name`,
+          # the full name is determined using the attributes specified for
+          # `first_name` and `last_name`.
+          name: <%= @ldap_config["attributes"]["name"] %>
+          first_name: <%= @ldap_config["attributes"]["first_name"] %>
+          last_name: <%= @ldap_config["attributes"]["last_name"] %>
+
       # GitLab EE only: add more LDAP servers
       # Choose an ID made of a-z and 0-9 . This ID will be stored in the database
       # so that GitLab can remember which LDAP server a user belongs to.
@@ -211,7 +254,7 @@ production: &base
     <% end %>
 
   #
-  # 3. Advanced settings
+  # 4. Advanced settings
   # ==========================
 
   # GitLab Satellites
@@ -225,6 +268,7 @@ production: &base
     path: "<%= @backup["backup_path"] %>"   # Relative paths are relative to Rails.root (default: tmp/backups/)
     keep_time: <%= @backup["backup_keep_time"] %>   # default: 0 (forever) (in seconds)
     archive_permissions: <%= @backup["archive_permissions"] %> # Permissions for the resulting backup.tar file (default: 0600)
+    <%= "pg_schema: #{@backup["pg_schema"]} # default: nil, it means that all schemas will be backed up" if @backup["pg_schema"] %>
     # upload:
     #   # Fog storage connection settings, see http://fog.io/storage/ .
     #   connection:
@@ -270,7 +314,7 @@ production: &base
     timeout: <%= @git_timeout %>
 
   #
-  # 4. Extra customization
+  # 5. Extra customization
   # ==========================
 
   extra:

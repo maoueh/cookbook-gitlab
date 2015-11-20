@@ -4,10 +4,10 @@ supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_nginx under #{platform} @ #{version}" do
       let(:chef_run) do
-        ChefSpec::SoloRunner.new(platform: platform, version: version).converge("gitlab::_nginx")
+        ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_nginx')
       end
 
-      it "installs nginx" do
+      it 'installs nginx' do
         expect(chef_run).to install_package('nginx')
       end
 
@@ -16,13 +16,13 @@ supported_platforms.each do |platform, versions|
           source: 'nginx.erb',
           mode: 0644,
           variables: {
-            path: "/home/git/gitlab",
-            host: "localhost",
-            ip: "*",
-            port: "80",
-            ssl_certificate_path: "/etc/ssl",
-            ssl_certificate_key_path: "/etc/ssl",
-            client_max_body_size: "20m"
+            path: '/home/git/gitlab',
+            host: 'localhost',
+            ip: '*',
+            port: '80',
+            ssl_certificate_path: '/etc/ssl',
+            ssl_certificate_key_path: '/etc/ssl',
+            client_max_body_size: '20m'
           }
         )
       end
@@ -70,11 +70,11 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to restart_service('nginx')
       end
 
-      describe "when customizing gitlab user home" do
+      describe 'when customizing gitlab user home' do
         let(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
-            node.set['gitlab']['home'] = "/data/git"
-          end.converge("gitlab::_nginx")
+            node.set['gitlab']['home'] = '/data/git'
+          end.converge('gitlab::_nginx')
         end
 
         it 'creates a nginx template with attributes' do
@@ -82,13 +82,13 @@ supported_platforms.each do |platform, versions|
             source: 'nginx.erb',
             mode: 0644,
             variables: {
-              path: "/data/git/gitlab",
-              host: "localhost",
-              ip: "*",
-              port: "80",
-              ssl_certificate_path: "/etc/ssl",
-              ssl_certificate_key_path: "/etc/ssl",
-              client_max_body_size: "20m"
+              path: '/data/git/gitlab',
+              host: 'localhost',
+              ip: '*',
+              port: '80',
+              ssl_certificate_path: '/etc/ssl',
+              ssl_certificate_key_path: '/etc/ssl',
+              client_max_body_size: '20m'
             }
           )
         end
@@ -109,11 +109,11 @@ supported_platforms.each do |platform, versions|
         end
       end
 
-      describe "when customizing install_nginx" do
+      describe 'when customizing install_nginx' do
         cached(:chef_run) do
           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['install_nginx'] = false
-          end.converge("gitlab::_nginx")
+          end.converge('gitlab::_nginx')
         end
 
         it 'does not install nginx' do

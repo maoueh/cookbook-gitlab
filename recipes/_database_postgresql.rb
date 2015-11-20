@@ -8,11 +8,11 @@ gitlab = node['gitlab']
 
 # 5.Database
 unless gitlab['external_database']
-  include_recipe "postgresql::server"
+  include_recipe 'postgresql::server'
 end
 
-include_recipe "database::postgresql"
-include_recipe "postgresql::ruby"
+include_recipe 'database::postgresql'
+include_recipe 'postgresql::ruby'
 
 postgresql_connection = {
   :host => postgresql['server']['host'],
@@ -26,18 +26,18 @@ postgresql_database_user gitlab['database_user'] do
   action :create
 end
 
-postgresql_database "gitlabhq_production" do
-  database_name "gitlabhq_production"
-  template "template0"
-  encoding "utf8"
-  collation "en_US.UTF-8"
+postgresql_database 'gitlabhq_production' do
+  database_name 'gitlabhq_production'
+  template 'template0'
+  encoding 'utf8'
+  collation 'en_US.UTF-8'
   connection postgresql_connection
   action :create
 end
 
 postgresql_database_user gitlab['database_user'] do
   connection postgresql_connection
-  database_name "gitlabhq_production"
+  database_name 'gitlabhq_production'
   password gitlab['database_password']
   action :grant
 end

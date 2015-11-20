@@ -10,9 +10,9 @@ group gitlab['group'] do
 end
 
 user gitlab['user'] do
-  comment "GitLab user"
+  comment 'GitLab user'
   home gitlab['home']
-  shell "/bin/bash"
+  shell '/bin/bash'
   uid gitlab['user_uid']
   # We already created a user with specific gid so now we can supply the name
   # This line will make sure that we always have the correct group associated to the user

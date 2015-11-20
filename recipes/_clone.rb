@@ -9,7 +9,7 @@ gitlab = node['gitlab']
 # Based on application cookbook: https://github.com/poise/application/blob/v4.1.4/templates/default/deploy-ssh-wrapper.erb
 unless gitlab['deploy_key'].empty?
   template "#{gitlab['home']}/.ssh/deploy-ssh-wrapper.sh" do
-    source "deploy-ssh-wrapper.erb"
+    source 'deploy-ssh-wrapper.erb'
     user gitlab['user']
     group gitlab['group']
     mode 0755
@@ -26,7 +26,7 @@ unless gitlab['deploy_key'].empty?
   end
 end
 
-git "clone gitlabhq source" do
+git 'clone gitlabhq source' do
   destination gitlab['path']
   repository gitlab['repository']
   revision gitlab['revision']

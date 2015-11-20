@@ -17,7 +17,7 @@ unless gitlab['external_database']
     action [:create, :start]
   end
 
-  mysql_config "gitlab" do
+  mysql_config 'gitlab' do
     instance mysql['server']['instance']
     config_name 'gitlab'
     source 'gitlab.cnf.erb'
@@ -27,7 +27,7 @@ unless gitlab['external_database']
   end
 end
 
-include_recipe "database::mysql"
+include_recipe 'database::mysql'
 
 mysql_connection = {
   :host => mysql['server']['host'],
@@ -43,10 +43,10 @@ mysql_database_user gitlab['database_user'] do
   action :create
 end
 
-mysql_database "gitlabhq_production" do
-  database_name "gitlabhq_production"
-  encoding "utf8"
-  collation "utf8_unicode_ci"
+mysql_database 'gitlabhq_production' do
+  database_name 'gitlabhq_production'
+  encoding 'utf8'
+  collation 'utf8_unicode_ci'
   connection mysql_connection
   action :create
 end
@@ -54,8 +54,8 @@ end
 mysql_database_user gitlab['database_user'] do
   connection mysql_connection
   password gitlab['database_password']
-  database_name "gitlabhq_production"
+  database_name 'gitlabhq_production'
   host mysql['database_allowed_host']
-  privileges ["SELECT", "UPDATE", "INSERT", "DELETE", "CREATE", "DROP", "INDEX", "ALTER", "LOCK TABLES"]
+  privileges ['SELECT', 'UPDATE', 'INSERT', 'DELETE', 'CREATE', 'DROP', 'INDEX', 'ALTER', 'LOCK TABLES']
   action :grant
 end

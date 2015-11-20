@@ -3,7 +3,7 @@ require 'chefspec/berkshelf'
 
 RSpec.configure do |config|
   # Specify a default static file cache path (not a problem since resoucres are not executed)
-  config.file_cache_path = "/var/chef/cache"
+  config.file_cache_path = '/var/chef/cache'
 
   # Specify the Chef log_level (default: :warn)
   config.log_level = :error
@@ -19,13 +19,13 @@ end
 def env_path(node)
   segments = []
 
-  if node['gitlab']['database_adapter'] == "postgresql"
+  if node['gitlab']['database_adapter'] == 'postgresql'
     segments << node['gitlab']['postgresql']['configuration_dir'] if node['gitlab']['postgresql']['configuration_dir']
   end
 
-  segments << "/usr/local/bin:$PATH"
+  segments << '/usr/local/bin:$PATH'
 
-  segments.join(":")
+  segments.join(':')
 end
 
 def nginx_config(platform)
