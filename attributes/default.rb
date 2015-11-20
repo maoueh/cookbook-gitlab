@@ -34,17 +34,26 @@ default['gitlab']['git_http_server']['revision'] = '0.3.0'
 
 default['gitlab']['mail_room']['enabled'] = false
 
-default['gitlab']['shell_repository'] = 'https://github.com/gitlabhq/gitlab-shell.git'
-default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = 'v2.6.5'
-default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
-
 # Attribute `secret_key` is used to encrypt for Variables. Ensure that
 # you don't lose it. If you change or lose this key you will be unable to
 # access variables stored in database. Make sure the secret is at least 30
 # characters and all random, no regular words or you'll be exposed to dictionary
 # attacks.
 default['gitlab']['secret_key'] = 'not_random_change_me_now_with_random_30_characters_no_words'
+
+default['gitlab']['shell_repository'] = 'https://github.com/gitlabhq/gitlab-shell.git'
+default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
+default['gitlab']['shell_revision'] = 'v2.6.5'
+default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
+
+default['gitlab']['smtp']['enabled'] = false
+default['gitlab']['smtp']['address'] = 'email.server.com'
+default['gitlab']['smtp']['port'] = 456
+default['gitlab']['smtp']['username'] = 'smtp'
+default['gitlab']['smtp']['password'] = '123456'
+default['gitlab']['smtp']['domain'] = 'gitlab.example.com'
+default['gitlab']['smtp']['authentication'] = 'login'
+default['gitlab']['smtp']['enable_starttls_auto'] = true
 
 ## Backup
 
@@ -143,25 +152,6 @@ default['git']['checksum'] = 'de2b14efa156aeb15d455cc0b23f08b3098c2212ef4d9d42b7
 ## Go
 
 default['go']['scm'] = false
-
-## Mail
-
-default['postfix']['mail_type'] = 'client'
-default['postfix']['myhostname'] = 'mail.localhost'
-default['postfix']['mydomain'] = 'localhost'
-default['postfix']['myorigin'] = 'mail.localhost'
-default['postfix']['smtp_use_tls'] = 'no'
-
-default['gitlab']['smtp'] = {
-  :enabled => false,
-  :address => 'email.server.com',
-  :port => 456,
-  :username => 'smtp',
-  :password => '123456',
-  :domain => 'gitlab.example.com',
-  :authentication => 'login',
-  :enable_starttls_auto => true
-}
 
 ## Packages
 

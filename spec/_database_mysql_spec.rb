@@ -21,8 +21,8 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to create_mysql_config('gitlab')
       end
 
-      it 'includes database::mysql recipe' do
-        expect(chef_run).to include_recipe('database::mysql')
+      it 'installs mysql gem into chef path' do
+        expect(chef_run).to install_mysql2_chef_gem('default')
       end
 
       describe 'with external database' do
@@ -41,8 +41,8 @@ supported_platforms.each do |platform, versions|
           expect(chef_run).to_not create_mysql_config('gitlab')
         end
 
-        it 'still includes database::mysql recipe' do
-          expect(chef_run).to include_recipe('database::mysql')
+        it 'still installs mysql gem into chef path' do
+          expect(chef_run).to install_mysql2_chef_gem('default')
         end
       end
     end

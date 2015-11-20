@@ -20,6 +20,7 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to include_recipe('gitlab::_packages')
         expect(chef_run).to include_recipe('gitlab::_users')
         expect(chef_run).to include_recipe('gitlab::_redis')
+        expect(chef_run).to include_recipe('gitlab::_gitlab_git_http_server')
         expect(chef_run).to include_recipe('gitlab::_gitlab_shell')
         expect(chef_run).to include_recipe('gitlab::_clone')
         expect(chef_run).to include_recipe('gitlab::_gems')

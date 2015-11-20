@@ -27,7 +27,9 @@ unless gitlab['external_database']
   end
 end
 
-include_recipe 'database::mysql'
+mysql2_chef_gem 'default' do
+  action :install
+end
 
 mysql_connection = {
   :host => mysql['server']['host'],

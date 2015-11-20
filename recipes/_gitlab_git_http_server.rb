@@ -17,6 +17,7 @@ end
 bash "install gitlab-git-http-server #{git_http_server['revision']}" do
   flags '-e'
   code <<-EOC
+    source /etc/profile.d/golang.sh
     cd #{git_http_server['path']}
     make
   EOC

@@ -23,6 +23,7 @@ include_recipe 'gitlab::_gems'
 include_recipe "gitlab::_database_#{gitlab['database_adapter']}"
 include_recipe 'gitlab::_redis'
 
+include_recipe 'gitlab::_gitlab_git_http_server'
 include_recipe 'gitlab::_gitlab_shell'
 include_recipe 'gitlab::_clone'
 include_recipe 'gitlab::_install'
