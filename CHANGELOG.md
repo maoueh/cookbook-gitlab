@@ -1,3 +1,5 @@
+# 2.8.2 (In progress)
+
 # 2.8.1 (November 20, 2015)
 
  * Updated `gitlab` to `8.0.x`

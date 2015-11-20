@@ -25,7 +25,7 @@ GRAPH
     windows (>= 0.0.0)
     yum (~> 3.0)
     yum-epel (>= 0.0.0)
-  gitlab (2.8.1)
+  gitlab (2.8.2)
     apt (~> 2.6)
     build-essential (~> 2.1)
     database (~> 3.0)
