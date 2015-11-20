@@ -55,7 +55,6 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     'git_timeout' => gitlab['git_timeout'],
     'git_bin_path' => gitlab['git_bin_path'],
     'satellites_path' => gitlab['satellites_path'],
-    'satellites_timeout' => gitlab['satellites_timeout'],
     'repos_path' => gitlab['repos_path'],
     'shell_path' => gitlab['shell_path'],
     'shell_secret_file' => gitlab['shell_secret_file'],
@@ -89,6 +88,7 @@ template "#{gitlab['path']}/config/secrets.yml" do
   source 'secrets.yml.erb'
   user gitlab['user']
   group gitlab['group']
+  mode 0600
   variables({
     'secret_key' => gitlab['secret_key']
   })

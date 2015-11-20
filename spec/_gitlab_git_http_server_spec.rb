@@ -10,16 +10,16 @@ supported_platforms.each do |platform, versions|
       it 'clones the gitlab-git-http-server repository' do
         expect(chef_run).to sync_git('/home/git/gitlab-git-http-server').with(
           repository: 'https://gitlab.com/gitlab-org/gitlab-git-http-server.git',
-          revision: '0.2.14',
+          revision: '0.3.0',
           user: 'git',
           group: 'git'
         )
       end
 
       it 'install gitlab-git-http-server correctly' do
-        resource = chef_run.bash('install gitlab-git-http-server 0.2.14')
+        resource = chef_run.bash('install gitlab-git-http-server 0.3.0')
 
-        expect(chef_run).to run_bash('install gitlab-git-http-server 0.2.14')
+        expect(chef_run).to run_bash('install gitlab-git-http-server 0.3.0')
         expect(resource.code).to match(%r{cd /home/git/gitlab-git-http-server})
         expect(resource.code).to match(/make/)
       end
@@ -32,7 +32,7 @@ supported_platforms.each do |platform, versions|
         end
 
         it 'install gitlab-git-http-server correctly' do
-          resource = chef_run.bash('install gitlab-git-http-server 0.2.14')
+          resource = chef_run.bash('install gitlab-git-http-server 0.3.0')
 
           expect(resource.code).to match(%r{cd /data/git/gitlab-git-http-server})
         end

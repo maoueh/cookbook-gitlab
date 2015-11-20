@@ -15,7 +15,7 @@ default['gitlab']['shell'] = '/bin/bash'
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = '8-0-stable'
+default['gitlab']['revision'] = '8-1-stable'
 default['gitlab']['url'] = 'http://localhost:80/'
 default['gitlab']['port'] = '80'
 
@@ -24,12 +24,13 @@ default['gitlab']['deploy_key'] = '' # Optional. Private key used to connect to 
 
 default['gitlab']['path'] = "#{node['gitlab']['home']}/gitlab"
 default['gitlab']['repos_path'] = "#{node['gitlab']['home']}/repositories"
+
+# Note for maintainers: keep the satellites.path setting until GitLab 9.0 at least, used by migrations
 default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satellites"
-default['gitlab']['satellites_timeout'] = 30
 
 default['gitlab']['git_http_server']['path'] = "#{node['gitlab']['home']}/gitlab-git-http-server"
 default['gitlab']['git_http_server']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-git-http-server.git'
-default['gitlab']['git_http_server']['revision'] = '0.2.14'
+default['gitlab']['git_http_server']['revision'] = '0.3.0'
 
 default['gitlab']['mail_room']['enabled'] = false
 
@@ -118,7 +119,14 @@ default['gitlab']['default_projects_features']['wiki'] = true
 default['gitlab']['default_projects_features']['snippets'] = false
 
 default['gitlab']['reply_by_email']['enabled'] = false
-default['gitlab']['reply_by_email']['address'] = 'incoming+%{key}@gitlab.example.com'
+default['gitlab']['reply_by_email']['address'] = 'gitlab-incoming+%{key}@gmail.com'
+default['gitlab']['reply_by_email']['user'] = 'gitlab-incoming@gmail.com'
+default['gitlab']['reply_by_email']['password'] = '[REDACTED]'
+default['gitlab']['reply_by_email']['host'] = 'imap.gmail.com'
+default['gitlab']['reply_by_email']['port'] = 993
+default['gitlab']['reply_by_email']['ssl'] = true
+default['gitlab']['reply_by_email']['start_tls'] = false
+default['gitlab']['reply_by_email']['mailbox'] = 'inbox'
 
 default['gitlab']['webhook_timeout'] = 10
 default['gitlab']['admin_root_password'] = nil

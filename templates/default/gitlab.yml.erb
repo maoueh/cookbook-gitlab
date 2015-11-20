@@ -100,7 +100,29 @@ production: &base
   # For documentation on how to set this up, see http://doc.gitlab.com/ce/incoming_email/README.html
   incoming_email:
     enabled: <%= @reply_by_email['enabled'] %>
+
+    # The email address including the `%{key}` placeholder that will be replaced to reference the item being replied to.
+    # The `%{key}` placeholder is added after the user part, after a `+` character, before the `@`.
     address: <%= @reply_by_email['address'] %>
+
+    # Email account username
+    # With third party providers, this is usually the full email address.
+    # With self-hosted email servers, this is usually the user part of the email address.
+    user: <%= @reply_by_email['user'] %>
+    # Email account password
+    password: "<%= @reply_by_email['password'] %>"
+
+    # IMAP server host
+    host: "<%= @reply_by_email['host'] %>"
+    # IMAP server port
+    port: <%= @reply_by_email['port'] %>
+    # Whether the IMAP server uses SSL
+    ssl: <%= @reply_by_email['ssl'] %>
+    # Whether the IMAP server uses StartTLS
+    start_tls: <%= @reply_by_email['start_tls'] %>
+
+    # The mailbox where incoming mail will end up. Usually "inbox".
+    mailbox: "<%= @reply_by_email['inbox'] %>"
 
   ## Gravatar
   ## For Libravatar see: http://doc.gitlab.com/ce/customization/libravatar.html
@@ -258,10 +280,12 @@ production: &base
   # ==========================
 
   # GitLab Satellites
+  #
+  # Note for maintainers: keep the satellites.path setting until GitLab 9.0 at
+  # least. This setting is fed to 'rm -rf' in
+  # db/migrate/20151023144219_remove_satellites.rb
   satellites:
-    # Relative paths are relative to Rails.root (default: tmp/repo_satellites/)
-    path: <%= @satellites_path %>/
-    timeout: <%= @satellites_timeout %>
+    path: <%= @satellites_path %>
 
   ## Backup settings
   backup:
@@ -281,6 +305,8 @@ production: &base
     #   # Use multipart uploads when file size reaches 100MB, see
     #   #  http://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html
     #   multipart_chunk_size: 104857600
+    #   # Turns on AWS Server-Side Encryption with Amazon S3-Managed Keys for backups, this is optional
+    #   # encryption: 'AES256'
 
   ## GitLab Shell settings
   gitlab_shell:
@@ -384,7 +410,6 @@ test:
         user_filter: ''
         group_base: 'ou=groups,dc=example,dc=com'
         admin_group: ''
-        sync_ssh_keys: false
 
 staging:
   <<: *base

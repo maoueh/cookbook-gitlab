@@ -41,7 +41,6 @@ supported_platforms.each do |platform, versions|
             'git_timeout' => 10,
             'git_bin_path' => '/usr/local/bin/git',
             'satellites_path' => '/home/git/gitlab-satellites',
-            'satellites_timeout' => 30,
             'repos_path' => '/home/git/repositories',
             'shell_path' => '/home/git/gitlab-shell',
             'shell_secret_file' => '/home/git/gitlab/.gitlab_shell_secret',
@@ -64,7 +63,14 @@ supported_platforms.each do |platform, versions|
             },
             'reply_by_email' => {
               'enabled' => false,
-              'address' => 'incoming+%{key}@gitlab.example.com'
+              'address' => 'gitlab-incoming+%{key}@gmail.com',
+              'user' => 'gitlab-incoming@gmail.com',
+              'password' => '[REDACTED]',
+              'host' => 'imap.gmail.com',
+              'port' => 993,
+              'ssl' => true,
+              'start_tls' => false,
+              'mailbox' => 'inbox'
             },
             'webhook_timeout' => 10,
             'gravatar' => true,
@@ -122,6 +128,9 @@ supported_platforms.each do |platform, versions|
 
       it 'creates a gitlab secrets config' do
         expect(chef_run).to create_template('/home/git/gitlab/config/secrets.yml').with(
+          user: 'git',
+          group: 'git',
+          mode: 0600,
           source: 'secrets.yml.erb',
           variables: {
             'secret_key' => 'not_random_change_me_now_with_random_30_characters_no_words'
