@@ -16,15 +16,15 @@ path = platform_family?('rhel') ? '/etc/nginx/conf.d/gitlab.conf' : '/etc/nginx/
 template path do
   source 'nginx.erb'
   mode 0644
-  variables({
-    :path => gitlab['path'],
-    :host => gitlab['host'],
-    :ip => gitlab['ip'],
-    :port => gitlab['port'],
-    :ssl_certificate_path => gitlab['ssl_certificate_path'],
-    :ssl_certificate_key_path => gitlab['ssl_certificate_key_path'],
-    :client_max_body_size => gitlab['client_max_body_size']
-  })
+  variables(
+    path: gitlab['path'],
+    host: gitlab['host'],
+    ip: gitlab['ip'],
+    port: gitlab['port'],
+    ssl_certificate_path: gitlab['ssl_certificate_path'],
+    ssl_certificate_key_path: gitlab['ssl_certificate_key_path'],
+    client_max_body_size: gitlab['client_max_body_size']
+  )
 end
 
 if platform_family?('rhel')

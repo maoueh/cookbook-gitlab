@@ -8,7 +8,7 @@ supported_platforms.each do |platform, versions|
       end
 
       it 'creates required directories in the rails root' do
-        %w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
+        %w(log tmp tmp/pids tmp/sockets public/uploads).each do |path|
           expect(chef_run).to create_directory("/home/git/gitlab/#{path}").with(
             user: 'git',
             group: 'git',
@@ -18,7 +18,7 @@ supported_platforms.each do |platform, versions|
       end
 
       it 'creates satellites directory' do
-       expect(chef_run).to create_directory('/home/git/gitlab-satellites').with(
+        expect(chef_run).to create_directory('/home/git/gitlab-satellites').with(
           user: 'git',
           group: 'git'
         )
@@ -59,7 +59,7 @@ supported_platforms.each do |platform, versions|
               'issues' => true,
               'merge_requests' => true,
               'wiki' => true,
-              'snippets' => false,
+              'snippets' => false
             },
             'reply_by_email' => {
               'enabled' => false,
@@ -100,7 +100,7 @@ supported_platforms.each do |platform, versions|
                 'email' => "['mail', 'email', 'userPrincipalName']",
                 'name' => 'cn',
                 'first_name' => 'givenName',
-                'last_name' => 'sn',
+                'last_name' => 'sn'
               }
             },
             'backup' => {
@@ -110,7 +110,7 @@ supported_platforms.each do |platform, versions|
                 'minute' => 0,
                 'hour' => 2,
                 'mailto' => 'gitlab@localhost',
-                'path' => '/usr/local/bin:/usr/bin:/bin',
+                'path' => '/usr/local/bin:/usr/bin:/bin'
               },
               'backup_keep_time' => 0,
               'backup_path' => 'tmp/backups',
@@ -230,7 +230,7 @@ supported_platforms.each do |platform, versions|
           mode: 0644,
           variables: {
             'gitlab_path' => '/home/git/gitlab',
-            'gitlab_shell_path' => '/home/git/gitlab-shell',
+            'gitlab_shell_path' => '/home/git/gitlab-shell'
           }
         )
       end
@@ -294,7 +294,7 @@ supported_platforms.each do |platform, versions|
               'user' => 'git',
               'password' => 'datapass',
               'host' => '127.0.0.1',
-              'socket' => nil,
+              'socket' => nil
             }
           )
         end
@@ -368,7 +368,7 @@ supported_platforms.each do |platform, versions|
         end
 
         it 'creates required directories in the rails root' do
-          %w{log tmp tmp/pids tmp/sockets public/uploads}.each do |path|
+          %w(log tmp tmp/pids tmp/sockets public/uploads).each do |path|
             expect(chef_run).to create_directory("/data/git/gitlab/#{path}").with(
               user: 'git',
               group: 'git',
@@ -400,7 +400,7 @@ supported_platforms.each do |platform, versions|
 
         it 'updates git config' do
           resource = chef_run.find_resource(:bash, 'git config')
-          expect(resource.environment).to eq('HOME' =>'/data/git')
+          expect(resource.environment).to eq('HOME' => '/data/git')
         end
 
         it 'creates a unicorn config' do
@@ -429,7 +429,7 @@ supported_platforms.each do |platform, versions|
           expect(chef_run).to create_template('/etc/logrotate.d/gitlab').with(
             variables: {
               'gitlab_path' => '/data/git/gitlab',
-              'gitlab_shell_path' => '/data/git/gitlab-shell',
+              'gitlab_shell_path' => '/data/git/gitlab-shell'
             }
           )
         end

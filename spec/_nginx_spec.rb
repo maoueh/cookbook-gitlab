@@ -38,7 +38,7 @@ supported_platforms.each do |platform, versions|
             mode: 0755
           )
         else
-          raise "Platform #{platform} not tested"
+          fail "Platform #{platform} not tested"
         end
       end
 
@@ -49,7 +49,7 @@ supported_platforms.each do |platform, versions|
         when 'ubuntu'
           expect(chef_run).to create_link('/etc/nginx/sites-enabled/gitlab').with(to: '/etc/nginx/sites-available/gitlab')
         else
-          raise "Platform #{platform} not tested"
+          fail "Platform #{platform} not tested"
         end
       end
 
@@ -62,7 +62,7 @@ supported_platforms.each do |platform, versions|
         when 'ubuntu'
           expect(chef_run).to delete_file('/etc/nginx/sites-enabled/default')
         else
-          raise "Platform #{platform} not tested"
+          fail "Platform #{platform} not tested"
         end
       end
 
@@ -95,16 +95,16 @@ supported_platforms.each do |platform, versions|
 
         it 'configures gitlab home directory' do
           case platform
-            when 'centos'
-              expect(chef_run).to create_directory('/data/git').with(
-                mode: 0755
-              )
-            when 'ubuntu'
-              expect(chef_run).to_not create_directory('/data/git').with(
-                mode: 0755
-              )
-            else
-            raise "Platform #{platform} not tested"
+          when 'centos'
+            expect(chef_run).to create_directory('/data/git').with(
+              mode: 0755
+            )
+          when 'ubuntu'
+            expect(chef_run).to_not create_directory('/data/git').with(
+              mode: 0755
+            )
+          else
+            fail "Platform #{platform} not tested"
           end
         end
       end

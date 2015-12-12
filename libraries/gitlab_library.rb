@@ -10,70 +10,69 @@ class Chef
         segments = []
 
         segments << "PATH=#{env_path(node)}"
-        segments << "RAILS_ENV=production"
+        segments << 'RAILS_ENV=production'
 
-        segments << "bundle exec"
+        segments << 'bundle exec'
         segments << arguments
 
-        segments.join(" ")
+        segments.join(' ')
       end
 
       def self.bundle_exec_rake(node, arguments)
-        bundle_exec(node, "rake " + arguments)
+        bundle_exec(node, 'rake ' + arguments)
       end
 
       def self.bundle_install(node)
         segments = []
 
-        segments << "SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem"
+        segments << 'SSL_CERT_FILE=/opt/local/etc/certs/cacert.pem'
         segments << "PATH=#{env_path(node)}"
 
-        segments << "bundle install"
-        segments << "--path=.bundle"
-        segments << "--deployment"
+        segments << 'bundle install'
+        segments << '--path=.bundle'
+        segments << '--deployment'
 
         case node['gitlab']['database_adapter']
-        when "mysql"
-          segments << "--without development test postgres"
-        when "postgresql"
-          segments << "--without development test mysql"
+        when 'mysql'
+          segments << '--without development test postgres'
+        when 'postgresql'
+          segments << '--without development test mysql'
         end
 
-        segments.join(" ")
+        segments.join(' ')
       end
 
       def self.env_path(node)
         segments = []
 
-        if node['gitlab']['database_adapter'] == "postgresql"
+        if node['gitlab']['database_adapter'] == 'postgresql'
           segments << node['gitlab']['postgresql']['configuration_dir'] if node['gitlab']['postgresql']['configuration_dir']
         end
 
-        segments << "/usr/local/bin:$PATH"
+        segments << '/usr/local/bin:$PATH'
 
-        segments.join(":")
+        segments.join(':')
       end
 
       def self.install?(recipe)
         return false if recipe.node['gitlab']['prevent_install']
 
-        resource_ran?(recipe, "mysql_database[gitlabhq_production]") ||
-        resource_ran?(recipe, "postgresql_database[gitlabhq_production]") ||
-        recipe.node['gitlab']['force_install'] == true
+        resource_ran?(recipe, 'mysql_database[gitlabhq_production]') ||
+          resource_ran?(recipe, 'postgresql_database[gitlabhq_production]') ||
+          recipe.node['gitlab']['force_install'] == true
       end
 
       def self.upgrade?(recipe)
-        resource_ran?(recipe, "git[clone gitlabhq source]") ||
-        recipe.node['gitlab']['force_upgrade'] == true
+        resource_ran?(recipe, 'git[clone gitlabhq source]') || recipe.node['gitlab']['force_upgrade'] == true
       end
 
       def self.redis_sed_exec(node)
-        instance_hash = node['redisio']['servers'][0].to_hash()
-        defaults_hash = node['redisio']['default_settings'].to_hash()
+        instance_hash = node['redisio']['servers'][0].to_hash
+        defaults_hash = node['redisio']['default_settings'].to_hash
         current_hash = defaults_hash.merge(instance_hash)
 
         server_name = current_hash['name'] || current_hash['port']
-        bin_path = node['redisio']['install_dir'] ? "#{node['redisio']['install_dir']}/bin" : "/usr/local/bin"
+        bin_path = node['redisio']['install_dir'] ? "#{node['redisio']['install_dir']}/bin" : '/usr/local/bin'
         config_path = current_hash['configdir']
 
         user = current_hash['user']
@@ -84,7 +83,7 @@ class Chef
           old_exec = "EXEC=\"runuser #{user} -c.*\""
           new_exec = "EXEC=\"runuser #{user} -g #{group} -c \\\\\"#{bin_path}/redis-server #{config_path}/${REDISNAME}.conf\\\\\"\""
         else
-          old_exec = "EXEC=\"su -s.*\""
+          old_exec = 'EXEC="su -s.*"'
           new_exec = "EXEC=\"sudo -u #{user} -g #{group} #{bin_path}/redis-server #{config_path}/${REDISNAME}.conf\""
         end
 
@@ -97,16 +96,14 @@ class Chef
         required_services << "redis#{node['gitlab']['redis_port']}"
 
         case node['gitlab']['database_adapter']
-        when "mysql"
+        when 'mysql'
           required_services << "mysql-#{node['mysql']['server']['instance']}"
-        when "postgresql"
+        when 'postgresql'
           required_services << node['postgresql']['server']['service_name']
         end
 
         required_services
       end
-
-      private
 
       def self.resource_ran?(recipe, resource)
         recipe.resources(resource).updated_by_last_action?

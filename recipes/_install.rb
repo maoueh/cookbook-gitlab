@@ -23,7 +23,7 @@ gitlab = node['gitlab']
 #     - rake cache:clear (current when db:migration resource ran)
 #
 
-%w{log tmp tmp/pids tmp/sockets public/uploads}.each do |folder|
+%w(log tmp tmp/pids tmp/sockets public/uploads).each do |folder|
   directory "#{gitlab['path']}/#{folder}" do
     owner gitlab['user']
     group gitlab['group']
@@ -41,7 +41,7 @@ template "#{gitlab['path']}/config/gitlab.yml" do
   source 'gitlab.yml.erb'
   user gitlab['user']
   group gitlab['group']
-  variables({
+  variables(
     'host' => gitlab['host'],
     'port' => gitlab['port'],
     'user' => gitlab['user'],
@@ -77,8 +77,8 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     'ci' => gitlab['ci'],
     'ldap_config' => gitlab['ldap'],
     'ssh_port' => gitlab['ssh_port'],
-    'backup' => gitlab['backup'],
-  })
+    'backup' => gitlab['backup']
+  )
 
   notifies :run, 'bash[git config]', :immediately
   notifies :restart, 'service[gitlab]', :delayed
@@ -89,9 +89,9 @@ template "#{gitlab['path']}/config/secrets.yml" do
   user gitlab['user']
   group gitlab['group']
   mode 0600
-  variables({
+  variables(
     'secret_key' => gitlab['secret_key']
-  })
+  )
 
   notifies :restart, 'service[gitlab]', :delayed
 end
@@ -113,12 +113,12 @@ template "#{gitlab['path']}/config/database.yml" do
   source "database.yml.#{gitlab['database_adapter']}.erb"
   user gitlab['user']
   group gitlab['group']
-  variables({
+  variables(
     'user' => gitlab['database_user'],
     'password' => gitlab['database_password'],
     'host' => node[gitlab['database_adapter']]['server']['host'],
     'socket' => gitlab['database_adapter'] == 'mysql' ? node['mysql']['server']['socket'] : nil
-  })
+  )
 
   notifies :restart, 'service[gitlab]', :delayed
 end
@@ -135,11 +135,11 @@ template "#{gitlab['path']}/config/unicorn.rb" do
   source 'unicorn.rb.erb'
   user gitlab['user']
   group gitlab['group']
-  variables({
+  variables(
     'app_root' => gitlab['path'],
     'unicorn_workers_number' => gitlab['unicorn_workers_number'],
     'unicorn_timeout' => gitlab['unicorn_timeout']
-  })
+  )
 
   notifies :restart, 'service[gitlab]', :delayed
 end
@@ -159,7 +159,7 @@ if gitlab['smtp']['enabled']
     source 'smtp_settings.rb.erb'
     user gitlab['user']
     group gitlab['group']
-    variables({
+    variables(
       'address' => smtp['address'],
       'port' => smtp['port'],
       'username' => smtp['username'],
@@ -167,7 +167,7 @@ if gitlab['smtp']['enabled']
       'domain' => smtp['domain'],
       'authentication' => smtp['authentication'],
       'enable_starttls_auto' => smtp['enable_starttls_auto']
-    })
+    )
 
     notifies :restart, 'service[gitlab]', :delayed
   end
@@ -179,7 +179,7 @@ execute 'bundle install' do
   user gitlab['user']
   group gitlab['group']
 
-  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  only_if { GitLab.install?(self) || GitLab.upgrade?(self) }
   notifies :restart, 'service[gitlab]', :delayed
 end
 
@@ -197,7 +197,7 @@ execute 'rake db:seed_fu' do
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
-  environment ({'GITLAB_ROOT_PASSWORD' => gitlab['admin_root_password']})
+  environment('GITLAB_ROOT_PASSWORD' => gitlab['admin_root_password'])
 
   only_if { GitLab.install?(self) }
 end
@@ -208,7 +208,7 @@ execute 'rake db:migrate' do
   user gitlab['user']
   group gitlab['group']
 
-  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  only_if { GitLab.install?(self) || GitLab.upgrade?(self) }
   notifies :restart, 'service[gitlab]', :delayed
 end
 
@@ -218,7 +218,7 @@ execute 'rake assets:clean' do
   user gitlab['user']
   group gitlab['group']
 
-  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  only_if { GitLab.install?(self) || GitLab.upgrade?(self) }
   notifies :restart, 'service[gitlab]', :delayed
 end
 
@@ -228,7 +228,7 @@ execute 'rake assets:precompile' do
   user gitlab['user']
   group gitlab['group']
 
-  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  only_if { GitLab.install?(self) || GitLab.upgrade?(self) }
   notifies :restart, 'service[gitlab]', :delayed
 end
 
@@ -238,7 +238,7 @@ execute 'rake cache:clear' do
   user gitlab['user']
   group gitlab['group']
 
-  only_if { GitLab.install?(self) or GitLab.upgrade?(self) }
+  only_if { GitLab.install?(self) || GitLab.upgrade?(self) }
   notifies :restart, 'service[gitlab]', :delayed
 end
 
@@ -272,10 +272,9 @@ template '/etc/default/gitlab' do
 end
 
 service 'gitlab' do
-  supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
+  supports start: true, stop: true, restart: true, reload: true, status: true
   action [:enable, :start]
 
   subscribes :restart, "directory[#{gitlab['redis_socket_directory']}]"
   subscribes :restart, 'bash[update redis init.d script runuser group]'
 end
-

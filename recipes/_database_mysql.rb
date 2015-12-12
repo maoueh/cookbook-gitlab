@@ -32,10 +32,10 @@ mysql2_chef_gem 'default' do
 end
 
 mysql_connection = {
-  :host => mysql['server']['host'],
-  :username => mysql['server']['username'],
-  :password => mysql['server']['password'],
-  :socket => mysql['server']['socket']
+  host: mysql['server']['host'],
+  username: mysql['server']['username'],
+  password: mysql['server']['password'],
+  socket: mysql['server']['socket']
 }
 
 mysql_database_user gitlab['database_user'] do

@@ -13,9 +13,9 @@ unless gitlab['deploy_key'].empty?
     user gitlab['user']
     group gitlab['group']
     mode 0755
-    variables({
-      :path => "#{gitlab['home']}/.ssh"
-    })
+    variables(
+      path: "#{gitlab['home']}/.ssh"
+    )
   end
 
   file "#{gitlab['home']}/.ssh/id_deploy_key" do

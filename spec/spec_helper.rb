@@ -12,7 +12,7 @@ end
 def supported_platforms
   {
     'centos' => ['6.5'],
-    'ubuntu' => ['14.04'],
+    'ubuntu' => ['14.04']
   }
 end
 
@@ -35,6 +35,6 @@ def nginx_config(platform)
   when 'ubuntu'
     '/etc/nginx/sites-available/gitlab'
   else
-    "Platform #{platform} not tested"
+    fail "Platform #{platform} not tested"
   end
 end

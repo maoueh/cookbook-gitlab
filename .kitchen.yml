@@ -2,24 +2,36 @@
 driver:
   name: vagrant
 
+driver_config:
+  customize:
+    cpus: 2
+    memory: 1024
+    natdnshostresolver1: "on"
+
 provisioner:
   name: chef_solo
+  data_path: test/shared
+  require_chef_omnibus: true
 
 platforms:
   - name: centos-6.6
-    driver:
+    driver_config:
       customize:
-        name: "kitchen-cookbook-gitlab-centos-6.6"
-        memory: 1024
-        natdnshostresolver1: "on"
+        name: "kitchen-cookbook-gitlab-centos-6"
+      network:
+        - ["private_network", {ip: "10.0.0.149"}]
+
+  - name: centos-7.0
+    driver_config:
+      customize:
+        name: "kitchen-cookbook-gitlab-centos-7"
       network:
         - ["private_network", {ip: "10.0.0.150"}]
+
   - name: ubuntu-14.04
     driver:
       customize:
-        name: "kitchen-cookbook-gitlab-ubuntu-14.04"
-        memory: 1024
-        natdnshostresolver1: "on"
+        name: "kitchen-cookbook-gitlab-ubuntu-14"
       network:
         - ["private_network", {ip: "10.0.0.151"}]
 

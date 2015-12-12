@@ -4,7 +4,7 @@ supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::default under #{platform} @ #{version}" do
       cached(:chef_run) do
-         ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::default')
+        ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::default')
       end
 
       before do
@@ -43,13 +43,13 @@ supported_platforms.each do |platform, versions|
         when 'ubuntu'
           expect(chef_run).to_not include_recipe('selinux::disabled')
         else
-          raise "Platform #{platform} is not tested"
+          fail "Platform #{platform} is not tested"
         end
       end
 
       describe 'when database adapter is mysql' do
         cached(:chef_run) do
-           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
+          ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['database_adapter'] = 'mysql'
           end.converge('gitlab::default')
         end

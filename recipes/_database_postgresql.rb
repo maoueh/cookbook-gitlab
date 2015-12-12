@@ -7,17 +7,15 @@ postgresql = node['postgresql']
 gitlab = node['gitlab']
 
 # 5.Database
-unless gitlab['external_database']
-  include_recipe 'postgresql::server'
-end
+include_recipe 'postgresql::server' unless gitlab['external_database']
 
 include_recipe 'database::postgresql'
 include_recipe 'postgresql::ruby'
 
 postgresql_connection = {
-  :host => postgresql['server']['host'],
-  :username => postgresql['username']['postgres'],
-  :password => postgresql['password']['postgres']
+  host: postgresql['server']['host'],
+  username: postgresql['username']['postgres'],
+  password: postgresql['password']['postgres']
 }
 
 postgresql_database_user gitlab['database_user'] do

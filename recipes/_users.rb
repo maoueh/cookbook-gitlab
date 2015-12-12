@@ -19,9 +19,6 @@ user gitlab['user'] do
   # This is needed because if group id is nil chef won't supply -g to the useradd, see
   # https://github.com/opscode/chef/blob/11.4.4/lib/chef/provider/user/useradd.rb#L26
   gid gitlab['group']
-  supports :manage_home => true
-end
-
-user gitlab['user'] do
-  action :lock
+  supports manage_home: true
+  action [:create, :lock]
 end

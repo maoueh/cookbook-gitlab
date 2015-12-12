@@ -157,17 +157,17 @@ default['go']['scm'] = false
 
 case node['platform_family']
 when 'debian'
-  default['gitlab']['packages'] = %w{
+  default['gitlab']['packages'] = %w(
     build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
     curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev python-docutils
     libkrb5-dev logrotate vim curl wget checkinstall cmake nodejs
-  }
+  )
 when 'rhel'
-  default['gitlab']['packages'] = %w{
+  default['gitlab']['packages'] = %w(
     libicu-devel libxslt-devel libyaml-devel libxml2-devel gdbm-devel libffi-devel zlib-devel openssl-devel
     libyaml-devel readline-devel curl-devel openssl-devel pcre-devel mysql-devel gcc-c++
     krb5-devel ImageMagick-devel ImageMagick cmake nodejs
-  }
+  )
 end
 
 ## Ruby
@@ -209,8 +209,8 @@ default['postgresql']['server']['host'] = 'localhost'
 case node['platform_family']
 when 'debian'
   default['postgresql']['enable_pgdg_apt'] = true
-  default['postgresql']['client']['packages'] = %w{postgresql-client-9.3 libpq-dev}
-  default['postgresql']['server']['packages'] = %w{postgresql-9.3}
+  default['postgresql']['client']['packages'] = %w(postgresql-client-9.3 libpq-dev)
+  default['postgresql']['server']['packages'] = %w(postgresql-9.3)
   default['postgresql']['dir'] = "/etc/postgresql/#{node['postgresql']['version']}/main"
   default['postgresql']['config']['data_directory'] = "/var/lib/postgresql/#{node['postgresql']['version']}/main"
   default['postgresql']['config']['hba_file'] = "/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf"
@@ -248,12 +248,12 @@ else
 end
 default['gitlab']['redis_host'] = '127.0.0.1'
 default['gitlab']['redis_database'] = nil # Default value is 0
-default['gitlab']['namespace']  = 'resque:gitlab'
+default['gitlab']['namespace'] = 'resque:gitlab'
 default['gitlab']['self_signed_cert'] = false
 
 default['gitlab']['redis']['configure'] = true
 if node['gitlab']['redis']['configure']
-  default['redisio']['servers'] = [{'port' => node['gitlab']['redis_port'], 'address' => node['gitlab']['redis_host']}]
+  default['redisio']['servers'] = [{ 'port' => node['gitlab']['redis_port'], 'address' => node['gitlab']['redis_host'] }]
   default['redisio']['default_settings']['unixsocket'] = node['gitlab']['redis_unixsocket']
   default['redisio']['default_settings']['unixsocketperm'] = node['gitlab']['redis_unixsocketperms']
 end

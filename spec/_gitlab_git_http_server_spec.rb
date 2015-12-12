@@ -4,7 +4,7 @@ supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_gitlab_git_http_server under #{platform} @ #{version}" do
       cached(:chef_run) do
-         ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_gitlab_git_http_server')
+        ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_gitlab_git_http_server')
       end
 
       it 'clones the gitlab-git-http-server repository' do
@@ -26,7 +26,7 @@ supported_platforms.each do |platform, versions|
 
       describe 'when customizing gitlab user home' do
         cached(:chef_run) do
-           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
+          ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['home'] = '/data/git'
           end.converge('gitlab::_gitlab_git_http_server')
         end

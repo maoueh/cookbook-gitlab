@@ -4,7 +4,7 @@ supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_gitlab_shell under #{platform} @ #{version}" do
       cached(:chef_run) do
-         ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_gitlab_shell')
+        ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_gitlab_shell')
       end
 
       it 'clones the gitlab-shell repository' do
@@ -26,9 +26,8 @@ supported_platforms.each do |platform, versions|
             repos_path: '/home/git/repositories',
             redis_path: '/usr/local/bin/redis-cli',
             redis_host: '127.0.0.1',
-            redis_port: '6379',
-            redis_database: nil,
             redis_port: '0',
+            redis_database: nil,
             redis_unixsocket: '/var/run/redis/sockets/redis.sock',
             namespace: 'resque:gitlab',
             self_signed_cert: false
@@ -40,7 +39,7 @@ supported_platforms.each do |platform, versions|
         expect(chef_run).to create_directory('/home/git/repositories').with(
           user: 'git',
           group: 'git',
-          mode: 02770
+          mode: 0770
         )
       end
 
@@ -66,7 +65,7 @@ supported_platforms.each do |platform, versions|
 
       describe 'when customizing gitlab user home' do
         cached(:chef_run) do
-           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
+          ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['home'] = '/data/git'
           end.converge('gitlab::_gitlab_shell')
         end

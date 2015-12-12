@@ -4,7 +4,7 @@ supported_platforms.each do |platform, versions|
   versions.each do |version|
     describe "gitlab::_gems under #{platform} @ #{version}" do
       cached(:chef_run) do
-         ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_gems')
+        ChefSpec::SoloRunner.new(platform: platform, version: version).converge('gitlab::_gems')
       end
 
       it 'gets the latest certificate bundle' do
@@ -26,7 +26,7 @@ supported_platforms.each do |platform, versions|
 
       describe 'when customizing gitlab user home' do
         cached(:chef_run) do
-           ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
+          ChefSpec::SoloRunner.new(platform: platform, version: version) do |node|
             node.set['gitlab']['home'] = '/data/git'
           end.converge('gitlab::_gems')
         end
