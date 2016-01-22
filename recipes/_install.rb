@@ -69,6 +69,7 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     'backup' => gitlab['backup'],
     'build_artifacts' => gitlab['build_artifacts'],
     'ci' => gitlab['ci'],
+    'cron_jobs' => gitlab['cron_jobs'],
     'extra' => gitlab['extra'],
     'features' => gitlab['features'],
     'gravatar' => gitlab['gravatar'],
@@ -265,7 +266,6 @@ template '/etc/default/gitlab' do
     'app_user' => gitlab['user'],
     'app_root' => gitlab['path'],
     'mail_room' => gitlab['mail_room'],
-    'repos_path' => gitlab['repos_path'],
     'shell_path' => gitlab['shell']
   )
 end

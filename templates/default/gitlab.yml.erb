@@ -145,6 +145,16 @@ production: &base
     plain_url: <%= @gravatar["plain_url"] %>     # default: http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
     ssl_url:   <%= @gravatar["ssl_url"] %>    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
 
+  ## Auxiliary jobs
+  # Periodically executed jobs, to self-heal Gitlab, do external synchronizations, etc.
+  # Please read here for more information: https://github.com/ondrejbartas/sidekiq-cron#adding-cron-job
+  cron_jobs:
+    <% @cron_jobs.each do |id, config| %>
+      <%= id -%>:
+        cron: "<%= config["cron"] -%>"
+    <% end %>
+
+
   #
   # 2. GitLab CI settings
   # ==========================
@@ -186,6 +196,11 @@ production: &base
         method: '<%= @ldap["method"] %>' # "ssl" or "plain"
         bind_dn: '<%= @ldap["bind_dn"] %>'
         password: '<%= @ldap["password"] %>'
+
+        # Set a timeout, in seconds, for LDAP queries. This helps avoid blocking
+        # a request if the LDAP server becomes unresponsive.
+        # A value of 0 means there is no timeout.
+        timeout: <%= @ldap["timeout"] %>
 
         # This setting specifies if LDAP server is Active Directory LDAP server.
         # For non AD servers it skips the AD specific queries.

@@ -36,7 +36,7 @@ supported_platforms.each do |platform, versions|
             'email_from' => 'gitlab@localhost',
             'email_reply_to' => 'noreply@localhost',
             'timezone' => 'UTC',
-            'issue_closing_pattern' => '((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)',
+            'issue_closing_pattern' => '((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?))+)',
             'max_size' => '20971520',
             'git_timeout' => 10,
             'git_bin_path' => '/usr/local/bin/git',
@@ -75,6 +75,11 @@ supported_platforms.each do |platform, versions|
               'add_pusher' => true,
               'builds_path' => 'builds/'
             },
+            'cron_jobs' => {
+              'stuck_ci_builds_worker' => {
+                'cron' => '0 0 * * *'
+              }
+            },
             'extra' => {
               'google_analytics_id' => ''
             },
@@ -104,6 +109,7 @@ supported_platforms.each do |platform, versions|
               'active_directory' => true,
               'allow_username_or_email_login' => true,
               'block_auto_created_users' => false,
+              'timeout' => 10,
               'attributes' => {
                 'username' => "['uid', 'userid', 'sAMAccountName']",
                 'email' => "['mail', 'email', 'userPrincipalName']",
@@ -284,7 +290,6 @@ supported_platforms.each do |platform, versions|
             'mail_room' => {
               'enabled' => false
             },
-            'repos_path' => '/home/git/repositories',
             'shell_path' => '/bin/bash'
           }
         )
@@ -435,7 +440,6 @@ supported_platforms.each do |platform, versions|
               'mail_room' => {
                 'enabled' => false
               },
-              'repos_path' => '/data/git/repositories',
               'shell_path' => '/bin/bash'
             }
           )

@@ -1,8 +1,10 @@
 # 3.8.3 (In progress)
 
+ * Updated `gitlab` to `8.3.x`.
+
 # 3.8.2 (January 21, 2016)
 
- * Updated `gitlab` to `8.2.x`
+ * Updated `gitlab` to `8.2.x`.
 
  * Renamed some attributes, see `UPGRADE.md` section `Cookbook 2.8.1 to 3.8.2`.
 
@@ -10,11 +12,11 @@
 
 # 2.8.1 (November 20, 2015)
 
- * Updated `gitlab` to `8.1.x`
+ * Updated `gitlab` to `8.1.x`.
 
 # 2.8.0 (November 20, 2015)
 
- * Updated `gitlab` to `8.0.x`
+ * Updated `gitlab` to `8.0.x`.
 
 # 2.7.14 (October 8, 2015)
 

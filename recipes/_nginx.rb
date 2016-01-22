@@ -22,8 +22,7 @@ template path do
     ip: gitlab['ip'],
     port: gitlab['port'],
     ssl_certificate_path: gitlab['ssl_certificate_path'],
-    ssl_certificate_key_path: gitlab['ssl_certificate_key_path'],
-    client_max_body_size: gitlab['client_max_body_size']
+    ssl_certificate_key_path: gitlab['ssl_certificate_key_path']
   )
 end
 

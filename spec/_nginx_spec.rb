@@ -21,8 +21,7 @@ supported_platforms.each do |platform, versions|
             ip: '*',
             port: '80',
             ssl_certificate_path: '/etc/ssl',
-            ssl_certificate_key_path: '/etc/ssl',
-            client_max_body_size: '20m'
+            ssl_certificate_key_path: '/etc/ssl'
           }
         )
       end
@@ -87,8 +86,7 @@ supported_platforms.each do |platform, versions|
               ip: '*',
               port: '80',
               ssl_certificate_path: '/etc/ssl',
-              ssl_certificate_key_path: '/etc/ssl',
-              client_max_body_size: '20m'
+              ssl_certificate_key_path: '/etc/ssl'
             }
           )
         end

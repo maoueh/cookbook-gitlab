@@ -15,7 +15,7 @@ default['gitlab']['shell'] = '/bin/bash'
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = '8-1-stable'
+default['gitlab']['revision'] = '8-3-stable'
 default['gitlab']['url'] = 'http://localhost:80/'
 default['gitlab']['port'] = '80'
 
@@ -30,7 +30,7 @@ default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satelli
 
 default['gitlab']['workhorse']['path'] = "#{node['gitlab']['home']}/gitlab-workhorse"
 default['gitlab']['workhorse']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-workhorse.git'
-default['gitlab']['workhorse']['revision'] = '0.4.2'
+default['gitlab']['workhorse']['revision'] = '0.5.4'
 
 default['gitlab']['mail_room']['enabled'] = false
 
@@ -43,7 +43,7 @@ default['gitlab']['secret_key'] = 'not_random_change_me_now_with_random_30_chara
 
 default['gitlab']['shell_repository'] = 'https://github.com/gitlabhq/gitlab-shell.git'
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = 'v2.6.8'
+default['gitlab']['shell_revision'] = 'v2.6.9'
 default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
 
 default['gitlab']['smtp']['enabled'] = false
@@ -65,7 +65,7 @@ default['gitlab']['email_reply_to'] = 'noreply@localhost'
 default['gitlab']['ssh_port'] = '22'
 
 default['gitlab']['timezone'] = 'UTC'
-default['gitlab']['issue_closing_pattern'] = '((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?#\d+(?:(?:, *| +and +)?))+)'
+default['gitlab']['issue_closing_pattern'] = '((?:[Cc]los(?:e[sd]?|ing)|[Ff]ix(?:e[sd]|ing)?) +(?:(?:issues? +)?%{issue_ref}(?:(?:, *| +and +)?))+)'
 default['gitlab']['max_size'] = '20971520' # 20.megabytes
 default['gitlab']['git_timeout'] = 10
 default['gitlab']['git_bin_path'] = '/usr/local/bin/git'
@@ -97,6 +97,8 @@ default['gitlab']['ci']['all_broken_builds'] = true
 default['gitlab']['ci']['add_pusher'] = true
 default['gitlab']['ci']['builds_path'] = 'builds/'
 
+default['gitlab']['cron_jobs']['stuck_ci_builds_worker']['cron'] = '0 0 * * *'
+
 default['gitlab']['extra']['google_analytics_id'] = ''
 
 default['gitlab']['features']['issues'] = true
@@ -126,6 +128,7 @@ default['gitlab']['ldap']['active_directory'] = true
 default['gitlab']['ldap']['allow_username_or_email_login'] = true
 default['gitlab']['ldap']['block_auto_created_users'] = false
 default['gitlab']['ldap']['user_filter'] = ''
+default['gitlab']['ldap']['timeout'] = 10
 default['gitlab']['ldap']['attributes']['username'] = "['uid', 'userid', 'sAMAccountName']"
 default['gitlab']['ldap']['attributes']['email'] = "['mail', 'email', 'userPrincipalName']"
 default['gitlab']['ldap']['attributes']['name'] = 'cn'
@@ -274,4 +277,3 @@ default['gitlab']['ssl_certificate_path'] = '/etc/ssl' # Path to .crt file. If i
 default['gitlab']['ssl_certificate_key_path'] = '/etc/ssl' # Path to .key file. If directory doesn't exist it will be created
 default['gitlab']['ssl_certificate'] = '' # SSL certificate
 default['gitlab']['ssl_certificate_key'] = '' # SSL certificate key
-default['gitlab']['client_max_body_size'] = '20m'
