@@ -171,20 +171,20 @@ when 'debian'
   default['gitlab']['packages'] = %w(
     build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
     curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev python-docutils
-    libkrb5-dev logrotate vim curl wget checkinstall cmake nodejs
+    libkrb5-dev libssh2-dev logrotate vim curl wget checkinstall cmake nodejs
   )
 when 'rhel'
   default['gitlab']['packages'] = %w(
     libicu-devel libxslt-devel libyaml-devel libxml2-devel gdbm-devel libffi-devel zlib-devel openssl-devel
-    libyaml-devel readline-devel curl-devel openssl-devel pcre-devel mysql-devel gcc-c++
+    libyaml-devel libssh2-devel libcurl-devel readline-devel curl-devel openssl-devel pcre-devel mysql-devel gcc-c++
     krb5-devel ImageMagick-devel ImageMagick cmake nodejs
   )
 end
 
 ## Ruby
 
-default['gitlab']['compile_ruby'] = true
 default['gitlab']['ruby'] = '2.1.2'
+default['gitlab']['update_ruby'] = false
 
 override['ruby_build']['install_git_pkgs'] = []
 

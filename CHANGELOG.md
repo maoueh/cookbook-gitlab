@@ -1,5 +1,10 @@
 # 3.8.3 (In progress)
 
+ * Added possibility to force re-installation of Ruby, to update
+   to a new version for example.
+
+ * Added `libssh2` development packages as a required package.
+
  * Updated `gitlab` to `8.3.x`.
 
 # 3.8.2 (January 21, 2016)
