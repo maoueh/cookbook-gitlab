@@ -36,3 +36,40 @@ performed prior migrating your node.
  5. Test everything was correct and remove old database backup
 
        rm -rf /var/lib/mysql
+
+# Cookbook 2.8.1 to 3.8.2
+
+In the move from 8.1 to 8.2, gitlab renamed `gitlab-git-http-server` to
+`gitlab-workhorse`. At the same times, I moved some attributes around
+to make it easier to develop.
+
+## Attributes
+
+ * `node['gitlab']['git_http_server']` to `node['gitlab']['workhorse']`
+
+ * `node['gitlab']['oauth_enabled']` to `node['gitlab']['oauth']['enabled']`
+ * `node['gitlab']['oauth_block_auto_created_users']` to `node['gitlab']['oauth']['block_auto_created_users']`
+ * `node['gitlab']['oauth_auto_link_ldap_user']` to `node['gitlab']['oauth']['auto_link_ldap_user']`
+ * `node['gitlab']['oauth_allow_single_sign_on']` to `node['gitlab']['oauth']['allow_single_sign_on']`
+ * `node['gitlab']['oauth_providers']` to `node['gitlab']['oauth']['providers']`
+
+ * `node['gitlab']['default_project_features']['issues']` to `node['gitlab']['features']['issues']`
+ * `node['gitlab']['default_project_features']['merge_requests']` to `node['gitlab']['features']['merge_requests']`
+ * `node['gitlab']['default_project_features']['wiki']` to `node['gitlab']['features']['wiki']`
+ * `node['gitlab']['default_project_features']['snippets']` to `node['gitlab']['features']['snippets']`
+ * `node['gitlab']['default_project_features']['builds']` to `node['gitlab']['features']['builds']`
+
+ * `node['gitlab']['gravatar']` to `node['gitlab']['gravatar']['enabled']`
+ * `node['gitlab']['gravatar_plain_url'] to `node['gitlab']['gravatar']['plain_url']`
+ * `node['gitlab']['gravatar_ssl_url'] to `node['gitlab']['gravatar']['ssl_url']`
+
+## Git HTTP Server Removal
+
+Here the steps needed if you want to actually remove the old references to
+`gitlab-git-http-server`. These steps must be performed after GitLab instance
+has been upgraded to `8.2` (or higher).
+
+    rm -rf /home/git/gitlab-git-http-server
+
+That's it. Change `/home/git` to wherever is your git user home directory.
+

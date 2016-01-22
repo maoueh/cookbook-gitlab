@@ -81,10 +81,11 @@ production: &base
 
     ## Default project features settings
     default_projects_features:
-      issues: <%= @default_projects_features['issues'] %>
-      merge_requests: <%= @default_projects_features['merge_requests'] %>
-      wiki: <%= @default_projects_features['wiki'] %>
-      snippets: <%= @default_projects_features['snippets'] %>
+      issues: <%= @features['issues'] %>
+      merge_requests: <%= @features['merge_requests'] %>
+      wiki: <%= @features['wiki'] %>
+      snippets: <%= @features['snippets'] %>
+      builds: <%= @features['snippets'] %>
 
     ## Webhook settings
     # Number of seconds to wait for HTTP response after sending webhook HTTP POST request (default: 10)
@@ -124,13 +125,25 @@ production: &base
     # The mailbox where incoming mail will end up. Usually "inbox".
     mailbox: "<%= @reply_by_email['inbox'] %>"
 
+  ## Build Artifacts
+  artifacts:
+    enabled: <%= @build_artifacts["enabled"] %>
+    # The location where build artifacts are stored (default: shared/artifacts).
+    path: <%= @build_artifacts["path"] %>
+
+  ## Git LFS
+  lfs:
+    enabled: <%= @lfs["enabled"] %>
+    # The location where LFS objects are stored (default: shared/lfs-objects).
+    # storage_path: <%= @lfs["path"] %>
+
   ## Gravatar
   ## For Libravatar see: http://doc.gitlab.com/ce/customization/libravatar.html
   gravatar:
-    enabled: <%= @gravatar %>      # Use user avatar image from Gravatar.com (default: true)
+    enabled: <%= @gravatar["enabled"] %>      # Use user avatar image from Gravatar.com (default: true)
     # gravatar urls: possible placeholders: %{hash} %{size} %{email}
-    plain_url: <%= @gravatar_plain_url %>     # default: http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
-    ssl_url:   <%= @gravatar_ssl_url %>    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
+    plain_url: <%= @gravatar["plain_url"] %>     # default: http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
+    ssl_url:   <%= @gravatar["ssl_url"] %>    # default: https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon
 
   #
   # 2. GitLab CI settings
@@ -156,7 +169,7 @@ production: &base
   # You can inspect a sample of the LDAP users with login access by running:
   #   bundle exec rake gitlab:ldap:check RAILS_ENV=production
   ldap:
-    enabled: <%= @ldap_config["enabled"] %>
+    enabled: <%= @ldap["enabled"] %>
     servers:
       main: # 'main' is the GitLab 'provider ID' of this LDAP server
         ## label
@@ -165,19 +178,19 @@ production: &base
         # for instance if you find out it is too large to fit on the web page.
         #
         # Example: 'Paris' or 'Acme, Ltd.'
-        label: '<%= @ldap_config["label"] %>'
+        label: '<%= @ldap["label"] %>'
 
-        host: '<%= @ldap_config["host"] %>'
-        port: <%= @ldap_config["port"] %>
-        uid: '<%= @ldap_config["uid"] %>'
-        method: '<%= @ldap_config["method"] %>' # "ssl" or "plain"
-        bind_dn: '<%= @ldap_config["bind_dn"] %>'
-        password: '<%= @ldap_config["password"] %>'
+        host: '<%= @ldap["host"] %>'
+        port: <%= @ldap["port"] %>
+        uid: '<%= @ldap["uid"] %>'
+        method: '<%= @ldap["method"] %>' # "ssl" or "plain"
+        bind_dn: '<%= @ldap["bind_dn"] %>'
+        password: '<%= @ldap["password"] %>'
 
         # This setting specifies if LDAP server is Active Directory LDAP server.
         # For non AD servers it skips the AD specific queries.
         # If your LDAP server is not AD, set this to false.
-        active_directory: <%= @ldap_config["active_directory"] %>
+        active_directory: <%= @ldap["active_directory"] %>
 
         # If allow_username_or_email_login is enabled, GitLab will ignore everything
         # after the first '@' in the LDAP username submitted by the user on login.
@@ -188,18 +201,18 @@ production: &base
         #
         # If you are using "uid: 'userPrincipalName'" on ActiveDirectory you need to
         # disable this setting, because the userPrincipalName contains an '@'.
-        allow_username_or_email_login: <%= @ldap_config["allow_username_or_email_login"] %>
+        allow_username_or_email_login: <%= @ldap["allow_username_or_email_login"] %>
 
         # To maintain tight control over the number of active users on your GitLab installation,
         # enable this setting to keep new users blocked until they have been cleared by the admin
         # (default: false).
-        block_auto_created_users: <%= @ldap_config["block_auto_created_users"] %>
+        block_auto_created_users: <%= @ldap["block_auto_created_users"] %>
 
         # Base where we can search for users
         #
         #   Ex. ou=People,dc=gitlab,dc=example
         #
-        base: '<%= @ldap_config["base"] %>'
+        base: '<%= @ldap["base"] %>'
 
         # Filter LDAP users
         #
@@ -208,7 +221,7 @@ production: &base
         #
         #   Note: GitLab does not support omniauth-ldap's custom filter syntax.
         #
-        user_filter: '<%= @ldap_config["user_filter"] %>'
+        user_filter: '<%= @ldap["user_filter"] %>'
 
         # LDAP attributes that GitLab will use to create an account for the LDAP user.
         # The specified attribute can either be the attribute name as a string (e.g. 'mail'),
@@ -220,15 +233,15 @@ production: &base
           # them in issues, merge request and comments (like `@username`).
           # If the attribute specified for `username` contains an email address,
           # the GitLab username will be the part of the email address before the '@'.
-          username: <%= @ldap_config["attributes"]["username"] %>
-          email: <%= @ldap_config["attributes"]["email"] %>
+          username: <%= @ldap["attributes"]["username"] %>
+          email: <%= @ldap["attributes"]["email"] %>
 
           # If no full name could be found at the attribute specified for `name`,
           # the full name is determined using the attributes specified for
           # `first_name` and `last_name`.
-          name: <%= @ldap_config["attributes"]["name"] %>
-          first_name: <%= @ldap_config["attributes"]["first_name"] %>
-          last_name: <%= @ldap_config["attributes"]["last_name"] %>
+          name: <%= @ldap["attributes"]["name"] %>
+          first_name: <%= @ldap["attributes"]["first_name"] %>
+          last_name: <%= @ldap["attributes"]["last_name"] %>
 
       # GitLab EE only: add more LDAP servers
       # Choose an ID made of a-z and 0-9 . This ID will be stored in the database
@@ -242,7 +255,7 @@ production: &base
   ## OmniAuth settings
   omniauth:
     # Allow login via Twitter, Google, etc. using OmniAuth providers
-    enabled: <%= @oauth_enabled %>
+    enabled: <%= @oauth["enabled"] %>
 
     # Uncomment this to automatically sign in with a specific omniauth provider's without
     # showing GitLab's sign-in page (default: show the GitLab sign-in page)
@@ -251,12 +264,12 @@ production: &base
     # CAUTION!
     # This allows users to login without having a user account first (default: false).
     # User accounts will be created automatically when authentication was successful.
-    allow_single_sign_on: <%= @oauth_allow_single_sign_on %>
+    allow_single_sign_on: <%= @oauth["allow_single_sign_on"] %>
     # Locks down those users until they have been cleared by the admin (default: true).
-    block_auto_created_users: <%= @oauth_block_auto_created_users %>
+    block_auto_created_users: <%= @oauth["block_auto_created_users"] %>
     # Look up new users in LDAP servers. If a match is found (same uid), automatically
     # link the omniauth identity with the LDAP account. (default: false)
-    auto_link_ldap_user: <%= @oauth_auto_link_ldap_user %>
+    auto_link_ldap_user: <%= @oauth["auto_link_ldap_user"] %>
 
     ## Auth providers
     # Uncomment the following lines and fill in the data of the auth provider you want to use
@@ -266,7 +279,7 @@ production: &base
     # arguments, followed by optional 'args' which can be either a hash or an array.
     # Documentation for this is available at http://doc.gitlab.com/ce/integration/omniauth.html
     providers:
-    <% @oauth_providers.each do |provider| %>
+    <% @oauth["providers"].each do |provider| %>
       - { name: '<%= provider['name'] -%>',
           app_id: '<%= provider['app_id'] -%>',
           app_secret: '<%= provider['app_secret'] -%>'
@@ -274,6 +287,10 @@ production: &base
           <%= ", args: { #{provider['args']} } " if provider['args'] %>
         }
     <% end %>
+
+  # Shared file storage settings
+  shared:
+    # path: <%= @shared["path"] %> # Default: shared
 
   #
   # 4. Advanced settings
@@ -345,7 +362,7 @@ production: &base
 
   extra:
     ## Google analytics. Uncomment if you want it
-    <%= "google_analytics_id: '#{ @google_analytics_id }'" unless @google_analytics_id.empty? %>
+    <%= "google_analytics_id: '#{ @extra["google_analytics_id"] }'" unless @extra["google_analytics_id"].empty? %>
 
     ## Piwik analytics.
     # piwik_url: '_your_piwik_url'
@@ -375,6 +392,8 @@ test:
   <<: *base
   gravatar:
     enabled: true
+  lfs:
+    enabled: false
   gitlab:
     host: localhost
     port: 80

@@ -48,40 +48,49 @@ supported_platforms.each do |platform, versions|
             'user_can_change_username' => true,
             'default_theme' => 2,
             'repository_downloads_path' => 'tmp/repositories',
-            'oauth_enabled' => false,
-            'oauth_block_auto_created_users' => true,
-            'oauth_auto_link_ldap_user' => false,
-            'oauth_allow_single_sign_on' => false,
-            'oauth_providers' => [],
-            'google_analytics_id' => '',
             'ssh_port' => '22',
-            'default_projects_features' => {
-              'issues' => true,
-              'merge_requests' => true,
-              'wiki' => true,
-              'snippets' => false
-            },
-            'reply_by_email' => {
-              'enabled' => false,
-              'address' => 'gitlab-incoming+%{key}@gmail.com',
-              'user' => 'gitlab-incoming@gmail.com',
-              'password' => '[REDACTED]',
-              'host' => 'imap.gmail.com',
-              'port' => 993,
-              'ssl' => true,
-              'start_tls' => false,
-              'mailbox' => 'inbox'
-            },
             'webhook_timeout' => 10,
-            'gravatar' => true,
-            'gravatar_plain_url' => 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon',
-            'gravatar_ssl_url' => 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon',
+
+            # Nested configurations
+            'backup' => {
+              'enable' => true,
+              'cron' => {
+                'action' => :create,
+                'minute' => 0,
+                'hour' => 2,
+                'mailto' => 'gitlab@localhost',
+                'path' => '/usr/local/bin:/usr/bin:/bin'
+              },
+              'backup_keep_time' => 0,
+              'backup_path' => 'tmp/backups',
+              'archive_permissions' => '0640',
+              'pg_schema' => nil
+            },
+            'build_artifacts' => {
+              'enabled' => true,
+              'path' => 'shared/artifacts'
+            },
             'ci' => {
               'all_broken_builds' => true,
               'add_pusher' => true,
               'builds_path' => 'builds/'
             },
-            'ldap_config' => {
+            'extra' => {
+              'google_analytics_id' => ''
+            },
+            'features' => {
+              'issues' => true,
+              'merge_requests' => true,
+              'wiki' => true,
+              'snippets' => false,
+              'builds' => true
+            },
+            'gravatar' => {
+              'enabled' => true,
+              'plain_url' => 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon',
+              'ssl_url' => 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
+            },
+            'ldap' => {
               'enabled' => false,
               'label' => 'LDAP',
               'host' => '_your_ldap_server',
@@ -103,19 +112,30 @@ supported_platforms.each do |platform, versions|
                 'last_name' => 'sn'
               }
             },
-            'backup' => {
-              'enable' => true,
-              'cron' => {
-                'action' => :create,
-                'minute' => 0,
-                'hour' => 2,
-                'mailto' => 'gitlab@localhost',
-                'path' => '/usr/local/bin:/usr/bin:/bin'
-              },
-              'backup_keep_time' => 0,
-              'backup_path' => 'tmp/backups',
-              'archive_permissions' => '0640',
-              'pg_schema' => nil
+            'lfs' => {
+              'enabled' => true,
+              'path' => 'shared/lfs-objects'
+            },
+            'oauth' => {
+              'enabled' => false,
+              'block_auto_created_users' => true,
+              'auto_link_ldap_user' => false,
+              'allow_single_sign_on' => false,
+              'providers' => []
+            },
+            'reply_by_email' => {
+              'enabled' => false,
+              'address' => 'gitlab-incoming+%{key}@gmail.com',
+              'user' => 'gitlab-incoming@gmail.com',
+              'password' => '[REDACTED]',
+              'host' => 'imap.gmail.com',
+              'port' => 993,
+              'ssl' => true,
+              'start_tls' => false,
+              'mailbox' => 'inbox'
+            },
+            'shared' => {
+              'path' => '/mnt/gitlab'
             }
           }
         )

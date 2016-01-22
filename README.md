@@ -42,11 +42,13 @@ For example, next breaking change version could be `2.7.9` for example.
 
 ### Versions
 
-* GitLab: 7.7.x
-* GitLab Shell: 2.4.0
+* GitLab: 8.2.0
+* GitLab Shell: 2.6.8
+* GitLab Workhorse: 0.4.2
 * Ruby: 2.1.2
 * Redis: 2.8.17
-* Git: 2.1.4
+* Git: 2.4.7
+* Go: 1.5.0
 * Nginx: 1.1.19
 * PostgreSQL: 9.3
 * MySQL: 5.5.34

@@ -28,9 +28,9 @@ default['gitlab']['repos_path'] = "#{node['gitlab']['home']}/repositories"
 # Note for maintainers: keep the satellites.path setting until GitLab 9.0 at least, used by migrations
 default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satellites"
 
-default['gitlab']['git_http_server']['path'] = "#{node['gitlab']['home']}/gitlab-git-http-server"
-default['gitlab']['git_http_server']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-git-http-server.git'
-default['gitlab']['git_http_server']['revision'] = '0.3.0'
+default['gitlab']['workhorse']['path'] = "#{node['gitlab']['home']}/gitlab-workhorse"
+default['gitlab']['workhorse']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-workhorse.git'
+default['gitlab']['workhorse']['revision'] = '0.4.2'
 
 default['gitlab']['mail_room']['enabled'] = false
 
@@ -43,7 +43,7 @@ default['gitlab']['secret_key'] = 'not_random_change_me_now_with_random_30_chara
 
 default['gitlab']['shell_repository'] = 'https://github.com/gitlabhq/gitlab-shell.git'
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = 'v2.6.5'
+default['gitlab']['shell_revision'] = 'v2.6.8'
 default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
 
 default['gitlab']['smtp']['enabled'] = false
@@ -54,19 +54,6 @@ default['gitlab']['smtp']['password'] = '123456'
 default['gitlab']['smtp']['domain'] = 'gitlab.example.com'
 default['gitlab']['smtp']['authentication'] = 'login'
 default['gitlab']['smtp']['enable_starttls_auto'] = true
-
-## Backup
-
-default['gitlab']['backup']['enable'] = true
-default['gitlab']['backup']['cron']['action'] = :create
-default['gitlab']['backup']['cron']['minute'] = 0
-default['gitlab']['backup']['cron']['hour'] = 2
-default['gitlab']['backup']['cron']['mailto'] = 'gitlab@localhost'
-default['gitlab']['backup']['cron']['path'] = '/usr/local/bin:/usr/bin:/bin'
-default['gitlab']['backup']['backup_keep_time'] = 0
-default['gitlab']['backup']['backup_path'] = 'tmp/backups'
-default['gitlab']['backup']['archive_permissions'] = '0640'
-default['gitlab']['backup']['pg_schema'] = nil
 
 ## Config
 
@@ -86,17 +73,44 @@ default['gitlab']['user_can_create_group'] = true
 default['gitlab']['user_can_change_username'] = true
 default['gitlab']['default_theme'] = 2
 default['gitlab']['repository_downloads_path'] = 'tmp/repositories'
-default['gitlab']['oauth_enabled'] = false
-default['gitlab']['oauth_block_auto_created_users'] = true
-default['gitlab']['oauth_auto_link_ldap_user'] = false
-default['gitlab']['oauth_allow_single_sign_on'] = false
-default['gitlab']['oauth_providers'] = []
 
-default['gitlab']['extra']['google_analytics_id'] = ''
+default['gitlab']['webhook_timeout'] = 10
+default['gitlab']['admin_root_password'] = nil
+default['gitlab']['unicorn_workers_number'] = 3
+default['gitlab']['unicorn_timeout'] = 60
+
+default['gitlab']['backup']['enable'] = true
+default['gitlab']['backup']['cron']['action'] = :create
+default['gitlab']['backup']['cron']['minute'] = 0
+default['gitlab']['backup']['cron']['hour'] = 2
+default['gitlab']['backup']['cron']['mailto'] = 'gitlab@localhost'
+default['gitlab']['backup']['cron']['path'] = '/usr/local/bin:/usr/bin:/bin'
+default['gitlab']['backup']['backup_keep_time'] = 0
+default['gitlab']['backup']['backup_path'] = 'tmp/backups'
+default['gitlab']['backup']['archive_permissions'] = '0640'
+default['gitlab']['backup']['pg_schema'] = nil
+
+default['gitlab']['build_artifacts']['enabled'] = true
+default['gitlab']['build_artifacts']['path'] = 'shared/artifacts'
 
 default['gitlab']['ci']['all_broken_builds'] = true
 default['gitlab']['ci']['add_pusher'] = true
 default['gitlab']['ci']['builds_path'] = 'builds/'
+
+default['gitlab']['extra']['google_analytics_id'] = ''
+
+default['gitlab']['features']['issues'] = true
+default['gitlab']['features']['merge_requests'] = true
+default['gitlab']['features']['wiki'] = true
+default['gitlab']['features']['snippets'] = false
+default['gitlab']['features']['builds'] = true
+
+default['gitlab']['gravatar']['enabled'] = true
+default['gitlab']['gravatar']['plain_url'] = 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
+default['gitlab']['gravatar']['ssl_url'] = 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
+
+default['gitlab']['lfs']['enabled'] = true
+default['gitlab']['lfs']['path'] = 'shared/lfs-objects'
 
 default['gitlab']['ldap']['enabled'] = false
 default['gitlab']['ldap']['label'] = 'LDAP'
@@ -118,15 +132,6 @@ default['gitlab']['ldap']['attributes']['name'] = 'cn'
 default['gitlab']['ldap']['attributes']['first_name'] = 'givenName'
 default['gitlab']['ldap']['attributes']['last_name'] = 'sn'
 
-default['gitlab']['gravatar'] = true
-default['gitlab']['gravatar_plain_url'] = 'http://www.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
-default['gitlab']['gravatar_ssl_url'] = 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'
-
-default['gitlab']['default_projects_features']['issues'] = true
-default['gitlab']['default_projects_features']['merge_requests'] = true
-default['gitlab']['default_projects_features']['wiki'] = true
-default['gitlab']['default_projects_features']['snippets'] = false
-
 default['gitlab']['reply_by_email']['enabled'] = false
 default['gitlab']['reply_by_email']['address'] = 'gitlab-incoming+%{key}@gmail.com'
 default['gitlab']['reply_by_email']['user'] = 'gitlab-incoming@gmail.com'
@@ -137,10 +142,13 @@ default['gitlab']['reply_by_email']['ssl'] = true
 default['gitlab']['reply_by_email']['start_tls'] = false
 default['gitlab']['reply_by_email']['mailbox'] = 'inbox'
 
-default['gitlab']['webhook_timeout'] = 10
-default['gitlab']['admin_root_password'] = nil
-default['gitlab']['unicorn_workers_number'] = 3
-default['gitlab']['unicorn_timeout'] = 60
+default['gitlab']['oauth']['enabled'] = false
+default['gitlab']['oauth']['block_auto_created_users'] = true
+default['gitlab']['oauth']['auto_link_ldap_user'] = false
+default['gitlab']['oauth']['allow_single_sign_on'] = false
+default['gitlab']['oauth']['providers'] = []
+
+default['gitlab']['shared']['path'] = '/mnt/gitlab'
 
 ## Git
 

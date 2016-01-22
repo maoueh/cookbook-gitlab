@@ -1,10 +1,25 @@
-language: ruby
+sudo: required
 
-rvm:
-- 2.1.4
+addons:
+  apt:
+    sources:
+      - chef-current-precise
+    packages:
+      - chefdk
 
-bundler_args: --without doc guard --jobs 7 --retry 3
+install: echo "skip bundle install"
+
+# Ensure we make ChefDK's Ruby the default
+before_script:
+  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
+  # We have to install chef-sugar for ChefSpec
+  - /opt/chefdk/embedded/bin/chef gem install chef-sugar
+  # We use rake to actually run stuff
+  - /opt/chefdk/embedded/bin/chef gem install rake
 
 script:
-- bundle exec berks install
-- bundle exec rake test
+  - /opt/chefdk/embedded/bin/chef --version
+  - /opt/chefdk/embedded/bin/rubocop --version
+  - /opt/chefdk/embedded/bin/foodcritic --version
+  - /opt/chefdk/embedded/bin/rake --version
+  - /opt/chefdk/embedded/bin/rake test

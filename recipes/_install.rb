@@ -62,22 +62,21 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     'user_can_change_username' => gitlab['user_can_change_username'],
     'default_theme' => gitlab['default_theme'],
     'repository_downloads_path' => gitlab['repository_downloads_path'],
-    'oauth_enabled' => gitlab['oauth_enabled'],
-    'oauth_block_auto_created_users' => gitlab['oauth_block_auto_created_users'],
-    'oauth_auto_link_ldap_user' => gitlab['oauth_auto_link_ldap_user'],
-    'oauth_allow_single_sign_on' => gitlab['oauth_allow_single_sign_on'],
-    'oauth_providers' => gitlab['oauth_providers'],
-    'google_analytics_id' => gitlab['extra']['google_analytics_id'],
-    'default_projects_features' => gitlab['default_projects_features'],
-    'reply_by_email' => gitlab['reply_by_email'],
     'webhook_timeout' => gitlab['webhook_timeout'],
-    'gravatar' => gitlab['gravatar'],
-    'gravatar_plain_url' => gitlab['gravatar_plain_url'],
-    'gravatar_ssl_url' => gitlab['gravatar_ssl_url'],
-    'ci' => gitlab['ci'],
-    'ldap_config' => gitlab['ldap'],
     'ssh_port' => gitlab['ssh_port'],
-    'backup' => gitlab['backup']
+
+    # Nested configurations
+    'backup' => gitlab['backup'],
+    'build_artifacts' => gitlab['build_artifacts'],
+    'ci' => gitlab['ci'],
+    'extra' => gitlab['extra'],
+    'features' => gitlab['features'],
+    'gravatar' => gitlab['gravatar'],
+    'ldap' => gitlab['ldap'],
+    'lfs' => gitlab['lfs'],
+    'oauth' => gitlab['oauth'],
+    'reply_by_email' => gitlab['reply_by_email'],
+    'shared' => gitlab['shared']
   )
 
   notifies :run, 'bash[git config]', :immediately
