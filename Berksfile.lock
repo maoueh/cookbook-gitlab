@@ -20,7 +20,7 @@ GRAPH
     dmg (>= 0.0.0)
     windows (>= 0.0.0)
     yum-epel (>= 0.0.0)
-  gitlab (3.8.3)
+  gitlab (3.8.4)
     apt (~> 2.6)
     build-essential (~> 2.2)
     database (~> 4.0)
