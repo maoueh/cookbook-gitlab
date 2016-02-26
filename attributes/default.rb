@@ -15,7 +15,7 @@ default['gitlab']['shell'] = '/bin/bash'
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = '8-4-stable'
+default['gitlab']['revision'] = '8-5-stable'
 default['gitlab']['url'] = 'http://localhost:80/'
 default['gitlab']['port'] = '80'
 
@@ -30,7 +30,7 @@ default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satelli
 
 default['gitlab']['workhorse']['path'] = "#{node['gitlab']['home']}/gitlab-workhorse"
 default['gitlab']['workhorse']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-workhorse.git'
-default['gitlab']['workhorse']['revision'] = '0.6.2'
+default['gitlab']['workhorse']['revision'] = '0.6.4'
 
 default['gitlab']['mail_room']['enabled'] = false
 
@@ -150,6 +150,7 @@ default['gitlab']['reply_by_email']['mailbox'] = 'inbox'
 default['gitlab']['oauth']['enabled'] = false
 default['gitlab']['oauth']['block_auto_created_users'] = true
 default['gitlab']['oauth']['auto_link_ldap_user'] = false
+default['gitlab']['oauth']['auto_link_saml_user'] = false
 default['gitlab']['oauth']['allow_single_sign_on'] = false
 default['gitlab']['oauth']['providers'] = []
 

@@ -10,16 +10,16 @@ supported_platforms.each do |platform, versions|
       it 'clones the gitlab-workhorse repository' do
         expect(chef_run).to sync_git('/home/git/gitlab-workhorse').with(
           repository: 'https://gitlab.com/gitlab-org/gitlab-workhorse.git',
-          revision: '0.6.2',
+          revision: '0.6.4',
           user: 'git',
           group: 'git'
         )
       end
 
       it 'install gitlab-workhorse correctly' do
-        resource = chef_run.bash('install gitlab-workhorse 0.6.2')
+        resource = chef_run.bash('install gitlab-workhorse 0.6.4')
 
-        expect(chef_run).to run_bash('install gitlab-workhorse 0.6.2')
+        expect(chef_run).to run_bash('install gitlab-workhorse 0.6.4')
         expect(resource.code).to match(%r{cd /home/git/gitlab-workhorse})
         expect(resource.code).to match(/make/)
       end
@@ -32,7 +32,7 @@ supported_platforms.each do |platform, versions|
         end
 
         it 'install gitlab-workhorse correctly' do
-          resource = chef_run.bash('install gitlab-workhorse 0.6.2')
+          resource = chef_run.bash('install gitlab-workhorse 0.6.4')
 
           expect(resource.code).to match(%r{cd /data/git/gitlab-workhorse})
         end

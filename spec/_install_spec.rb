@@ -129,6 +129,7 @@ supported_platforms.each do |platform, versions|
               'enabled' => false,
               'block_auto_created_users' => true,
               'auto_link_ldap_user' => false,
+              'auto_link_saml_user' => false,
               'allow_single_sign_on' => false,
               'providers' => []
             },
