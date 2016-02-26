@@ -15,7 +15,7 @@ default['gitlab']['shell'] = '/bin/bash'
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = '8-3-stable'
+default['gitlab']['revision'] = '8-4-stable'
 default['gitlab']['url'] = 'http://localhost:80/'
 default['gitlab']['port'] = '80'
 
@@ -30,7 +30,7 @@ default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satelli
 
 default['gitlab']['workhorse']['path'] = "#{node['gitlab']['home']}/gitlab-workhorse"
 default['gitlab']['workhorse']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-workhorse.git'
-default['gitlab']['workhorse']['revision'] = '0.5.4'
+default['gitlab']['workhorse']['revision'] = '0.6.2'
 
 default['gitlab']['mail_room']['enabled'] = false
 
@@ -43,7 +43,7 @@ default['gitlab']['secret_key'] = 'not_random_change_me_now_with_random_30_chara
 
 default['gitlab']['shell_repository'] = 'https://github.com/gitlabhq/gitlab-shell.git'
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = 'v2.6.9'
+default['gitlab']['shell_revision'] = 'v2.6.10'
 default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
 
 default['gitlab']['smtp']['enabled'] = false
@@ -92,6 +92,8 @@ default['gitlab']['backup']['pg_schema'] = nil
 
 default['gitlab']['build_artifacts']['enabled'] = true
 default['gitlab']['build_artifacts']['path'] = 'shared/artifacts'
+
+default['gitlab']['cas3']['session_duration'] = 28_800
 
 default['gitlab']['ci']['all_broken_builds'] = true
 default['gitlab']['ci']['add_pusher'] = true

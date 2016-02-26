@@ -10,7 +10,7 @@ supported_platforms.each do |platform, versions|
       it 'clones the gitlab repository' do
         expect(chef_run).to sync_git('/home/git/gitlab').with(
           repository: 'https://github.com/gitlabhq/gitlabhq.git',
-          revision: '8-3-stable',
+          revision: '8-4-stable',
           user: 'git',
           group: 'git'
         )

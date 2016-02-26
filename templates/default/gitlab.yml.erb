@@ -4,8 +4,8 @@
 #
 ###########################  NOTE  #####################################
 # This file should not receive new settings. All configuration options #
-# that do not require an application restart are being moved to        #
-# ApplicationSetting model!                                            #
+# * are being moved to ApplicationSetting model!                       #
+# If a setting requires an application restart say so in that screen.  #
 # If you change this file in a Merge Request, please also create       #
 # a MR on https://gitlab.com/gitlab-org/omnibus-gitlab/merge_requests  #
 ########################################################################
@@ -302,6 +302,10 @@ production: &base
           <%= ", args: { #{provider['args']} } " if provider['args'] %>
         }
     <% end %>
+
+    # SSO maximum session duration in seconds. Defaults to CAS default of 8 hours.
+    cas3:
+      session_duration: <%= @cas3["session_duration"] %>
 
   # Shared file storage settings
   shared:

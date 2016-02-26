@@ -68,6 +68,7 @@ template "#{gitlab['path']}/config/gitlab.yml" do
     # Nested configurations
     'backup' => gitlab['backup'],
     'build_artifacts' => gitlab['build_artifacts'],
+    'cas3' => gitlab['cas3'],
     'ci' => gitlab['ci'],
     'cron_jobs' => gitlab['cron_jobs'],
     'extra' => gitlab['extra'],
@@ -263,10 +264,11 @@ template '/etc/default/gitlab' do
   source 'gitlab.default.erb'
   mode 0755
   variables(
-    'app_user' => gitlab['user'],
-    'app_root' => gitlab['path'],
+    'gitlab_user' => gitlab['user'],
+    'gitlab_path' => gitlab['path'],
     'mail_room' => gitlab['mail_room'],
-    'shell_path' => gitlab['shell']
+    'shell_path' => gitlab['shell'],
+    'workhorse_path' => gitlab['workhorse']['path']
   )
 end
 

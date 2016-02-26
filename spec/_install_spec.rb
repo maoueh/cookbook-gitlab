@@ -70,6 +70,9 @@ supported_platforms.each do |platform, versions|
               'enabled' => true,
               'path' => 'shared/artifacts'
             },
+            'cas3' => {
+              'session_duration' => 28_800
+            },
             'ci' => {
               'all_broken_builds' => true,
               'add_pusher' => true,
@@ -285,12 +288,13 @@ supported_platforms.each do |platform, versions|
           source: 'gitlab.default.erb',
           mode: 0755,
           variables: {
-            'app_user' => 'git',
-            'app_root' => '/home/git/gitlab',
+            'gitlab_user' => 'git',
+            'gitlab_path' => '/home/git/gitlab',
             'mail_room' => {
               'enabled' => false
             },
-            'shell_path' => '/bin/bash'
+            'shell_path' => '/bin/bash',
+            'workhorse_path' => '/home/git/gitlab-workhorse'
           }
         )
       end
@@ -435,12 +439,13 @@ supported_platforms.each do |platform, versions|
         it 'creates gitlab default configuration file' do
           expect(chef_run).to create_template('/etc/default/gitlab').with(
             variables: {
-              'app_user' => 'git',
-              'app_root' => '/data/git/gitlab',
+              'gitlab_user' => 'git',
+              'gitlab_path' => '/data/git/gitlab',
               'mail_room' => {
                 'enabled' => false
               },
-              'shell_path' => '/bin/bash'
+              'shell_path' => '/bin/bash',
+              'workhorse_path' => '/data/git/gitlab-workhorse'
             }
           )
         end
