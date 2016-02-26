@@ -35,6 +35,6 @@ def nginx_config(platform)
   when 'ubuntu'
     '/etc/nginx/sites-available/gitlab'
   else
-    fail "Platform #{platform} not tested"
+    raise "Platform #{platform} not tested"
   end
 end

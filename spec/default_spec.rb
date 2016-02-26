@@ -43,7 +43,7 @@ supported_platforms.each do |platform, versions|
         when 'ubuntu'
           expect(chef_run).to_not include_recipe('selinux::disabled')
         else
-          fail "Platform #{platform} is not tested"
+          raise "Platform #{platform} is not tested"
         end
       end
 

@@ -37,7 +37,7 @@ supported_platforms.each do |platform, versions|
             mode: 0755
           )
         else
-          fail "Platform #{platform} not tested"
+          raise "Platform #{platform} not tested"
         end
       end
 
@@ -48,7 +48,7 @@ supported_platforms.each do |platform, versions|
         when 'ubuntu'
           expect(chef_run).to create_link('/etc/nginx/sites-enabled/gitlab').with(to: '/etc/nginx/sites-available/gitlab')
         else
-          fail "Platform #{platform} not tested"
+          raise "Platform #{platform} not tested"
         end
       end
 
@@ -61,7 +61,7 @@ supported_platforms.each do |platform, versions|
         when 'ubuntu'
           expect(chef_run).to delete_file('/etc/nginx/sites-enabled/default')
         else
-          fail "Platform #{platform} not tested"
+          raise "Platform #{platform} not tested"
         end
       end
 
@@ -102,7 +102,7 @@ supported_platforms.each do |platform, versions|
               mode: 0755
             )
           else
-            fail "Platform #{platform} not tested"
+            raise "Platform #{platform} not tested"
           end
         end
       end

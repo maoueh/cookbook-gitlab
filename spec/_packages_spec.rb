@@ -24,7 +24,7 @@ supported_platforms.each do |platform, versions|
           expect(chef_run).to include_recipe('yum-epel::default')
         end
       else
-        fail "Platform #{platform} is not tested"
+        raise "Platform #{platform} is not tested"
       end
 
       it 'installs all default packages' do
