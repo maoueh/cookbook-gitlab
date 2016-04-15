@@ -30,7 +30,7 @@ default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satelli
 
 default['gitlab']['workhorse']['path'] = "#{node['gitlab']['home']}/gitlab-workhorse"
 default['gitlab']['workhorse']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-workhorse.git'
-default['gitlab']['workhorse']['revision'] = '0.7.1'
+default['gitlab']['workhorse']['revision'] = '0.7.2'
 
 default['gitlab']['mail_room']['enabled'] = false
 
