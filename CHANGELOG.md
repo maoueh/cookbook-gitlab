@@ -1,4 +1,4 @@
-# 3.8.6 (In progress)
+# 3.8.6 (April 15, 2016)
 
  * Updated `gitlab` to `8.6.x`.
 
