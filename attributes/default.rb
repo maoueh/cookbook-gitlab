@@ -15,7 +15,7 @@ default['gitlab']['shell'] = '/bin/bash'
 
 # GitLab App Server Attributes
 
-default['gitlab']['revision'] = '8-5-stable'
+default['gitlab']['revision'] = '8-6-stable'
 default['gitlab']['url'] = 'http://localhost:80/'
 default['gitlab']['port'] = '80'
 
@@ -30,7 +30,7 @@ default['gitlab']['satellites_path'] = "#{node['gitlab']['home']}/gitlab-satelli
 
 default['gitlab']['workhorse']['path'] = "#{node['gitlab']['home']}/gitlab-workhorse"
 default['gitlab']['workhorse']['repository'] = 'https://gitlab.com/gitlab-org/gitlab-workhorse.git'
-default['gitlab']['workhorse']['revision'] = '0.6.4'
+default['gitlab']['workhorse']['revision'] = '0.7.1'
 
 default['gitlab']['mail_room']['enabled'] = false
 
@@ -43,7 +43,7 @@ default['gitlab']['secret_key'] = 'not_random_change_me_now_with_random_30_chara
 
 default['gitlab']['shell_repository'] = 'https://github.com/gitlabhq/gitlab-shell.git'
 default['gitlab']['shell_path'] = "#{node['gitlab']['home']}/gitlab-shell"
-default['gitlab']['shell_revision'] = 'v2.6.10'
+default['gitlab']['shell_revision'] = 'v2.6.11'
 default['gitlab']['shell_secret_file'] = "#{node['gitlab']['home']}/gitlab/.gitlab_shell_secret"
 
 default['gitlab']['smtp']['enabled'] = false
@@ -172,15 +172,15 @@ default['go']['scm'] = false
 case node['platform_family']
 when 'debian'
   default['gitlab']['packages'] = %w(
-    build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
-    curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev python-docutils
-    libkrb5-dev libssh2-dev logrotate vim curl wget checkinstall cmake nodejs
+    build-essential checkinstall cmake curl libcurl4-openssl-dev libffi-dev libgdbm-dev libicu-dev
+    libkrb5-dev libncurses5-dev libreadline-dev libssh2-dev libssl-dev libxml2-dev libxslt-dev
+    libyaml-dev logrotate nodejs openssh-server postgresql-contrib python-docutils vim wget zlib1g-dev
   )
 when 'rhel'
   default['gitlab']['packages'] = %w(
-    libicu-devel libxslt-devel libyaml-devel libxml2-devel gdbm-devel libffi-devel zlib-devel openssl-devel
-    libyaml-devel libssh2-devel libcurl-devel readline-devel curl-devel openssl-devel pcre-devel mysql-devel gcc-c++
-    krb5-devel ImageMagick-devel ImageMagick cmake nodejs
+    cmake curl-devel gcc-c++ gdbm-devel ImageMagick ImageMagick-devel krb5-devel libcurl-devel
+    libffi-devel libicu-devel libssh2-devel libxml2-devel libxslt-devel libyaml-devel mysql-devel
+    nodejs openssl-devel pcre-devel readline-devel zlib-devel
   )
 end
 
@@ -219,6 +219,8 @@ default['postgresql']['version'] = '9.3'
 default['postgresql']['username']['postgres'] = 'postgres'
 default['postgresql']['password']['postgres'] = 'psqlpass'
 default['postgresql']['server']['host'] = 'localhost'
+
+default['postgresql']['contrib']['extensions'] = ['pg_trgm']
 
 case node['platform_family']
 when 'debian'

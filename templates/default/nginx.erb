@@ -40,7 +40,6 @@ server {
   listen <%= @ip %>:<%= @port %>;
   server_name <%= @host %>;
   server_tokens off;     # don't show the version number, a security best practice
-  root <%= @path %>/public;
 
   ## See app/controllers/application_controller.rb for headers set
 
@@ -102,5 +101,14 @@ server {
     proxy_set_header    X-Forwarded-Proto   $scheme;
 
     proxy_pass http://gitlab-workhorse;
+  }
+
+  error_page 404 /404.html;
+  error_page 422 /422.html;
+  error_page 500 /500.html;
+  error_page 502 /502.html;
+  location ~ ^/(404|422|500|502)\.html$ {
+    root <%= @path %>/public;
+    internal;
   }
 }

@@ -8,6 +8,7 @@ gitlab = node['gitlab']
 
 # 5.Database
 include_recipe 'postgresql::server' unless gitlab['external_database']
+include_recipe 'postgresql::contrib' unless gitlab['external_database']
 
 include_recipe 'database::postgresql'
 include_recipe 'postgresql::ruby'

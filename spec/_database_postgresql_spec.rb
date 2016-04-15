@@ -10,6 +10,8 @@ supported_platforms.each do |platform, versions|
       before do
         stub_command('ls /var/lib/pgsql/data/recovery.conf').and_return(false)
         stub_command('ls /var/lib/postgresql/9.3/main/recovery.conf').and_return(false)
+
+        allow_any_instance_of(Chef::Resource).to receive(:extension_installed?).and_return(true)
       end
 
       it 'sets build-essential at compile time' do
@@ -18,6 +20,7 @@ supported_platforms.each do |platform, versions|
 
       it 'includes recipes from external cookbooks' do
         expect(chef_run).to include_recipe('postgresql::server')
+        expect(chef_run).to include_recipe('postgresql::contrib')
         expect(chef_run).to include_recipe('database::postgresql')
       end
 
@@ -30,6 +33,7 @@ supported_platforms.each do |platform, versions|
 
         it 'skips database setup recipe' do
           expect(chef_run).to_not include_recipe('postgresql::server')
+          expect(chef_run).to_not include_recipe('postgresql::contrib')
         end
 
         it 'still includes database::postgresql recipe' do

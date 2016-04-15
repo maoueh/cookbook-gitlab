@@ -14,6 +14,8 @@ supported_platforms.each do |platform, versions|
         stub_command('ls /var/lib/pgsql/data/recovery.conf').and_return(true)
         stub_command('ls /var/lib/postgresql/9.3/main/recovery.conf').and_return(true)
         stub_command('/usr/local/go/bin/go version | grep "go1.5 "').and_return(false)
+
+        allow_any_instance_of(Chef::Resource).to receive(:extension_installed?).and_return(true)
       end
 
       it 'includes recipes from external cookbooks' do

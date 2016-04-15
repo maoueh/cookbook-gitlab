@@ -1,5 +1,10 @@
 # 3.8.6 (In progress)
 
+ * Updated `gitlab` to `8.6.x`.
+
+ * Installing `postgresql` contrib package and configuring `pg_trgm` extension
+   for `PostgreSQL` database.
+
 # 3.8.5 (February 25, 2016)
 
  * Updated `gitlab` to `8.5.x`.
@@ -38,7 +43,7 @@
  * Updated `gitlab` to `7.14.x`.
 
  * Fixed closing pattern regex. The digits group was not escaped correctly
-   and hence, pattern was not matched correctly.
+   and hence, pattern was  not matched correctly.
 
 # 2.7.13 (July 30, 2015)
 
